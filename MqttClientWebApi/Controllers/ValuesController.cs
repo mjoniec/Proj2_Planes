@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MQTTnet;
@@ -44,30 +45,74 @@ namespace MqttClientWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> Get(int id)
         {
+            //var options = new MqttClientOptionsBuilder()
+            //    .WithTcpServer("localhost", 1883)
+            //    .Build();
+
+            //_client = new MqttFactory().CreateMqttClient();
+
+            //await _client.ConnectAsync(options);
+
+            //var message = new MqttApplicationMessageBuilder()
+            //    .WithTopic("t")
+            //    .WithPayload("cc")
+            //    .WithExactlyOnceQoS()
+            //    .WithRetainFlag()
+            //    .Build();
+
+            //_client.PublishAsync(message).Wait();
+
+            //return Ok("xxx");
+
+
+            string mes = "| ";
+
             var options = new MqttClientOptionsBuilder()
                 .WithTcpServer("localhost", 1883)
                 .Build();
 
             _client = new MqttFactory().CreateMqttClient();
 
+            _client.Connected += async (s, e) =>
+            {
+                await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("t").Build());
+            };
+
+            _client.ApplicationMessageReceived += (s, e) =>
+            {
+                mes += Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+            };
+
             await _client.ConnectAsync(options);
 
-            var message = new MqttApplicationMessageBuilder()
-                .WithTopic("t")
-                .WithPayload("cc")
-                .WithExactlyOnceQoS()
-                .WithRetainFlag()
-                .Build();
-
-            _client.PublishAsync(message).Wait();
-
-            return Ok("xxx");
+            return Ok(mes);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<string>> Post([FromBody] string value)
         {
+            string mes = "emptyy";
+
+            var options = new MqttClientOptionsBuilder()
+                .WithTcpServer("localhost", 1883)
+                .Build();
+
+            _client = new MqttFactory().CreateMqttClient();
+
+            _client.Connected += async (s, e) =>
+            {
+                await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("t").Build());
+            };
+
+            _client.ApplicationMessageReceived += (s, e) =>
+            {
+                mes += Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+            };
+
+            await _client.ConnectAsync(options);
+
+            return Ok(mes);
         }
 
         // PUT api/values/5
