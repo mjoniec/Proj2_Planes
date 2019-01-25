@@ -11,6 +11,14 @@ namespace MQTTClientLib
         private IMqttClient _client = new MqttFactory().CreateMqttClient();
         private List<string> _messages = new List<string>();
 
+        public MqttClient()
+        {
+            _client.ApplicationMessageReceived += (s, e) =>
+            {
+                _messages.Add(Encoding.UTF8.GetString(e.ApplicationMessage.Payload) + " | " + e.ApplicationMessage.Topic);
+            };
+        }
+
         public async void Connect(string ip, int port)
         {
             var options = new MqttClientOptionsBuilder()
@@ -22,11 +30,6 @@ namespace MQTTClientLib
 
         public async void Subscribe(string topic)
         {
-            _client.ApplicationMessageReceived += (s, e) =>
-            {
-                _messages.Add(Encoding.UTF8.GetString(e.ApplicationMessage.Payload) + " | " + e.ApplicationMessage.Topic);
-            };
-
             await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic(topic).Build());
         }
 
