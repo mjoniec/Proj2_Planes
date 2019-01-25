@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
@@ -19,13 +20,13 @@ namespace MQTTClientLib
             };
         }
 
-        public async void Connect(string ip, int port)
+        public async Task<MqttClientConnectResult> Connect(string ip, int port)
         {
             var options = new MqttClientOptionsBuilder()
                 .WithTcpServer(ip, port)
                 .Build();
 
-            await _client.ConnectAsync(options);
+            return await _client.ConnectAsync(options);
         }
 
         public async void Subscribe(string topic)
