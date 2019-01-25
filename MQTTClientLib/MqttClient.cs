@@ -41,5 +41,18 @@ namespace MQTTClientLib
 
             await _client.PublishAsync(mqttApplicationMessageBuilder);
         }
+
+        public string GetAllMessages()
+        {
+            var stringBuilder = new StringBuilder();
+
+            foreach(var m in _messages)
+            {
+                stringBuilder.AppendLine(m + " | ");
+                stringBuilder.AppendLine();
+            }
+
+            return stringBuilder.ToString();
+        }
     }
 }
