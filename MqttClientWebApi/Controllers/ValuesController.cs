@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +24,12 @@ namespace MqttClientWebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<string>> Get()
         {
+            //MQTTClientLib.MqttClient client = new MQTTClientLib.MqttClient();
+
+            //client.Connect("localhost", 1883).Wait();
+            ////client.Subscribe()
+            //client.Publish("t", "xxx");
+
             //var options = new ManagedMqttClientOptionsBuilder()
             //    .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
             //    .WithClientOptions(new MqttClientOptionsBuilder()
@@ -45,6 +51,12 @@ namespace MqttClientWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> Get(int id)
         {
+            MQTTClientLib.MqttClient client = new MQTTClientLib.MqttClient();
+
+            client.Connect("localhost", 1883).Wait();
+            //client.Subscribe()
+            client.Publish("t", "xxx " + id.ToString());
+
             //var options = new MqttClientOptionsBuilder()
             //    .WithTcpServer("localhost", 1883)
             //    .Build();
@@ -62,30 +74,30 @@ namespace MqttClientWebApi.Controllers
 
             //_client.PublishAsync(message).Wait();
 
-            //return Ok("xxx");
+            return Ok("xxx");
 
 
-            string mes = "| ";
+            //string mes = "| ";
 
-            var options = new MqttClientOptionsBuilder()
-                .WithTcpServer("localhost", 1883)
-                .Build();
+            //var options = new MqttClientOptionsBuilder()
+            //    .WithTcpServer("localhost", 1883)
+            //    .Build();
 
-            _client = new MqttFactory().CreateMqttClient();
+            //_client = new MqttFactory().CreateMqttClient();
 
-            _client.Connected += async (s, e) =>
-            {
-                await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("t").Build());
-            };
+            //_client.Connected += async (s, e) =>
+            //{
+            //    await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("t").Build());
+            //};
 
-            _client.ApplicationMessageReceived += (s, e) =>
-            {
-                mes += Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            };
+            //_client.ApplicationMessageReceived += (s, e) =>
+            //{
+            //    mes += Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+            //};
 
-            await _client.ConnectAsync(options);
+            //await _client.ConnectAsync(options);
 
-            return Ok(mes);
+            //return Ok(mes);
         }
 
         // POST api/values
