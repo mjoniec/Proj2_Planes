@@ -3,3 +3,9 @@
 ################################################################################
 
 /MQTTClientLib/obj
+/MqttClientWebApi/obj
+/MQTTDaemon/obj
+/.vs
+/MQTTDaemon/bin/Debug/netcoreapp2.1
+/MQTTClientLib/bin/Debug/netcoreapp2.1
+/MqttClientWebApi/bin/Debug/netcoreapp2.1

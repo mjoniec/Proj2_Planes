@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28527.54
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQTTDaemon", "MQTTDaemon\MQTTDaemon.csproj", "{DAFC6115-4448-4C22-9688-BC3575FA0FD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTDaemon", "MQTTDaemon\MQTTDaemon.csproj", "{DAFC6115-4448-4C22-9688-BC3575FA0FD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MqttClientWebApi", "MqttClientWebApi\MqttClientWebApi.csproj", "{9E617DF1-CD28-41C0-914A-1804232B6B99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTClientLib", "MQTTClientLib\MQTTClientLib.csproj", "{72E82434-4154-4461-9605-4625AAEF236D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{DAFC6115-4448-4C22-9688-BC3575FA0FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFC6115-4448-4C22-9688-BC3575FA0FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFC6115-4448-4C22-9688-BC3575FA0FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E617DF1-CD28-41C0-914A-1804232B6B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E617DF1-CD28-41C0-914A-1804232B6B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E617DF1-CD28-41C0-914A-1804232B6B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E617DF1-CD28-41C0-914A-1804232B6B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72E82434-4154-4461-9605-4625AAEF236D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72E82434-4154-4461-9605-4625AAEF236D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72E82434-4154-4461-9605-4625AAEF236D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72E82434-4154-4461-9605-4625AAEF236D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
