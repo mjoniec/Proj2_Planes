@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/MobileApp/obj/Debug
+/MobileApp/bin
+/.vs/config/applicationhost.config
+/.vs/AzureMobileAppRestApi/v15/.suo
