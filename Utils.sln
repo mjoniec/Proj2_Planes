@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalPrices.Model", "MetalPrices.Model\MetalPrices.Model.csproj", "{002F2EC9-1060-4A96-A23C-92C2FB141D00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{002F2EC9-1060-4A96-A23C-92C2FB141D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{002F2EC9-1060-4A96-A23C-92C2FB141D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{002F2EC9-1060-4A96-A23C-92C2FB141D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{002F2EC9-1060-4A96-A23C-92C2FB141D00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14CE501E-86F0-4217-A34C-08DFA991D468}
+	EndGlobalSection
+EndGlobal
