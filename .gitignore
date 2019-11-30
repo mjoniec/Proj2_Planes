@@ -43,3 +43,5 @@
 /.vs/Utils/DesignTimeBuild/.dtbcache
 /.vs/Utils/DesignTimeBuild
 /.vs/slnx.sqlite
+/MetalPrices.Model.Serialization/obj
+/MetalPrices.Model.Serialization/bin/Debug/netstandard2.0
