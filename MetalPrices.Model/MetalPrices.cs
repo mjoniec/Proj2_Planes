@@ -5,12 +5,12 @@ namespace MetalPrices.Model
 {
     public class MetalPrices
     {
-        public List<MetalPriceDay> Prices { get; set; }
+        public List<MetalPriceDateTime> Prices { get; set; }
     }
 
-    public class MetalPriceDay
+    public class MetalPriceDateTime
     {
-        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
         public double Price { get; set; }
     }
 }
