@@ -1,7 +1,0 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/MetalPrices.Model/obj
-/MetalPrices.Model.Serialization/obj
-/.vs/Utils/v16
