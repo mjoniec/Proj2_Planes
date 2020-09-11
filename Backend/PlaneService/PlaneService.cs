@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Model;
+using Mqtt;
 using Mqtt.Interfaces;
 using System;
 using System.Threading;
@@ -25,6 +26,11 @@ namespace PlaneService
             _mqttClientSubscriber = mqttClientSubscriber;
 
             _mqttClientSubscriber.Start();
+        }
+
+        public void RequestReceivedHandler(object sender, MessageEventArgs e)
+        {
+            _logger.LogInformation("Plane service received message: " + e.Message);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

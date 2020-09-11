@@ -25,6 +25,9 @@ namespace AirportService
             _mqttClientPublisher = mqttClientPublisher;
 
             _mqttClientPublisher.Start();
+
+            //testing
+            _mqttClientPublisher.PublishAsync("Initialize message for airport service: " + _config.Value.Name);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
