@@ -8,7 +8,7 @@ using Mqtt.Interfaces;
 
 namespace AirportService
 {
-    class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -16,8 +16,7 @@ namespace AirportService
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     //for some reason on debug it acts as in production, see proj/env vars #22
-                    //no longer in web api project type - add cs proj anyway or use some other method?
-                    config.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true);
+                    config.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: false);
                     config.AddEnvironmentVariables();
 
                     if (args != null)
@@ -32,12 +31,10 @@ namespace AirportService
                     
                     //adds mqtt server functionality
                     services.AddSingleton<IHostedService, MqttService>();
-                    
-                    //adds client to publish messages
-                    services.AddSingleton<IMqttClientPublisher>(x =>
-                    {
-                        var t = hostContext.Configuration["Mqtt:Ip"];
 
+                    //adds client to publish messages
+                    services.AddSingleton<IMqttClientPublisher, MqttClientPublisher>(x =>
+                    {
                         return new MqttClientPublisher(new MqttConfig
                         {
                             Ip = hostContext.Configuration["Mqtt:Ip"],
@@ -45,6 +42,9 @@ namespace AirportService
                             Topic = hostContext.Configuration["Mqtt:Topic"]
                         });
                     });
+
+                    //adds service relevant to airport logic 
+                    services.AddSingleton<IHostedService, AirportService>();
                 })
                 .ConfigureLogging((hostingContext, logging) => {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
