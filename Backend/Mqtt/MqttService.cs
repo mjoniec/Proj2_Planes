@@ -34,6 +34,7 @@ namespace Mqtt
             _mqttServer = new MqttFactory().CreateMqttServer();
 
             //Wiring up all the events and handlers
+            //TODO: refactor to UseApplicationMessageReceivedHandler ??
             _mqttServer.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandler(_logger);
             _mqttServer.ClientConnectedHandler = new MqttServerClientConnectedHandler(_logger);
             _mqttServer.ClientDisconnectedHandler = new MqttServerClientDisconnectedHandler(_logger);
