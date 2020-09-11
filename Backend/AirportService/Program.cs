@@ -33,17 +33,10 @@ namespace AirportService
                     services.AddSingleton<IHostedService, MqttService>();
 
                     //adds client to publish messages
-                    services.AddSingleton<IMqttClientPublisher, MqttClientPublisher>(x =>
-                    {
-                        return new MqttClientPublisher(new MqttConfig
-                        {
-                            Ip = hostContext.Configuration["Mqtt:Ip"],
-                            Port = int.Parse(hostContext.Configuration["Mqtt:Port"]),
-                            Topic = hostContext.Configuration["Mqtt:Topic"]
-                        });
-                    });
+                    services.AddSingleton<IMqttClientPublisher, MqttClientPublisher>();
 
-                    //adds service relevant to airport logic 
+
+                    //adds service to run airport logic 
                     services.AddSingleton<IHostedService, AirportService>();
                 })
                 .ConfigureLogging((hostingContext, logging) => {

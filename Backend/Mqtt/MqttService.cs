@@ -34,7 +34,15 @@ namespace Mqtt
             _mqttServer = new MqttFactory().CreateMqttServer();
 
             //Wiring up all the events and handlers
-            //TODO: refactor to UseApplicationMessageReceivedHandler in possible 3 handlers??
+            //TODO: ? refactor to UseApplicationMessageReceivedHandler in possible 3 handlers??
+            //_mqttServer.UseApplicationMessageReceivedHandler(async e =>
+            //{
+            //    {
+            //        _logger.LogInformation(e.ClientId + " received message on topic " + e.ApplicationMessage.Topic);
+            //    };
+            //});
+
+            //double check if receives messages ...
             _mqttServer.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandler(_logger);
             _mqttServer.ClientConnectedHandler = new MqttServerClientConnectedHandler(_logger);
             _mqttServer.ClientDisconnectedHandler = new MqttServerClientDisconnectedHandler(_logger);

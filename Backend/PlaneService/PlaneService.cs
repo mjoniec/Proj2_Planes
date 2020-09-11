@@ -7,43 +7,43 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AirportService
+namespace PlaneService
 {
-    public class AirportService : IHostedService, IDisposable
+    public class PlaneService : IHostedService, IDisposable
     {
         private readonly ILogger _logger;
         private readonly IOptions<AirportConfig> _config;
-        private readonly IMqttClientPublisher _mqttClientPublisher;
+        private readonly IMqttClientSubscriber _mqttClientSubscriber;
 
-        public AirportService(
+        public PlaneService(
             ILogger<AirportConfig> logger,
             IOptions<AirportConfig> config,
-            IMqttClientPublisher mqttClientPublisher)
+            IMqttClientSubscriber mqttClientSubscriber)
         {
             _logger = logger;
             _config = config;
-            _mqttClientPublisher = mqttClientPublisher;
+            _mqttClientSubscriber = mqttClientSubscriber;
 
-            _mqttClientPublisher.Start();
+            _mqttClientSubscriber.Start();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Starting airport service: " + _config.Value.Name);
+            _logger.LogInformation("Starting plane service: " + _config.Value.Name);
 
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Stopping airport service " + _config.Value.Name);
+            _logger.LogInformation("Stopping plane service " + _config.Value.Name);
 
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            _logger.LogInformation("Disposing airport service");
+            _logger.LogInformation("Disposing plane service");
         }
     }
 }
