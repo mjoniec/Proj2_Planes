@@ -34,13 +34,13 @@ namespace Mqtt
             _mqttServer = new MqttFactory().CreateMqttServer();
 
             //Wiring up all the events and handlers
-            //TODO: refactor to UseApplicationMessageReceivedHandler ??
+            //TODO: refactor to UseApplicationMessageReceivedHandler in possible 3 handlers??
             _mqttServer.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandler(_logger);
             _mqttServer.ClientConnectedHandler = new MqttServerClientConnectedHandler(_logger);
             _mqttServer.ClientDisconnectedHandler = new MqttServerClientDisconnectedHandler(_logger);
             _mqttServer.ClientSubscribedTopicHandler = new MqttServerClientSubscribedTopicHandler(_logger);
             _mqttServer.ClientUnsubscribedTopicHandler = new MqttServerClientUnsubscribedTopicHandler(_logger);
-
+            
             //Now, start the server -- Notice this is resturning the MQTT Server's StartAsync, which is a task.
             return _mqttServer.StartAsync(optionsBuilder.Build());
         }

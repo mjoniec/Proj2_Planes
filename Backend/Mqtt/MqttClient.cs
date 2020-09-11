@@ -9,6 +9,9 @@ using MQTTnet.Client.Options;
 
 namespace Mqtt
 {
+    /// <summary>
+    /// Publishes and receives messages from subscribed mqtt topic
+    /// </summary>
     public class MqttClient : IMqttClient
     {
         private readonly MqttConfig _config;

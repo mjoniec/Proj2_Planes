@@ -9,3 +9,5 @@
 /Backend/Mqtt/obj
 /Backend/Mqtt/bin/Debug/netcoreapp3.1
 /Backend/.vs/Planes
+/Backend/AirportService/bin/Debug/netcoreapp3.1
+/Backend/Model/bin/Debug/netcoreapp3.1
