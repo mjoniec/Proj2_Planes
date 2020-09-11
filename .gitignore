@@ -6,3 +6,6 @@
 /Backend/PlanesApi/obj
 /Backend/Model/obj
 /Backend/AirportService/obj
+/Backend/Mqtt/obj
+/Backend/Mqtt/bin/Debug/netcoreapp3.1
+/Backend/.vs/Planes
