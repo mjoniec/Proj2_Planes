@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Model;
-using Mqtt;
+using Mqtt.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,25 +13,19 @@ namespace AirportService
     {
         private readonly ILogger _logger;
         private readonly IOptions<AirportConfig> _config;
-        private readonly IMqttClient _mqttClient;
+        private readonly IMqttClientPublisher _mqttClientPublisher;
 
         public AirportService(
             ILogger<AirportConfig> logger,
             IOptions<AirportConfig> config,
-            IMqttClient mqttClient)
+            IMqttClientPublisher mqttClientPublisher)
         {
             _logger = logger;
             _config = config;
-            _mqttClient = mqttClient;
+            _mqttClientPublisher = mqttClientPublisher;
 
-            //mqttClient.RaiseMessageReceivedEvent += RequestReceivedHandler;
-
-            //_mqttClient.Start();
-        }
-
-        public void RequestReceivedHandler(object sender, MessageEventArgs e)
-        {
-
+            _mqttClientPublisher.Start();
+            _mqttClientPublisher.PublishAsync("Initialize message for airport service: " + _config.Value.Name);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -43,7 +37,7 @@ namespace AirportService
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Stopping external gold data api client service.");
+            _logger.LogInformation("Stopping airport service " + _config.Value.Name);
 
             return Task.CompletedTask;
         }

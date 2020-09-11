@@ -11,3 +11,5 @@
 /Backend/.vs/Planes
 /Backend/AirportService/bin/Debug/netcoreapp3.1
 /Backend/Model/bin/Debug/netcoreapp3.1
+/Backend/PlanesApi/bin/Debug/netcoreapp3.1
+/Backend/PlaneService/bin/Debug/netcoreapp3.1

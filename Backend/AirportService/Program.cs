@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Mqtt;
+using Mqtt.Interfaces;
 
 namespace AirportService
 {
@@ -33,9 +34,11 @@ namespace AirportService
                     services.AddSingleton<IHostedService, MqttService>();
                     
                     //adds client to publish messages
-                    services.AddSingleton<IMqttClient>(x =>
+                    services.AddSingleton<IMqttClientPublisher>(x =>
                     {
-                        return new MqttClient(new MqttConfig
+                        var t = hostContext.Configuration["Mqtt:Ip"];
+
+                        return new MqttClientPublisher(new MqttConfig
                         {
                             Ip = hostContext.Configuration["Mqtt:Ip"],
                             Port = int.Parse(hostContext.Configuration["Mqtt:Port"]),

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using MQTTnet;
 using MQTTnet.Client;
@@ -12,34 +10,14 @@ namespace Mqtt
     /// <summary>
     /// Publishes and receives messages from subscribed mqtt topic
     /// </summary>
-    public class MqttClient : IMqttClient
+    public abstract class MqttClient : Interfaces.IMqttClient
     {
-        private readonly MqttConfig _config;
-        private readonly MQTTnet.Client.IMqttClient _client = new MqttFactory().CreateMqttClient();
-
-        public event EventHandler<MessageEventArgs> RaiseMessageReceivedEvent;
+        protected readonly MqttConfig _config;
+        protected readonly IMqttClient _client = new MqttFactory().CreateMqttClient();
 
         public MqttClient(MqttConfig config)
         {
             _config = config;
-            _client.UseApplicationMessageReceivedHandler(async e =>
-            {
-                {
-                    var message = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-
-                    OnRaiseMessageReceivedEvent(new MessageEventArgs(message));
-                };
-            });
-        }
-
-        private void OnRaiseMessageReceivedEvent(MessageEventArgs e)
-        {
-            EventHandler<MessageEventArgs> handler = RaiseMessageReceivedEvent;
-
-            //no subscribers
-            if (handler == null) return;
-
-            handler(this, e);
         }
 
         public async Task<bool> Start()
@@ -56,18 +34,6 @@ namespace Mqtt
             if (subscribeResults.Items.Any(r => r.ResultCode == MQTTnet.Client.Subscribing.MqttClientSubscribeResultCode.UnspecifiedError)) return false;
 
             return true;
-        }
-
-        public async void Send(string message)
-        {
-            var mqttApplicationMessageBuilder = new MqttApplicationMessageBuilder()
-                .WithTopic(_config.Topic)
-                .WithPayload(message)
-                .WithExactlyOnceQoS()
-                .WithRetainFlag()
-                .Build();
-
-            await _client.PublishAsync(mqttApplicationMessageBuilder);
         }
     }
 }
