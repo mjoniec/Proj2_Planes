@@ -5,6 +5,7 @@ using Model;
 using Mqtt;
 using Mqtt.Interfaces;
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace PlaneService
         private readonly ILogger<PlaneService> _logger;
         private readonly IOptions<AirportConfig> _config;
         private readonly IMqttClientSubscriber _mqttClientSubscriber;
+        private readonly HttpClient _httpClient = new HttpClient();
 
         private Plane _plane = new Plane
         {
@@ -48,9 +50,18 @@ namespace PlaneService
                 _logger.LogInformation($"Plane " + _plane.Name + " position: " +_plane.PositionLatitude + " " + _plane.PositionLongitude );
 
                 MovePlane();
+                await NotifyAirTrafficApi();
 
                 await Task.Delay(1000, stoppingToken);
             }
+        }
+
+        private async Task NotifyAirTrafficApi()
+        {
+            //TODO: take URL from appsettings or inject through docker somehow
+            await _httpClient.PostAsync(
+                $"https://localhost:44389/api/airtrafficinfo/{_plane.Name}/{_plane.PositionLatitude}/{_plane.PositionLongitude}",
+                new StringContent(""));
         }
 
         private void MovePlane()
@@ -67,7 +78,7 @@ namespace PlaneService
             _plane.DepartureLongitude = 0.0;
             _plane.DestinationLatitude = 1000.0;
             _plane.DestinationLongitude = 1000.0;
-            _plane.DepartureTime = DateTime.Now;
+            _plane.DepartureTime = DateTime.Now.AddSeconds(-3.0);
         }
 
         public void RequestReceivedHandler(object sender, MessageEventArgs e)
@@ -78,6 +89,7 @@ namespace PlaneService
             ChangeDirectionPlane();
         }
 
+        //public override async Task StartAsync(CancellationToken cancellationToken)
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Starting plane service: " + _config.Value.Name);
@@ -85,6 +97,7 @@ namespace PlaneService
             return Task.CompletedTask;
         }
 
+        //public override async Task StopAsync(CancellationToken cancellationToken)
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Stopping plane service " + _config.Value.Name);
@@ -92,6 +105,7 @@ namespace PlaneService
             return Task.CompletedTask;
         }
 
+        //public override void Dispose()
         public void Dispose()
         {
             _logger.LogInformation("Disposing plane service");

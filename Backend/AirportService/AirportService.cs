@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Model;
 using Mqtt.Interfaces;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +39,7 @@ namespace AirportService
 
                 ChangeWeather();
 
-                await Task.Delay(4000, stoppingToken);
+                await Task.Delay(14000, stoppingToken);
             }
         }
 
