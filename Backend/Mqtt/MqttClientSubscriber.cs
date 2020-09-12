@@ -30,6 +30,7 @@ namespace Mqtt
             //no subscribers
             if (handler == null) return;
 
+            //invokes handler set up by hosting service
             handler(this, e);
         }
     }

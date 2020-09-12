@@ -30,7 +30,9 @@ namespace PlaneService
             _logger = logger;
             _config = config;
             _mqttClientSubscriber = mqttClientSubscriber;
+            _mqttClientSubscriber.RaiseMessageReceivedEvent += RequestReceivedHandler;
 
+            ChangeDirectionPlane();
             _mqttClientSubscriber.Start();
         }
 
@@ -39,7 +41,7 @@ namespace PlaneService
             _logger.LogDebug($"PlaneService is starting.");
 
             stoppingToken.Register(() =>
-                _logger.LogDebug($" PlaneService background task is stopping."));
+                _logger.LogDebug($" PlaneService is stopping."));
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -49,8 +51,6 @@ namespace PlaneService
 
                 await Task.Delay(1000, stoppingToken);
             }
-
-            _logger.LogDebug($"GracePeriod background task is stopping.");
         }
 
         private void MovePlane()

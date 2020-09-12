@@ -35,12 +35,11 @@ namespace AirportService
                     //adds client to publish messages
                     services.AddSingleton<IMqttClientPublisher, MqttClientPublisher>();
 
-
                     //adds service to run airport logic 
-                    services.AddSingleton<IHostedService, AirportService>();
+                    services.AddHostedService<AirportService>();
                 })
                 .ConfigureLogging((hostingContext, logging) => {
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                 });
 
