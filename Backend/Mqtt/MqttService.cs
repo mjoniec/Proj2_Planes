@@ -34,7 +34,7 @@ namespace Mqtt
             _mqttServer = new MqttFactory().CreateMqttServer();
 
             //Wiring up all the events and handlers
-            //TODO: ? refactor to UseApplicationMessageReceivedHandler in possible 3 handlers??
+            //TODO: ? refactor to UseApplicationMessageReceivedHandler in possible 3 handlers or keep 5 classes for code integrity??
             //_mqttServer.UseApplicationMessageReceivedHandler(async e =>
             //{
             //    {

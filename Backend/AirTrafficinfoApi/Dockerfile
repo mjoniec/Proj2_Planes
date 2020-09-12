@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["PlanesApi/PlanesApi.csproj", "PlanesApi/"]
-RUN dotnet restore "PlanesApi/PlanesApi.csproj"
+COPY ["AirTrafficinfoApi/AirTrafficinfoApi.csproj", "AirTrafficinfoApi/"]
+RUN dotnet restore "AirTrafficinfoApi/AirTrafficinfoApi.csproj"
 COPY . .
-WORKDIR "/src/PlanesApi"
-RUN dotnet build "PlanesApi.csproj" -c Release -o /app/build
+WORKDIR "/src/AirTrafficinfoApi"
+RUN dotnet build "AirTrafficinfoApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "PlanesApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "AirTrafficinfoApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "PlanesApi.dll"]
+ENTRYPOINT ["dotnet", "AirTrafficinfoApi.dll"]
