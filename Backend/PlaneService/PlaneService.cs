@@ -59,6 +59,7 @@ namespace PlaneService
         private async Task NotifyAirTrafficApi()
         {
             //TODO: take URL from appsettings or inject through docker somehow
+            //TODO: pass as a body para
             await _httpClient.PostAsync(
                 $"https://localhost:44389/api/airtrafficinfo/{_plane.Name}/{_plane.PositionLatitude}/{_plane.PositionLongitude}",
                 new StringContent(""));
