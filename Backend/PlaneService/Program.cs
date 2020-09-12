@@ -33,12 +33,13 @@ namespace PlaneService
                     services.AddSingleton<IMqttClientSubscriber, MqttClientSubscriber>();
 
                     //adds service to run plane logic 
-                    services.AddSingleton<IHostedService, PlaneService>();
+                    services.AddHostedService<PlaneService>();
                 })
-                .ConfigureLogging((hostingContext, logging) => {
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                });
+                .ConfigureLogging((hostingContext, logging) =>
+                 {
+                     //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                     logging.AddConsole();
+                 });
 
             await builder.RunConsoleAsync();
         }
