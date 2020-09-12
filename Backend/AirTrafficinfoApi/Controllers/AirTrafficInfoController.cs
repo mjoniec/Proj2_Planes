@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AirTrafficinfoApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirTrafficinfoApi.Controllers
@@ -11,36 +7,25 @@ namespace AirTrafficinfoApi.Controllers
     [ApiController]
     public class AirTrafficInfoController : ControllerBase
     {
-        // GET: api/AirTrafficInfo
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly AirTrafficInfoService _airTrafficInfoService;
+
+        public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService)
         {
-            return new string[] { "value1", "value2" };
+            _airTrafficInfoService = airTrafficInfoService;
         }
 
-        // GET: api/AirTrafficInfo/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        // GET: api/AirTrafficInfo
+        [HttpGet]
+        public string Get()
         {
-            return "value";
+            return _airTrafficInfoService.GetAirTrafficInfo();
         }
 
         // POST: api/AirTrafficInfo
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("{plane}/{latitude}/{longitude}")]
+        public void Post(string plane, double latitude, double longitude)
         {
-        }
-
-        // PUT: api/AirTrafficInfo/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            _airTrafficInfoService.UpdatePlaneInfo(plane, latitude, longitude);
         }
     }
 }
