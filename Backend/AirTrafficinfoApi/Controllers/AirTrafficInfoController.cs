@@ -1,5 +1,6 @@
 ﻿using AirTrafficinfoApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 
 namespace AirTrafficinfoApi.Controllers
 {
@@ -14,18 +15,16 @@ namespace AirTrafficinfoApi.Controllers
             _airTrafficInfoService = airTrafficInfoService;
         }
 
-        // GET: api/AirTrafficInfo
         [HttpGet]
         public string Get()
         {
             return _airTrafficInfoService.GetAirTrafficInfo();
         }
 
-        // POST: api/AirTrafficInfo
-        [HttpPost("{plane}/{latitude}/{longitude}")]
-        public void Post(string plane, double latitude, double longitude)
+        [HttpPost]
+        public void Post([FromBody] Plane plane)
         {
-            _airTrafficInfoService.UpdatePlaneInfo(plane, latitude, longitude);
+            _airTrafficInfoService.UpdatePlaneInfo(plane.Name, plane.PositionLatitude, plane.PositionLongitude);
         }
     }
 }

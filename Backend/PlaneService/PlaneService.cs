@@ -4,9 +4,11 @@ using Microsoft.Extensions.Options;
 using Model;
 using Mqtt;
 using Mqtt.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -60,11 +62,14 @@ namespace PlaneService
 
         private async Task NotifyAirTrafficApi()
         {
+            var rr = JsonConvert.SerializeObject(_plane);
+
             //TODO: take URL from appsettings or inject through docker somehow
-            //TODO: pass as a body para
-            await _httpClient.PostAsync(
-                $"https://localhost:44389/api/airtrafficinfo/{_plane.Name}/{_plane.PositionLatitude}/{_plane.PositionLongitude}",
-                new StringContent(""));
+            var response = await _httpClient.PostAsync(
+                $"https://localhost:44389/api/airtrafficinfo", //$"https://localhost:44389/api/airtrafficinfo/{_plane.Name}/{_plane.PositionLatitude}/{_plane.PositionLongitude}",
+                new StringContent(JsonConvert.SerializeObject(_plane), Encoding.UTF8, "application/json"));
+
+            var cc = response.Content;
         }
 
         private void MovePlane()
