@@ -12,8 +12,16 @@ namespace Model
         public double DepartureLatitude { get; set; }
         public double DepartureLongitude { get; set; }
 
-        //for now let it be diff from starting position - destination / some number that will get added after multiplying be time interval
-        public double Speed { get; set; }
+        /// <summary>
+        /// meters per second
+        /// </summary>
+        public double Speed { get; set; } 
+
+        public void SetSpeedFromKilometersPerHour(int speedInKmH)
+        {
+            Speed = speedInKmH * 3600 * 1000;
+        }
+
         public DateTime DepartureTime { get; set; }
     }
 }
