@@ -21,10 +21,18 @@ namespace AirTrafficinfoApi.Controllers
             return _airTrafficInfoService.GetAirTrafficInfo();
         }
 
+        [HttpGet("[action]")]
+        public IActionResult GetMock()
+        {
+            var airTrafficInfo = _airTrafficInfoService.GetAirTrafficInfoMock();
+
+            return Ok(airTrafficInfo);
+        }
+
         [HttpPost]
         public void Post([FromBody] Plane plane)
         {
-            _airTrafficInfoService.UpdatePlaneInfo(plane.Name, plane.PositionLatitude, plane.PositionLongitude);
+            _airTrafficInfoService.UpdatePlaneInfo(plane);
         }
     }
 }

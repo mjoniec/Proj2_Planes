@@ -11,12 +11,12 @@ namespace AirportService
     public class AirportService : BackgroundService
     {
         private readonly ILogger _logger;
-        private readonly IOptions<AirportConfig> _config;
+        private readonly IOptions<Airport> _config;
         private readonly IMqttClientPublisher _mqttClientPublisher;
 
         public AirportService(
-            ILogger<AirportConfig> logger,
-            IOptions<AirportConfig> config,
+            ILogger<Airport> logger,
+            IOptions<Airport> config,
             IMqttClientPublisher mqttClientPublisher)
         {
             _logger = logger;
@@ -37,7 +37,7 @@ namespace AirportService
             {
                 _logger.LogInformation($"Weather condition changed");
 
-                ChangeWeather();
+                //ChangeWeather();
 
                 await Task.Delay(14000, stoppingToken);
             }
@@ -46,6 +46,11 @@ namespace AirportService
         private void ChangeWeather()
         {
             _mqttClientPublisher.PublishAsync("Wheather status change for airport: " + "airport test 1");
+        }
+
+        private void PingAliveStatus()
+        {
+            _mqttClientPublisher.PublishAsync(_config.Value.Name + " airport alive");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

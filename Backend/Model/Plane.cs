@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Model
 {
     public class Plane
     {
         public string Name { get; set; }
-        public double PositionLatitude { get; set; }
-        public double PositionLongitude { get; set; }
-        public double DestinationLatitude { get; set; }
-        public double DestinationLongitude { get; set; }
-        public double DepartureLatitude { get; set; }
-        public double DepartureLongitude { get; set; }
+        public Position Position { get; set; }
+        public Position Destination { get; set; }
+        public Position Departure { get; set; }
+        public Airport DestinationAirport { get; set; }
+        public List<Position> PreviousPositions { get; set; }
 
         /// <summary>
         /// meters per second

@@ -17,7 +17,7 @@ namespace PlaneService
     public class PlaneService : BackgroundService
     {
         private readonly ILogger<PlaneService> _logger;
-        private readonly IOptions<AirportConfig> _config;
+        private readonly IOptions<Airport> _config;
         private readonly IMqttClientSubscriber _mqttClientSubscriber;
         private readonly HttpClient _httpClient = new HttpClient();
 
@@ -29,7 +29,7 @@ namespace PlaneService
 
         public PlaneService(
             ILogger<PlaneService> logger,
-            IOptions<AirportConfig> config,
+            IOptions<Airport> config,
             IMqttClientSubscriber mqttClientSubscriber)
         {
             _logger = logger;
@@ -50,7 +50,7 @@ namespace PlaneService
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation($"Plane " + _plane.Name + " position: " +_plane.PositionLatitude + " " + _plane.PositionLongitude );
+                _logger.LogInformation($"Plane " + _plane.Name + " position: " +_plane.Position.Latitude + " " + _plane.Position.Longitude );
 
                 //MovePlane();
                 MovePlane(_plane, DateTime.Now);
@@ -62,30 +62,18 @@ namespace PlaneService
 
         private async Task NotifyAirTrafficApi()
         {
-            var rr = JsonConvert.SerializeObject(_plane);
-
             //TODO: take URL from appsettings or inject through docker somehow
             var response = await _httpClient.PostAsync(
-                $"https://localhost:44389/api/airtrafficinfo", //$"https://localhost:44389/api/airtrafficinfo/{_plane.Name}/{_plane.PositionLatitude}/{_plane.PositionLongitude}",
+                $"https://localhost:44389/api/airtrafficinfo",
                 new StringContent(JsonConvert.SerializeObject(_plane), Encoding.UTF8, "application/json"));
-
-            var cc = response.Content;
-        }
-
-        private void MovePlane()
-        {
-            var distanceCovered = DateTime.Now.Subtract(_plane.DepartureTime).TotalSeconds * _plane.Speed;
-
-            _plane.PositionLatitude = _plane.DepartureLatitude + distanceCovered;
-            _plane.PositionLongitude = _plane.DepartureLongitude + distanceCovered;
         }
 
         private void ChangeDirectionPlane()
         {
-            _plane.DepartureLatitude = 52.0;
-            _plane.DepartureLongitude = 19.0;
-            _plane.DestinationLatitude = 26.0;
-            _plane.DestinationLongitude = -80.0;
+            _plane.Departure.Latitude = 52.0;
+            _plane.Departure.Longitude = 19.0;
+            _plane.Destination.Latitude = 26.0;
+            _plane.Destination.Longitude = -80.0;
             _plane.DepartureTime = DateTime.Now.AddSeconds(-3.0);
         }
 
@@ -138,11 +126,11 @@ namespace PlaneService
 
             var travelDurationInSeconds = currentTime.Subtract(plane.DepartureTime).TotalSeconds;
             var distanceCoveredInMeters = plane.Speed * travelDurationInSeconds;
-            var bearing = CalculateBearing(plane.DepartureLatitude, plane.DepartureLongitude, plane.DestinationLatitude, plane.DestinationLongitude);
-            var position = CalculatePosition(plane.DepartureLatitude, plane.DepartureLongitude, bearing, distanceCoveredInMeters);
+            var bearing = CalculateBearing(plane.Departure.Latitude, plane.Departure.Longitude, plane.Destination.Latitude, plane.Destination.Longitude);
+            var position = CalculatePosition(plane.Departure.Latitude, plane.Departure.Longitude, bearing, distanceCoveredInMeters);
 
-            plane.PositionLatitude = position[0];
-            plane.PositionLongitude = position[1];
+            plane.Position.Latitude = position[0];
+            plane.Position.Longitude = position[1];
         }
 
         /// <summary>
