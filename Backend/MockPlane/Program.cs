@@ -1,12 +1,31 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace MockPlane
 {
     class Program
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var builder = new HostBuilder()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    //config.AddEnvironmentVariables();
+
+                    if (args != null)
+                    {
+                        config.AddCommandLine(args);
+                    }
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    //services.AddOptions();
+                    services.AddHostedService<Plane>();
+                });
+
+            await builder.RunConsoleAsync();
         }
     }
 }

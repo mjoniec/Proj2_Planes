@@ -37,9 +37,9 @@ namespace AirTrafficinfoApi.Controllers
         //}
 
         [HttpPost]
-        public void Post([FromBody] PlaneContract plane)
+        public void Post([FromBody] PlaneContract planeContract)
         {
-            //_airTrafficInfoService.UpdatePlaneInfo(plane);
+            _airTrafficInfoService.UpdatePlaneInfo(planeContract);
         }
     }
 }
