@@ -1,4 +1,5 @@
 ﻿using AirTrafficinfoApi.Services;
+using AirTrafficInfoContracts;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
@@ -29,10 +30,16 @@ namespace AirTrafficinfoApi.Controllers
             return Ok(airTrafficInfo);
         }
 
+        //[HttpPost]
+        //public void Post([FromBody] Plane plane)
+        //{
+        //    _airTrafficInfoService.UpdatePlaneInfo(plane);
+        //}
+
         [HttpPost]
-        public void Post([FromBody] Plane plane)
+        public void Post([FromBody] PlaneContract plane)
         {
-            _airTrafficInfoService.UpdatePlaneInfo(plane);
+            //_airTrafficInfoService.UpdatePlaneInfo(plane);
         }
     }
 }
