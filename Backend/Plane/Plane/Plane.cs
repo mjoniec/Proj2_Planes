@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MockPlane
+namespace Plane
 {
     public class Plane : BackgroundService
     {
         private readonly HttpClient _httpClient;
         private readonly PlaneContract _planeContract;
-        
+
         public Plane()
         {
             _httpClient = new HttpClient();
@@ -31,7 +31,7 @@ namespace MockPlane
 
                 await _httpClient.PostAsync(
                     $"https://localhost:44389/api/airtrafficinfo",
-                    new StringContent(JsonConvert.SerializeObject(_planeContract), 
+                    new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 
                 await Task.Delay(3000, stoppingToken);

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MockPlane": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

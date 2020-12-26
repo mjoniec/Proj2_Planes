@@ -19,3 +19,10 @@
 /Backend/MockPlane/bin/Debug/netcoreapp3.1
 /Backend/MockPlane/obj
 /Backend/AirTrafficInfoContracts/bin/Debug/netcoreapp3.1
+/Backend/WorkerService1/obj/Debug/netcoreapp3.1
+/Backend/WorkerService1/obj
+/Backend/Plane/Plane/bin/Debug/netcoreapp3.1
+/Backend/Plane/Plane/obj
+/Backend/Plane/.vs/Plane/v16
+/Backend/.vs
+/Backend/AirTrafficInfoContracts/bin/Debug
