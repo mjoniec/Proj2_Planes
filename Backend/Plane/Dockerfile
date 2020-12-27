@@ -8,9 +8,8 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-COPY ["Plane.csproj", ""]
-#COPY ["NuGet.Config", ""]
-RUN dotnet restore "Plane.csproj" #--configfile ./NuGet.Config
+COPY ["Plane/Plane.csproj", "Plane/"]
+RUN dotnet restore "Plane/Plane.csproj"
 COPY . .
 WORKDIR "/src/Plane"
 RUN dotnet build "Plane.csproj" -c Release -o /app/build
