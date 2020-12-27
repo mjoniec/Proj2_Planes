@@ -32,3 +32,6 @@
 /Backend/Plane/Plane/bin/Release/netcoreapp3.1
 /Backend/AirTrafficinfoApi/bin/Release/netcoreapp3.1
 /Backend/Model/bin/Release/netcoreapp3.1
+/Backend/AirTrafficinfo/AirTrafficinfoApi/bin/Debug/netcoreapp3.1
+/Backend/AirTrafficinfo/.vs/AirTrafficinfo
+/Backend/AirTrafficinfo/AirTrafficinfoApi/obj

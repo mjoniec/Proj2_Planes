@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportService", "AirportSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mqtt", "Mqtt\Mqtt.csproj", "{B29761D6-0E8B-4694-8EE1-B70F90B5A608}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirTrafficinfoApi", "AirTrafficinfoApi\AirTrafficinfoApi.csproj", "{8AB1CB87-7642-42E6-A4EF-E824CCCDCDB4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirTrafficInfoContracts", "AirTrafficInfoContracts\AirTrafficInfoContracts.csproj", "{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8AB1CB87-7642-42E6-A4EF-E824CCCDCDB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8AB1CB87-7642-42E6-A4EF-E824CCCDCDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8AB1CB87-7642-42E6-A4EF-E824CCCDCDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8AB1CB87-7642-42E6-A4EF-E824CCCDCDB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Release|Any CPU.ActiveCfg = Release|Any CPU
