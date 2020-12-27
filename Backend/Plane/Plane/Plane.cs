@@ -34,7 +34,7 @@ namespace Plane
                     new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 
-                await Task.Delay(3000, stoppingToken);
+                await Task.Delay(2000, stoppingToken);
             }
         }
     }
