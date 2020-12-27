@@ -30,3 +30,5 @@
 /Backend/Plane/.vs/Plane/DesignTimeBuild
 /Backend/AirTrafficInfoContracts/bin/Release
 /Backend/Plane/Plane/bin/Release/netcoreapp3.1
+/Backend/AirTrafficinfoApi/bin/Release/netcoreapp3.1
+/Backend/Model/bin/Release/netcoreapp3.1
