@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  AirTrafficInfo:
+    image: ${DOCKER_REGISTRY-}airtrafficinfo
+    build:
+      context: .
+      dockerfile: AirTrafficInfo\Dockerfile
