@@ -4,5 +4,18 @@ services:
   AirTrafficInfo:
     image: airtrafficinfo
     build:
-      context: .
-      dockerfile: AirTrafficInfo\Dockerfile
+      context: ./AirTrafficInfo
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:80"
+  Plane:
+    image: plane
+    build:
+      context: ./Plane
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8081:81"

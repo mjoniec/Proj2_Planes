@@ -15,3 +15,7 @@ docker stop 9d99
 docker container rm 9d99
 
 http://localhost:8080/api/AirTrafficInfo
+
+
+docker-compose up
+
