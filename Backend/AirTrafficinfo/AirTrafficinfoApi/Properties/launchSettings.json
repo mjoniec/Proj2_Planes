@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AirTrafficinfoApi": {
+    "AirTrafficInfoApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/AirTrafficInfo",

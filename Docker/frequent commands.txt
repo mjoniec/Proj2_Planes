@@ -7,9 +7,9 @@ docker image list
 #lists running containers:
 docker ps
 
-docker run -d -p 8080:80 --name airtrafficinfo1 airtrafficinfo
-docker run -d -p 8081:81 --name plane1 plane
-docker run -d -p 8082:82 --name plane2 plane
+docker run -d -p 8080:80 --name airtrafficinfo_1 airtrafficinfo
+docker run -d -p 8081:81 --name plane_1 plane
+docker run -d -p 8082:82 --name plane_2 plane
 
 docker stop 9d99
 docker container rm 9d99

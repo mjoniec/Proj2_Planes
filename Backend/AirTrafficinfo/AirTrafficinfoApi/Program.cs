@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace AirTrafficinfoApi
+namespace AirTrafficInfoApi
 {
     public class Program
     {

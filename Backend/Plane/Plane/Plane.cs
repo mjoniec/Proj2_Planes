@@ -19,7 +19,7 @@ namespace Plane
             _httpClient = new HttpClient();
             _planeContract = new PlaneContract
             {
-                Name = "Name_" + new Random().Next(1, 100).ToString()
+                Name = "Name_" + new Random().Next(1001, 9999).ToString()
             };
         }
 
@@ -34,7 +34,7 @@ namespace Plane
                     new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 
-                await Task.Delay(2000, stoppingToken);
+                await Task.Delay(1100, stoppingToken);
             }
         }
     }

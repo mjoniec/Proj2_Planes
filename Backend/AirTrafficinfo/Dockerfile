@@ -9,16 +9,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-COPY ["AirTrafficinfoApi/AirTrafficinfoApi.csproj", "AirTrafficinfoApi/"]
-RUN dotnet restore "AirTrafficinfoApi/AirTrafficinfoApi.csproj"
+COPY ["AirTrafficInfoApi/AirTrafficInfoApi.csproj", "AirTrafficInfoApi/"]
+RUN dotnet restore "AirTrafficInfoApi/AirTrafficInfoApi.csproj"
 COPY . .
-WORKDIR "/src/AirTrafficinfoApi"
-RUN dotnet build "AirTrafficinfoApi.csproj" -c Release -o /app/build
+WORKDIR "/src/AirTrafficInfoApi"
+RUN dotnet build "AirTrafficInfoApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AirTrafficinfoApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "AirTrafficInfoApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AirTrafficinfoApi.dll"]
+ENTRYPOINT ["dotnet", "AirTrafficInfoApi.dll"]

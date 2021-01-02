@@ -35,3 +35,5 @@
 /Backend/AirTrafficinfo/AirTrafficinfoApi/bin/Debug/netcoreapp3.1
 /Backend/AirTrafficinfo/.vs/AirTrafficinfo
 /Backend/AirTrafficinfo/AirTrafficinfoApi/obj
+/Backend/docker-compose.yml
+/Backend/docker-compose.override.yml

@@ -1,30 +1,30 @@
-﻿using AirTrafficinfoApi.Services;
+﻿using AirTrafficInfoApi.Services;
 using AirTrafficInfoContracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirTrafficinfoApi.Controllers
+namespace AirTrafficInfoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AirTrafficInfoController : ControllerBase
     {
-        private readonly AirTrafficInfoService _airTrafficInfoService;
+        private readonly AirTrafficInfoService _AirTrafficInfoService;
 
-        public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService)
+        public AirTrafficInfoController(AirTrafficInfoService AirTrafficInfoService)
         {
-            _airTrafficInfoService = airTrafficInfoService;
+            _AirTrafficInfoService = AirTrafficInfoService;
         }
 
         [HttpGet]
         public string Get()
         {
-            return _airTrafficInfoService.GetAirTrafficInfo();
+            return _AirTrafficInfoService.GetAirTrafficInfo();
         }
 
         [HttpPost]
         public void Post([FromBody] PlaneContract planeContract)
         {
-            _airTrafficInfoService.UpdatePlaneInfo(planeContract);
+            _AirTrafficInfoService.UpdatePlaneInfo(planeContract);
         }
     }
 }
