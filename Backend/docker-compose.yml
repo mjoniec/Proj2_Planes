@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  AirTrafficInfo:
+  AirTrafficInfo_1:
     image: airtrafficinfo
     build:
       context: ./AirTrafficInfo
@@ -9,8 +9,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8080:80"
-  Plane:
+      - "8880:80"
+  AirTrafficInfo_2:
+    image: airtrafficinfo
+    build:
+      context: ./AirTrafficInfo
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8881:80"
+  Plane_1:
     image: plane
     build:
       context: ./Plane
@@ -18,4 +27,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8081:81"
+      - "8001:81"
+  Plane_2:
+    image: plane
+    build:
+      context: ./Plane
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8002:81"

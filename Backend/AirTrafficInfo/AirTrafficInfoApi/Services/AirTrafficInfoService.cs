@@ -1,4 +1,5 @@
 ﻿using AirTrafficInfoContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +9,19 @@ namespace AirTrafficInfoApi.Services
     public class AirTrafficInfoService
     {
         private readonly List<PlaneContract> _planes;
+        private readonly string _name;
 
         public AirTrafficInfoService()
         {
             _planes = new List<PlaneContract>();
+            _name = "AirTrafficInfoName_" + new Random().Next(1001, 9999).ToString();
         }
 
         internal string GetAirTrafficInfo()
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("GetAirTrafficInfo: ");
+            stringBuilder.AppendLine(_name);
 
             foreach (var plane in _planes)
             {

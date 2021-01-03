@@ -14,8 +14,8 @@ docker run -d -p 8082:82 --name plane_2 plane
 docker stop 9d99
 docker container rm 9d99
 
-http://localhost:8080/api/AirTrafficInfo
-
+http://localhost:8880/api/AirTrafficInfo
+http://localhost:8881/api/AirTrafficInfo
 
 docker-compose up
-
+docker-compose up --build --force-recreate --no-deps
