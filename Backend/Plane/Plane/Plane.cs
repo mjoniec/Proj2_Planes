@@ -30,7 +30,9 @@ namespace Plane
                 _planeContract.PositionX = new Random().Next(1, 100);
 
                 await _httpClient.PostAsync(
-                    $"https://localhost:44389/api/airtrafficinfo",
+                    //TODO: refactor to appsettings dev and docker
+                    //$"https://localhost:44389/api/airtrafficinfo",
+                    $"http://airtrafficinfo_1:80/api/airtrafficinfo",
                     new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 

@@ -3,6 +3,7 @@ version: '3.4'
 services:
   AirTrafficInfo_1:
     image: airtrafficinfo
+    container_name: airtrafficinfo_1
     build:
       context: ./AirTrafficInfo
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
       - "8880:80"
   AirTrafficInfo_2:
     image: airtrafficinfo
+    container_name: airtrafficinfo_2
     build:
       context: ./AirTrafficInfo
       dockerfile: Dockerfile
@@ -21,6 +23,7 @@ services:
       - "8881:80"
   Plane_1:
     image: plane
+    container_name: plane_1
     build:
       context: ./Plane
       dockerfile: Dockerfile
@@ -30,6 +33,7 @@ services:
       - "8001:81"
   Plane_2:
     image: plane
+    container_name: plane_2
     build:
       context: ./Plane
       dockerfile: Dockerfile
