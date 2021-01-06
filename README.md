@@ -1,9 +1,5 @@
 # Docker 
 
-## publish at
-
-https://hub.docker.com/repository/docker/mjdocker31
-
 ## test
 
 http://localhost:8880/api/AirTrafficInfo
@@ -59,17 +55,16 @@ docker system prune -a will delete all images, even ones for other projects. It'
 ## hub
 - docker login -u "user" -p "password" docker.io
 - docker push mjdocker31/test2api
-
-## net core
-- dotnet new webapp -o aspnetcoreapp
-- dotnet run --MetalsPrices.Api
+- https://hub.docker.com/repository/docker/mjdocker31
 
 ## useful links:
 
 ### Azure Deploy
+
 https://medium.com/@pugillum/asp-net-core-2-web-api-docker-and-azure-f84e28aa6267
 
 ### Localhost run
+
 https://docs.docker.com/engine/examples/dotnetcore/
 
 ### Dockerfile
