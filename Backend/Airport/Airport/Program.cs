@@ -14,6 +14,9 @@ namespace Airport
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    //hostContext.HostingEnvironment.EnvironmentName
+
+                    //var settings = Configuration
                     services.AddHostedService<Airport>();
                 });
     }
