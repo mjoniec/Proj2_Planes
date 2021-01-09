@@ -14,6 +14,9 @@ namespace Plane
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    //var s = args[0]; //TODO: get number of container and paste to plane name
+                    // on if condition if docker environment
+
                     services.AddHostedService<Plane>();
                 });
     }

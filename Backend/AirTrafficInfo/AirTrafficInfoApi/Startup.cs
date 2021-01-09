@@ -31,6 +31,15 @@ namespace AirTrafficInfoApi
                 app.UseDeveloperExceptionPage();
             }
 
+            //TODO: to extension ? Microsoft.Extensions.Hosting.Environments.
+            //extension everything topic
+            //https://stackoverflow.com/questions/619033/does-c-sharp-have-extension-properties
+            //keeping hardcoded 'Docker' for now
+            if (env.IsEnvironment("Docker"))
+            {
+
+            }
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
