@@ -22,9 +22,17 @@ namespace AirTrafficInfoApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] PlaneContract planeContract)
+        [Route("UpdatePlaneInfo")]
+        public void UpdatePlaneInfo([FromBody] PlaneContract planeContract)
         {
             _AirTrafficInfoService.UpdatePlaneInfo(planeContract);
+        }
+
+        [HttpPost]
+        [Route("UpdateAirportInfo")]
+        public void UpdateAirportInfo([FromBody] AirportContract airportContract)
+        {
+            _AirTrafficInfoService.UpdateAirportInfo(airportContract);
         }
     }
 }

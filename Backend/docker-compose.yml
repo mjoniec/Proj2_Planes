@@ -20,7 +20,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8001:81"
+      - "8001:80"
   Plane_2:
     image: plane
     container_name: plane_2
@@ -30,4 +30,24 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8002:81"
+      - "8002:80"
+  Airport_1:
+    image: airport
+    container_name: airport_1
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8801:80"
+  Airport_2:
+    image: airport
+    container_name: airport_2
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8802:80"
