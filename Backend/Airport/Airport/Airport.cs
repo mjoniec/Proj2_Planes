@@ -24,30 +24,27 @@ namespace Airport
             _httpClient = new HttpClient();
             _airportContract = new AirportContract
             {
-                Name = "Airport_" + new Random().Next(1001, 9999).ToString()
+                Name = "Airport_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString()
             };
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var tst = 
+            //_configuration
+            //    .GetSection("Mqtt");
+            //.Bind(quandlApiOptions);
 
-            _configuration
-                .GetSection("Mqtt");
-                //.Bind(quandlApiOptions);
-
-            //dev/docker if before loop
+            //TODO: move to app settings 
+            var url = _hostEnvironment.EnvironmentName == "Docker"
+                    ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo"
+                    : $"https://localhost:44389/api/airtrafficinfo/UpdateAirportInfo";
 
             while (!stoppingToken.IsCancellationRequested)
             {
                 _airportContract.PositionX = new Random().Next(1, 100);
 
-                //_configuration.
-
                 await _httpClient.PostAsync(
-                    //TODO: refactor to appsettings dev and docker
-                    //$"https://localhost:44389/api/airtrafficinfo/UpdateAirportInfo",
-                    $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo",
+                    url,
                     new StringContent(JsonConvert.SerializeObject(_airportContract),
                     Encoding.UTF8, "application/json"));
 
