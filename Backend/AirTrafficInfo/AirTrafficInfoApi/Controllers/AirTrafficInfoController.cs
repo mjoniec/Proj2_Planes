@@ -8,31 +8,31 @@ namespace AirTrafficInfoApi.Controllers
     [ApiController]
     public class AirTrafficInfoController : ControllerBase
     {
-        private readonly AirTrafficInfoService _AirTrafficInfoService;
+        private readonly AirTrafficInfoService _airTrafficInfoService;
 
-        public AirTrafficInfoController(AirTrafficInfoService AirTrafficInfoService)
+        public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService)
         {
-            _AirTrafficInfoService = AirTrafficInfoService;
+            _airTrafficInfoService = airTrafficInfoService;
         }
 
         [HttpGet]
         public string Get()
         {
-            return _AirTrafficInfoService.GetAirTrafficInfo();
+            return _airTrafficInfoService.GetAirTrafficInfo();
         }
 
         [HttpPost]
         [Route("UpdatePlaneInfo")]
         public void UpdatePlaneInfo([FromBody] PlaneContract planeContract)
         {
-            _AirTrafficInfoService.UpdatePlaneInfo(planeContract);
+            _airTrafficInfoService.UpdatePlaneInfo(planeContract);
         }
 
         [HttpPost]
         [Route("UpdateAirportInfo")]
         public void UpdateAirportInfo([FromBody] AirportContract airportContract)
         {
-            _AirTrafficInfoService.UpdateAirportInfo(airportContract);
+            _airTrafficInfoService.UpdateAirportInfo(airportContract);
         }
     }
 }
