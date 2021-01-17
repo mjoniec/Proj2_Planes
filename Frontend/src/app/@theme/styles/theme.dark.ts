@@ -24,7 +24,7 @@ export const DARK_THEME = {
       gradientRight: baseThemeVariables.primary,
       shadowColor: 'rgba(0, 0, 0, 0)',
       secondSeriesFill: baseThemeVariables.bg2,
-      radius: ['80%', '90%'],
+      radius: ['10%', '20%'],
     },
 
     traffic: {
@@ -75,7 +75,7 @@ export const DARK_THEME = {
     bubbleMap: {
       titleColor: baseThemeVariables.fgText,
       areaColor: baseThemeVariables.bg4,
-      areaHoverColor: baseThemeVariables.fgHighlight,
+      areaHoverColor: baseThemeVariables.bg2,
       areaBorderColor: baseThemeVariables.border5,
     },
 

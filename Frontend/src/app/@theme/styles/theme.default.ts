@@ -24,7 +24,7 @@ export const DEFAULT_THEME = {
       gradientRight: baseThemeVariables.primary,
       shadowColor: 'rgba(0, 0, 0, 0)',
       secondSeriesFill: baseThemeVariables.bg2,
-      radius: ['80%', '90%'],
+      radius: ['40%', '50%'],
     },
 
     traffic: {
