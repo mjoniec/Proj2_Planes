@@ -44,14 +44,9 @@ export class BubbleMapComponent implements OnDestroy {
         this.bubbleTheme = config.variables.bubbleMap;
         this.geoColors = [colors.primary, colors.info, colors.success, colors.warning, colors.danger];
 
-        this.latlong = {
-          'AF': { 'latitude': 33, 'longitude': 65 },
-          'AL': { 'latitude': 41, 'longitude': 20 }
-        };
-
         this.mapData = [
-          { 'code': 'AF', 'name': 'Afghanistan', 'value': 32358260, 'color': this.getRandomGeoColor() },
-          { 'code': 'AL', 'name': 'Albania', 'value': 3215988, 'color': this.getRandomGeoColor() }];
+          { 'latitude': 23, 'longitude': 55, 'name': 'yyy', 'value': 200, 'color': this.getRandomGeoColor() },
+          { 'latitude': 11, 'longitude': 10, 'name': 'xxx', 'value': 100, 'color': this.getRandomGeoColor() }];
 
         this.mapData.forEach((itemOpt) => {
           if (itemOpt.value > this.max) {
@@ -63,14 +58,6 @@ export class BubbleMapComponent implements OnDestroy {
         });
 
         this.options = {
-          title: {
-            text: 'World Population (2011)',
-            left: 'center',
-            top: '16px',
-            textStyle: {
-              color: this.bubbleTheme.titleColor,
-            },
-          },
           tooltip: {
             trigger: 'item',
             formatter: params => {
@@ -82,7 +69,7 @@ export class BubbleMapComponent implements OnDestroy {
             min: 0,
             max: this.max,
             inRange: {
-              symbolSize: [6, 60],
+              symbolSize: [3, 30],
             },
           },
           geo: {
@@ -114,8 +101,8 @@ export class BubbleMapComponent implements OnDestroy {
                 return {
                   name: itemOpt.name,
                   value: [
-                    this.latlong[itemOpt.code].longitude,
-                    this.latlong[itemOpt.code].latitude,
+                    itemOpt.longitude,
+                    itemOpt.latitude,
                     itemOpt.value,
                   ],
                   itemStyle: {
