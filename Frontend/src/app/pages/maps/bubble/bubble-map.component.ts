@@ -33,79 +33,90 @@ export class BubbleMapComponent implements OnInit, OnDestroy {
 
   private alive = true;
 
-  async createRenderItem() {
-
-    await this.gizmo();
-
-    const d = this.d;
-    
-    
-    return function (params, api) {
-      console.log('renderItem params = ', params);
-      console.log('renderItem api = ', api);
-      console.log('renderItem d = ', d);
-      const dCur = d.renderData[params.seriesId][params.dataIndex];
-      console.log('renderItem dCur = ', dCur);
-
-      const completeset = [];
-      dCur.pointSet.forEach(function (ps) {
-        completeset.push(api.coord(ps));
-      });
-
-      const ret = {
-        type: 'polygon',
-        z2: dCur.z,
-        name: dCur.name,
-        id: dCur.id,
-        shape: {},
-        silent: true,
-        style: api.style(dCur.style)
-      };
-      if ( true ) {
-        ret.shape = {
-          points: completeset
-        }
-      } else {
-        ret.shape = {
-          points: echarts.graphic.clipPointsByRect(completeset, {
-            x: params.coordSys.x,
-            y: params.coordSys.y,
-            width: params.coordSys.width,
-            height: params.coordSys.height
-          })
-        };
-      }
-      console.log('renderItem return = ', ret);
-      return ret;
-    };
+  ngOnInit() {
+    //console.log('init');
+    //this.gizmo();
   }
 
+  // async createRenderItem() {
+  createRenderItem() {
+    // await this.gizmo();
+    //this.gizmo();
 
-  async gizmo() {
+
+    if(typeof this !== "undefined" && this.d !== "undefined" ){
+      const d = this.d;
+      //variable exists, do what you want
+      return function (params, api) {
+        console.log('renderItem params = ', params);
+        console.log('renderItem api = ', api);
+        console.log('renderItem d = ', d);
+        const dCur = d.renderData[params.seriesId][params.dataIndex];
+        console.log('renderItem dCur = ', dCur);
+  
+        const completeset = [];
+        dCur.pointSet.forEach(function (ps) {
+          completeset.push(api.coord(ps));
+        });
+  
+        const ret = {
+          type: 'polygon',
+          z2: dCur.z,
+          name: dCur.name,
+          id: dCur.id,
+          shape: {},
+          silent: true,
+          style: api.style(dCur.style)
+        };
+        if ( true ) {
+          ret.shape = {
+            points: completeset
+          }
+        } else {
+          ret.shape = {
+            points: echarts.graphic.clipPointsByRect(completeset, {
+              x: params.coordSys.x,
+              y: params.coordSys.y,
+              width: params.coordSys.width,
+              height: params.coordSys.height
+            })
+          };
+        }
+        console.log('renderItem return = ', ret);
+        return ret;
+      };
+    }
+    else{
+        console.log('250 timeout');
+        setTimeout(this.createRenderItem, 250);
+    }
+  }
+
+  gizmo() {
     this.http.get('/assets/exampleData1.json')
-      .subscribe(data => this.ff(data)
-      );
+      .subscribe(data => {
+        this.d = data;
+        const renderData = {};
+        let i = 0;
+        this.d.diagramData.forEach(function (x) {
+          Object.entries(x).forEach(([key, array]) => {
+            const renderDataArray = [];
+            array.forEach(function (y) {
+              y.z = ++i;
+              renderDataArray.push(y);
+            });
+            renderData[key] = renderDataArray;
+          });
+        });
+        this.d.renderData = renderData;
+        // this.loadChart();
+      });
   }
 
   // async gizmo() {
   //   this.http.get('/assets/exampleData1.json')
-  //     .subscribe(data => {
-  //       this.d = data;
-  //       const renderData = {};
-  //       let i = 0;
-  //       this.d.diagramData.forEach(function (x) {
-  //         Object.entries(x).forEach(([key, array]) => {
-  //           const renderDataArray = [];
-  //           this.array.forEach(function (y) {
-  //             y.z = ++i;
-  //             renderDataArray.push(y);
-  //           });
-  //           renderData[key] = renderDataArray;
-  //         });
-  //       });
-  //       this.d.renderData = renderData;
-  //       // this.loadChart();
-  //     });
+  //     .subscribe(data => this.ff(data)
+  //     );
   // }
 
   ff(data){
@@ -115,7 +126,7 @@ export class BubbleMapComponent implements OnInit, OnDestroy {
       this.d.diagramData.forEach(function (x) {
         Object.entries(x).forEach(([key, array]) => {
           const renderDataArray = [];
-          this.array.forEach(function (y) {
+          array.forEach(function (y) {
             y.z = ++i;
             renderDataArray.push(y);
           });
@@ -125,12 +136,11 @@ export class BubbleMapComponent implements OnInit, OnDestroy {
       this.d.renderData = renderData;
   }
 
-  ngOnInit() {
-    //this.gizmo();
-  }
-
   constructor(private theme: NbThemeService,
               private http: HttpClient) {
+
+    console.log('constructor');
+    this.gizmo();
 
     combineLatest([
       this.http.get('assets/map/world.json'),
@@ -174,8 +184,9 @@ export class BubbleMapComponent implements OnInit, OnDestroy {
           }
         });
 
-        //this.gizmo();
-        const renderItem = this.createRenderItem();
+        
+
+        // const renderItemTmp = this.createRenderItem();
 
         this.options = {
           
@@ -224,7 +235,8 @@ export class BubbleMapComponent implements OnInit, OnDestroy {
               // type: 'circle',
               coordinateSystem: 'geo',
               // renderItem: 'square',
-              renderItem: renderItem,
+              // renderItem: renderItemTmp,
+              renderItem: this.createRenderItem(),
               // renderItem: (params, api) => {
               //   return {
               //       type: 'myCustomShape',
