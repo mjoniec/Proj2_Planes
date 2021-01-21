@@ -19,6 +19,7 @@ export class BubbleMapComponent implements OnDestroy {
 
   latlong: any = {};
   mapData: any[];
+  mapData2: any[];
   max = -Infinity;
   min = Infinity;
   options: any;
@@ -46,6 +47,8 @@ export class BubbleMapComponent implements OnDestroy {
 
         let color1 = this.getRandomGeoColor();
         let color2 = this.getRandomGeoColor();
+        let color3 = this.getRandomGeoColor();
+        let color4 = this.getRandomGeoColor();
 
         this.mapData = [
           { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1 },
@@ -53,6 +56,14 @@ export class BubbleMapComponent implements OnDestroy {
           { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1 },
           { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2 },
           { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2 }        
+        ];
+
+        this.mapData2 = [
+          { 'latitude': 60, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color3 },
+          { 'latitude': 60, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color3 },
+          { 'latitude': 60, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color3 },
+          { 'latitude': 60, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color4 },
+          { 'latitude': 60, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color4 }        
         ];
 
         this.mapData.forEach((itemOpt) => {
@@ -85,6 +96,7 @@ export class BubbleMapComponent implements OnDestroy {
             max: this.max,
             inRange: {
               symbolSize: [3, 30],
+              symbol: 'triangle'
             },
           },
           geo: {
@@ -128,6 +140,25 @@ export class BubbleMapComponent implements OnDestroy {
                 };
               }),
             },
+            {
+              type: 'graph',
+              coordinateSystem: 'geo',
+              data: this.mapData2.map(itemOpt => {
+                return {
+                  name: itemOpt.name,
+                  value: [
+                    itemOpt.longitude,
+                    itemOpt.latitude,
+                    itemOpt.value,
+                  ],
+                  itemStyle: {
+                    normal: {
+                      color: itemOpt.color,
+                    },
+                  },
+                };
+              }),
+            }
           ],
         };
       });
