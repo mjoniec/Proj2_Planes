@@ -51,11 +51,11 @@ export class BubbleMapComponent implements OnDestroy {
         let color4 = this.getRandomGeoColor();
 
         this.mapData = [
-          { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1 },
-          { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1 },
-          { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1 },
-          { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2 },
-          { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2 }        
+          { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1, symbol: 'arrow' },
+          { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1, symbol: 'arrow' },
+          { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1, symbol: 'triangle'},
+          { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2, symbol: 'arrow' },
+          { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2, symbol: 'triangle' }        
         ];
 
         this.mapData2 = [
@@ -95,8 +95,9 @@ export class BubbleMapComponent implements OnDestroy {
             min: 0,
             max: this.max,
             inRange: {
-              symbolSize: [3, 30],
-              symbol: 'triangle'
+              symbolSize: [3, 30]//,
+              //symbol: 'triangle' // overrides each individual item style
+              //symbol: 'arrow'
             },
           },
           geo: {
@@ -127,16 +128,19 @@ export class BubbleMapComponent implements OnDestroy {
               data: this.mapData.map(itemOpt => {
                 return {
                   name: itemOpt.name,
+                  symbol: itemOpt.symbol,
                   value: [
                     itemOpt.longitude,
                     itemOpt.latitude,
-                    itemOpt.value,
+                    itemOpt.value
                   ],
                   itemStyle: {
+                    symbol: itemOpt.symbol,
                     normal: {
                       color: itemOpt.color,
+                      symbol: itemOpt.symbol
                     },
-                  },
+                  }
                 };
               }),
             },
@@ -155,7 +159,7 @@ export class BubbleMapComponent implements OnDestroy {
                     normal: {
                       color: itemOpt.color,
                     },
-                  },
+                  }
                 };
               }),
             }
