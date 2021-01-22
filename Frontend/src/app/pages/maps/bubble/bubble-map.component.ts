@@ -45,17 +45,18 @@ export class BubbleMapComponent implements OnDestroy {
         this.bubbleTheme = config.variables.bubbleMap;
         this.geoColors = [colors.primary, colors.info, colors.success, colors.warning, colors.danger];
 
+        //TODO: figure out better randomisation - the same color often gets picked up for more than one variable
         let color1 = this.getRandomGeoColor();
         let color2 = this.getRandomGeoColor();
         let color3 = this.getRandomGeoColor();
         let color4 = this.getRandomGeoColor();
 
         this.mapData = [
-          { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1, symbol: 'arrow' },
-          { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1, symbol: 'arrow' },
-          { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1, symbol: 'triangle'},
-          { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2, symbol: 'arrow' },
-          { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2, symbol: 'triangle' }        
+          { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1, symbolRotate: 45, symbol: 'arrow' },
+          { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1, symbolRotate: 10, symbol: 'arrow' },
+          { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1, symbolRotate: 60, symbol: 'triangle'},
+          { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2, symbolRotate: 20, symbol: 'arrow' },
+          { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2, symbolRotate: 10, symbol: 'triangle' }        
         ];
 
         this.mapData2 = [
@@ -129,16 +130,15 @@ export class BubbleMapComponent implements OnDestroy {
                 return {
                   name: itemOpt.name,
                   symbol: itemOpt.symbol,
+                  symbolRotate: itemOpt.symbolRotate,
                   value: [
                     itemOpt.longitude,
                     itemOpt.latitude,
                     itemOpt.value
                   ],
                   itemStyle: {
-                    symbol: itemOpt.symbol,
                     normal: {
-                      color: itemOpt.color,
-                      symbol: itemOpt.symbol
+                      color: itemOpt.color
                     },
                   }
                 };
