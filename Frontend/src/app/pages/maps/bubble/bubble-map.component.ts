@@ -51,6 +51,12 @@ export class BubbleMapComponent implements OnDestroy {
         let color3 = this.getRandomGeoColor();
         let color4 = this.getRandomGeoColor();
 
+
+        this.getAirTrafficInfo()
+          .subscribe((data: any) => console.log('json: ', data));
+
+        //this.mapData = 
+
         this.mapData = [
           { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1, symbolRotate: 45, symbol: 'arrow' },
           { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1, symbolRotate: 10, symbol: 'arrow' },
@@ -175,5 +181,9 @@ export class BubbleMapComponent implements OnDestroy {
   private getRandomGeoColor() {
     const index = Math.round(Math.random() * this.geoColors.length);
     return this.geoColors[index];
+  }
+
+  private getAirTrafficInfo(){
+    return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');
   }
 }

@@ -1,4 +1,5 @@
 ﻿using AirTrafficInfoContracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MockAirTrafficinfoApi.Services;
 
@@ -16,6 +17,7 @@ namespace MockAirTrafficinfoApi.Controllers
         }
 
         //https://localhost:44389/api/MockAirTrafficInfo
+        [EnableCors("MyAllowedOrigins")]
         [HttpGet]
         public AirTrafficInfoContract Get()
         {
