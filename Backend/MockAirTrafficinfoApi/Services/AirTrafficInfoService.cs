@@ -16,16 +16,30 @@ namespace MockAirTrafficinfoApi.Services
             var airport1 = new AirportContract
             {
                 Name = "Airport 1",
-                PositionX = 10,
-                Positiony = 10,
+                Longitude = 10,
+                Latitude = 10,
+                Color = "#FF1111",
+                SymbolRotate = 45,
                 IsGoodWeather = true
             };
             
             var airport2 = new AirportContract
             {
                 Name = "Airport 2",
-                PositionX = 20,
-                Positiony = 20,
+                Longitude = 50,
+                Latitude = 10,
+                Color = "#1111FF",
+                SymbolRotate = 45,
+                IsGoodWeather = true
+            };
+
+            var airport3 = new AirportContract
+            {
+                Name = "Airport 3",
+                Longitude = 50,
+                Latitude = 50,
+                Color = "#11FF11",
+                SymbolRotate = 45,
                 IsGoodWeather = true
             };
 
@@ -41,8 +55,9 @@ namespace MockAirTrafficinfoApi.Services
                     new PlaneContract
                     {
                         Name = "Plane 1",
-                        PositionX = 11,
-                        Positiony = 11,
+                        Longitude = 25,
+                        Latitude = 10,
+                        SymbolRotate = 60,
                         PositionUpdateTime = DateTime.Now,
                         SpeedInMetersPerSecond = 1,
                         DepartureAirport = airport1,
@@ -51,22 +66,24 @@ namespace MockAirTrafficinfoApi.Services
                     new PlaneContract
                     {
                         Name = "Plane 2",
-                        PositionX = 12,
-                        Positiony = 12,
+                        Longitude = 50,
+                        Latitude = 30,
+                        SymbolRotate = 60,
                         PositionUpdateTime = DateTime.Now,
                         SpeedInMetersPerSecond = 1,
-                        DepartureAirport = airport1,
+                        DepartureAirport = airport3,
                         DestinationAirport = airport2
                     },
                     new PlaneContract
                     {
                         Name = "Plane 3",
-                        PositionX = 13,
-                        Positiony = 13,
+                        Longitude = 40,
+                        Latitude = 40,
+                        SymbolRotate = 60,
                         PositionUpdateTime = DateTime.Now,
                         SpeedInMetersPerSecond = 1,
                         DepartureAirport = airport1,
-                        DestinationAirport = airport2
+                        DestinationAirport = airport3
                     }
                 }
             };
@@ -79,7 +96,7 @@ namespace MockAirTrafficinfoApi.Services
 
         internal void UpdateAirTrafficInfo()
         {
-            _airTrafficInfoContract.Planes.ForEach(p => p.PositionX += 1);
+            _airTrafficInfoContract.Planes.ForEach(p => p.Longitude += 1);
         }
     }
 }
