@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AirTrafficInfoApi.Services
 {
@@ -19,24 +18,14 @@ namespace AirTrafficInfoApi.Services
             _name = "AirTrafficInfoName_" + new Random().Next(1001, 9999).ToString();
         }
 
-        internal string GetAirTrafficInfo()
-        {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine(_name);
-
-            foreach (var plane in _planes)
+        internal AirTrafficInfoContract GetAirTrafficInfo() =>
+            new AirTrafficInfoContract
             {
-                stringBuilder.AppendLine(plane.Name + " " + plane.PositionX);
-            }
-
-            foreach (var airport in _airports)
-            {
-                stringBuilder.AppendLine(airport.Name + " " + airport.PositionX);
-            }
-
-            return stringBuilder.ToString();
-        }
+                Airports = _airports,
+                Planes = _planes
+            };
+        
+        public List<AirportContract> GetAirports() => _airports;
 
         internal void UpdatePlaneInfo(PlaneContract planeContract)
         {
@@ -48,7 +37,8 @@ namespace AirTrafficInfoApi.Services
             {
                 var planeToUpdate = _planes.First(p => p.Name == planeContract.Name);
 
-                planeToUpdate.PositionX = planeContract.PositionX;
+                planeToUpdate.Latitude = planeContract.Latitude;
+                planeToUpdate.Longitude = planeContract.Longitude;
             }
         }
 
@@ -60,9 +50,10 @@ namespace AirTrafficInfoApi.Services
             }
             else
             {
-                var planeToUpdate = _airports.First(p => p.Name == airportContract.Name);
+                var airportToUpdate = _airports.First(p => p.Name == airportContract.Name);
 
-                planeToUpdate.PositionX = airportContract.PositionX;
+                airportToUpdate.Latitude = airportContract.Latitude;
+                airportToUpdate.Longitude = airportContract.Longitude;
             }
         }
     }

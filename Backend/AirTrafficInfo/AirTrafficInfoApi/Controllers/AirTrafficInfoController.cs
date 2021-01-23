@@ -1,6 +1,8 @@
 ﻿using AirTrafficInfoApi.Services;
 using AirTrafficInfoContracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AirTrafficInfoApi.Controllers
 {
@@ -16,9 +18,17 @@ namespace AirTrafficInfoApi.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        [EnableCors("MyAllowedOrigins")]
+        public AirTrafficInfoContract Get()
         {
             return _airTrafficInfoService.GetAirTrafficInfo();
+        }
+
+        [HttpGet]
+        [Route("GetAirports")]
+        public List<AirportContract> GetAirports()
+        {
+            return _airTrafficInfoService.GetAirports();
         }
 
         [HttpPost]

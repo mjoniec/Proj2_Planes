@@ -20,6 +20,15 @@ namespace AirTrafficInfoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyAllowedOrigins", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                });
+            });
+
             services.AddSingleton<AirTrafficInfoService>();
         }
 
@@ -43,6 +52,9 @@ namespace AirTrafficInfoApi
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+
+            app.UseCors("MyAllowedOrigins");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

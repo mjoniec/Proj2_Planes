@@ -185,6 +185,7 @@ export class BubbleMapComponent implements OnDestroy {
   }
 
   private getAirTrafficInfo(){
-    return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');
+    // return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');
+    return this.http.get('https://localhost:44389/api/AirTrafficInfo');
   }
 }

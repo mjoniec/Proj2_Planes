@@ -24,7 +24,8 @@ namespace Airport
             _httpClient = new HttpClient();
             _airportContract = new AirportContract
             {
-                Name = "Airport_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString()
+                Name = "Airport_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
+                Color = "#" + new Random().Next(100000, 999999).ToString()
             };
         }
 
@@ -39,10 +40,11 @@ namespace Airport
                     ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo"
                     : $"https://localhost:44389/api/airtrafficinfo/UpdateAirportInfo";
 
+            _airportContract.Longitude = new Random().Next(1, 100);
+            _airportContract.Latitude = new Random().Next(1, 100);
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                _airportContract.PositionX = new Random().Next(1, 100);
-
                 await _httpClient.PostAsync(
                     url,
                     new StringContent(JsonConvert.SerializeObject(_airportContract),

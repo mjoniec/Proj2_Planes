@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -35,9 +36,15 @@ namespace Plane
                 ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo"
                 : $"https://localhost:44389/api/airtrafficinfo/UpdatePlaneInfo";
 
+            _planeContract.Longitude = new Random().Next(1, 100);
+            _planeContract.Latitude = new Random().Next(1, 100);
+            _planeContract.SpeedInMetersPerSecond = 10000;
+
+            await SetupDestinationAirportForNewPlane();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                _planeContract.PositionX = new Random().Next(1, 100);
+                await UpdatePlane();
 
                 await _httpClient.PostAsync(
                     url,
@@ -45,6 +52,81 @@ namespace Plane
                     Encoding.UTF8, "application/json"));
 
                 await Task.Delay(1100, stoppingToken);
+            }
+        }
+
+        private async Task SetupDestinationAirportForNewPlane()
+        {
+            var retryCount = 0;
+
+            while (retryCount < 5)
+            {
+                await SelectNewDestinationAirport();
+
+                if (_planeContract.DestinationAirport != null) break;
+
+                retryCount++;
+                Thread.Sleep(2000);
+            }
+        }
+
+        private async Task SelectNewDestinationAirport()
+        {
+            var url = _hostEnvironment.EnvironmentName == "Docker"
+                ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/GetAirports"
+                : $"https://localhost:44389/api/airtrafficinfo/GetAirports";
+
+            var response = await _httpClient.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
+            var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
+
+            if(airports.Count <= 1)
+            {
+                return;
+            }
+
+            var random = new Random();
+
+            while (true)
+            {
+                var nextAirport = airports[random.Next(0, airports.Count)];
+
+                if (
+                    _planeContract.DestinationAirport == null || //no destination so we can assign whatever
+                    _planeContract.DestinationAirport.Name != nextAirport.Name)
+                {
+                    _planeContract.DepartureAirport = _planeContract.DestinationAirport;
+                    _planeContract.DestinationAirport = nextAirport;
+
+                    break;
+                }
+            }
+        }
+
+        private async Task UpdatePlane()
+        {
+            if(_planeContract.DestinationAirport.Latitude > _planeContract.Latitude)
+            {
+                _planeContract.Latitude++;
+            }
+            else if (_planeContract.DestinationAirport.Latitude < _planeContract.Latitude)
+            {
+                _planeContract.Latitude--;
+            }
+
+            if (_planeContract.DestinationAirport.Longitude > _planeContract.Longitude)
+            {
+                _planeContract.Longitude++;
+            }
+            else if (_planeContract.DestinationAirport.Longitude < _planeContract.Longitude)
+            {
+                _planeContract.Longitude--;
+            }
+
+            if (_planeContract.DestinationAirport.Latitude == _planeContract.Latitude &&
+                _planeContract.DestinationAirport.Longitude == _planeContract.Longitude)
+            {
+                await SelectNewDestinationAirport();
             }
         }
     }
