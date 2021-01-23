@@ -16,8 +16,8 @@ namespace MockAirTrafficinfoApi.Services
             var airport1 = new AirportContract
             {
                 Name = "Airport 1",
-                Longitude = 10,
-                Latitude = 10,
+                Longitude = 0,
+                Latitude = 0,
                 Color = "#FF1111",
                 SymbolRotate = 45,
                 IsGoodWeather = true
@@ -26,8 +26,8 @@ namespace MockAirTrafficinfoApi.Services
             var airport2 = new AirportContract
             {
                 Name = "Airport 2",
-                Longitude = 50,
-                Latitude = 10,
+                Longitude = 100,
+                Latitude = 0,
                 Color = "#1111FF",
                 SymbolRotate = 45,
                 IsGoodWeather = true
@@ -36,8 +36,8 @@ namespace MockAirTrafficinfoApi.Services
             var airport3 = new AirportContract
             {
                 Name = "Airport 3",
-                Longitude = 50,
-                Latitude = 50,
+                Longitude = 100,
+                Latitude = 100,
                 Color = "#11FF11",
                 SymbolRotate = 45,
                 IsGoodWeather = true
@@ -48,16 +48,17 @@ namespace MockAirTrafficinfoApi.Services
                 Airports = new List<AirportContract>
                 {
                     airport1,
-                    airport2
+                    airport2,
+                    airport3
                 },
                 Planes = new List<PlaneContract>
                 {
                     new PlaneContract
                     {
                         Name = "Plane 1",
-                        Longitude = 25,
-                        Latitude = 10,
-                        SymbolRotate = 60,
+                        Longitude = 75,
+                        Latitude = 00,
+                        SymbolRotate = -90,
                         PositionUpdateTime = DateTime.Now,
                         SpeedInMetersPerSecond = 1,
                         DepartureAirport = airport1,
@@ -66,9 +67,9 @@ namespace MockAirTrafficinfoApi.Services
                     new PlaneContract
                     {
                         Name = "Plane 2",
-                        Longitude = 50,
-                        Latitude = 30,
-                        SymbolRotate = 60,
+                        Longitude = 100,
+                        Latitude = 25,
+                        SymbolRotate = 180,
                         PositionUpdateTime = DateTime.Now,
                         SpeedInMetersPerSecond = 1,
                         DepartureAirport = airport3,
@@ -77,9 +78,9 @@ namespace MockAirTrafficinfoApi.Services
                     new PlaneContract
                     {
                         Name = "Plane 3",
-                        Longitude = 40,
-                        Latitude = 40,
-                        SymbolRotate = 60,
+                        Longitude = 50,
+                        Latitude = 50,
+                        SymbolRotate = -45,
                         PositionUpdateTime = DateTime.Now,
                         SpeedInMetersPerSecond = 1,
                         DepartureAirport = airport1,

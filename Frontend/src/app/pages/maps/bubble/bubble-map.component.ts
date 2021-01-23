@@ -44,143 +44,144 @@ export class BubbleMapComponent implements OnDestroy {
         const colors = config.variables;
         this.bubbleTheme = config.variables.bubbleMap;
         this.geoColors = [colors.primary, colors.info, colors.success, colors.warning, colors.danger];
-
-        //TODO: figure out better randomisation - the same color often gets picked up for more than one variable
-        let color1 = this.getRandomGeoColor();
-        let color2 = this.getRandomGeoColor();
-        let color3 = this.getRandomGeoColor();
-        let color4 = this.getRandomGeoColor();
-
-
+        
         this.getAirTrafficInfo()
-          .subscribe((data: any) => console.log('json: ', data));
+          .subscribe((res: any) => { 
+            console.log('json: ', res);
+            this.mapData = res['planes'];
+            this.mapData2 = res['airports'];
 
-        //this.mapData = 
+              // this.mapData = [
+              //   { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1, symbolRotate: 45, symbol: 'arrow' },
+              //   { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1, symbolRotate: 10, symbol: 'arrow' },
+              //   { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1, symbolRotate: 60, symbol: 'triangle'},
+              //   { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2, symbolRotate: 20, symbol: 'arrow' },
+              //   { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2, symbolRotate: 10, symbol: 'triangle' }
+              // ];
 
-        this.mapData = [
-          { 'latitude': 10, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color1, symbolRotate: 45, symbol: 'arrow' },
-          { 'latitude': 20, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color1, symbolRotate: 10, symbol: 'arrow' },
-          { 'latitude': 30, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color1, symbolRotate: 60, symbol: 'triangle'},
-          { 'latitude': 40, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color2, symbolRotate: 20, symbol: 'arrow' },
-          { 'latitude': 50, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color2, symbolRotate: 10, symbol: 'triangle' }        
-        ];
+              // this.mapData2 = [
+              //   { 'latitude': 60, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color3 },
+              //   { 'latitude': 60, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color3 },
+              //   { 'latitude': 60, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color3 },
+              //   { 'latitude': 60, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color4 },
+              //   { 'latitude': 60, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color4 }        
+              // ];
 
-        this.mapData2 = [
-          { 'latitude': 60, 'longitude': 10, 'name': 'plane x 1', 'value': 30, 'color': color3 },
-          { 'latitude': 60, 'longitude': 20, 'name': 'plane x 2', 'value': 30, 'color': color3 },
-          { 'latitude': 60, 'longitude': 30, 'name': 'airport x', 'value': 80, 'color': color3 },
-          { 'latitude': 60, 'longitude': 40, 'name': 'plane y 1', 'value': 30, 'color': color4 },
-          { 'latitude': 60, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color4 }        
-        ];
+              console.log('mapdata ', this.mapData);
+              console.log('mapdata2 ', this.mapData2);
 
-        this.mapData.forEach((itemOpt) => {
-          if (itemOpt.value > this.max) {
-            this.max = itemOpt.value;
-          }
-          if (itemOpt.value < this.min) {
-            this.min = itemOpt.value;
-          }
-        });
+              this.mapData.forEach((itemOpt) => {
+                if (itemOpt.value > this.max) {
+                  this.max = itemOpt.value;
+                }
+                if (itemOpt.value < this.min) {
+                  this.min = itemOpt.value;
+                }
+              });
 
-        this.options = {
-          title: {
-            text: 'World Population (2011)',
-            left: 'center',
-            top: '16px',
-            textStyle: {
-              color: this.bubbleTheme.titleColor,
-            },
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: params => {
-              return `${params.name}: ${params.value[2]}`;
-            },
-          },
-          visualMap: {
-            show: false,
-            min: 0,
-            max: this.max,
-            inRange: {
-              symbolSize: [3, 30]//,
-              //symbol: 'triangle' // overrides each individual item style
-              //symbol: 'arrow'
-            },
-          },
-          geo: {
-            name: 'World Population (2010)',
-            type: 'map',
-            map: 'world',
-            roam: true,
-            label: {
-              emphasis: {
-                show: false,
-              },
-            },
-            itemStyle: {
-              normal: {
-                areaColor: this.bubbleTheme.areaColor,
-                borderColor: this.bubbleTheme.areaBorderColor,
-              },
-              emphasis: {
-                areaColor: this.bubbleTheme.areaHoverColor,
-              },
-            },
-            zoom: 1.1,
-          },
-          series: [
-            {
-              type: 'scatter',
-              coordinateSystem: 'geo',
-              data: this.mapData.map(itemOpt => {
-                return {
-                  name: itemOpt.name,
-                  symbol: itemOpt.symbol,
-                  symbolRotate: itemOpt.symbolRotate,
-                  value: [
-                    itemOpt.longitude,
-                    itemOpt.latitude,
-                    itemOpt.value
-                  ],
+              this.options = {
+                title: {
+                  text: 'World Population (2011)',
+                  left: 'center',
+                  top: '16px',
+                  textStyle: {
+                    color: this.bubbleTheme.titleColor,
+                  },
+                },
+                tooltip: {
+                  trigger: 'item',
+                  formatter: params => {
+                    return `${params.name}: ${params.value[2]}`;
+                  },
+                },
+                visualMap: {
+                  show: false,
+                  min: 0,
+                  max: this.max,
+                  inRange: {
+                    symbolSize: [3, 30]//,
+                    //symbol: 'triangle' // overrides each individual item style
+                    //symbol: 'arrow'
+                  },
+                },
+                geo: {
+                  name: 'World Population (2010)',
+                  type: 'map',
+                  map: 'world',
+                  roam: true,
+                  label: {
+                    emphasis: {
+                      show: false,
+                    },
+                  },
                   itemStyle: {
                     normal: {
-                      color: itemOpt.color
+                      areaColor: this.bubbleTheme.areaColor,
+                      borderColor: this.bubbleTheme.areaBorderColor,
                     },
-                  }
-                };
-              }),
-            },
-            {
-              type: 'graph',
-              coordinateSystem: 'geo',
-              data: this.mapData2.map(itemOpt => {
-                return {
-                  name: itemOpt.name,
-                  value: [
-                    itemOpt.longitude,
-                    itemOpt.latitude,
-                    itemOpt.value,
-                  ],
-                  itemStyle: {
-                    normal: {
-                      color: itemOpt.color,
+                    emphasis: {
+                      areaColor: this.bubbleTheme.areaHoverColor,
                     },
+                  },
+                  zoom: 1.1,
+                },
+                series: [
+                  {
+                    type: 'scatter',
+                    coordinateSystem: 'geo',
+                    data: this.mapData.map(itemOpt => {
+                      return {
+                        name: itemOpt.name,
+                        symbol: itemOpt.symbol,
+                        symbolRotate: itemOpt.symbolRotate,
+                        value: [
+                          itemOpt.longitude,
+                          itemOpt.latitude,
+                          //itemOpt.value
+                          30
+                        ],
+                        itemStyle: {
+                          normal: {
+                            color: itemOpt.color
+                          },
+                        }
+                      };
+                    }),
+                  },
+                  {
+                    type: 'graph',
+                    coordinateSystem: 'geo',
+                    data: this.mapData2.map(itemOpt => {
+                      return {
+                        name: itemOpt.name,
+                        symbol: itemOpt.symbol,
+                        symbolRotate: itemOpt.symbolRotate,
+                        value: [
+                          itemOpt.longitude,
+                          itemOpt.latitude,
+                          // itemOpt.value,
+                          80
+                        ],
+                        itemStyle: {
+                          normal: {
+                            color: itemOpt.color,
+                          },
+                        }
+                      };
+                    }),
                   }
-                };
-              }),
-            }
-          ],
-        };
+                ],
+              };
+
+
+          });
+
+
       });
   }
 
   ngOnDestroy() {
     this.alive = false;
-  }
-
-  private getRandomGeoColor() {
-    const index = Math.round(Math.random() * this.geoColors.length);
-    return this.geoColors[index];
   }
 
   private getAirTrafficInfo(){
