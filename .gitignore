@@ -43,3 +43,6 @@
 /Backend/Airport/.vs/Airport/DesignTimeBuild/.dtbcache.v2
 /Backend/MockAirTrafficinfoApi/bin/Debug/netcoreapp3.1
 /Backend/MockAirTrafficinfoApi/obj
+/Backend/AirTrafficInfoServices/bin/Debug
+/Backend/AirTrafficInfoServices/obj/Debug
+/Backend/AirTrafficInfoServices/obj

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mqtt", "Mqtt\Mqtt.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirTrafficInfoContracts", "AirTrafficInfoContracts\AirTrafficInfoContracts.csproj", "{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockAirTrafficinfoApi", "MockAirTrafficinfoApi\MockAirTrafficinfoApi.csproj", "{0D3C140B-CCC1-4F35-8241-B240F0785B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockAirTrafficinfoApi", "MockAirTrafficinfoApi\MockAirTrafficinfoApi.csproj", "{0D3C140B-CCC1-4F35-8241-B240F0785B59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirTrafficInfoServices", "AirTrafficInfoServices\AirTrafficInfoServices.csproj", "{7B7C5E18-E7D8-4097-922A-A4D9D9532BD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7C5E18-E7D8-4097-922A-A4D9D9532BD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7C5E18-E7D8-4097-922A-A4D9D9532BD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7C5E18-E7D8-4097-922A-A4D9D9532BD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7C5E18-E7D8-4097-922A-A4D9D9532BD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
