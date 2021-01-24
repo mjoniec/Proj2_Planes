@@ -185,7 +185,7 @@ export class BubbleMapComponent implements OnDestroy {
   }
 
   private getAirTrafficInfo(){
-    // return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');
+    //return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');//todo figure out environment detection? or split to 2 pages each constantly pointing each azure hosting - dockerised and mock
     return this.http.get('https://localhost:44389/api/AirTrafficInfo');
   }
 }

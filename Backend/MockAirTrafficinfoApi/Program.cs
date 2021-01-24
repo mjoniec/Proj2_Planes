@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MockAirTrafficinfoApi.Services;
 
 namespace MockAirTrafficinfoApi
 {
@@ -15,6 +17,10 @@ namespace MockAirTrafficinfoApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<MockAirTrafficInfoBackgroundService>();
                 });
     }
 }

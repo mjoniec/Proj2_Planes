@@ -7,21 +7,14 @@ namespace MockAirTrafficinfoApi.Services
     public class AirTrafficInfoService
     {
         private readonly AirTrafficInfoContract _airTrafficInfoContract;
-        private readonly string _name;
-
-        private PlaneContract _planeContract1;
-        private PlaneContract _planeContract2;
-        private PlaneContract _planeContract3;
-
+        
         public AirTrafficInfoService()
         {
-            _name = "MockAirTrafficInfoName_" + new Random().Next(1001, 9999).ToString();
-
             var airport1 = new AirportContract
             {
                 Name = "Airport 1",
-                Longitude = 0,
-                Latitude = 0,
+                Longitude = -82,
+                Latitude = 32,
                 Color = "#FF1111",
                 SymbolRotate = 45,
                 IsGoodWeather = true
@@ -30,8 +23,8 @@ namespace MockAirTrafficinfoApi.Services
             var airport2 = new AirportContract
             {
                 Name = "Airport 2",
-                Longitude = 100,
-                Latitude = 0,
+                Longitude = 10,
+                Latitude = 52,
                 Color = "#1111FF",
                 SymbolRotate = 45,
                 IsGoodWeather = true
@@ -40,14 +33,14 @@ namespace MockAirTrafficinfoApi.Services
             var airport3 = new AirportContract
             {
                 Name = "Airport 3",
-                Longitude = 100,
-                Latitude = 100,
+                Longitude = -43,
+                Latitude = -20,
                 Color = "#11FF11",
                 SymbolRotate = 45,
                 IsGoodWeather = true
             };
 
-            _planeContract1 = new PlaneContract
+            var planeContract1 = new PlaneContract
             {
                 Name = "Plane 1",
                 Longitude = 75,
@@ -59,7 +52,7 @@ namespace MockAirTrafficinfoApi.Services
                 DestinationAirport = airport2
             };
 
-            _planeContract2 = new PlaneContract
+            var planeContract2 = new PlaneContract
             {
                 Name = "Plane 2",
                 Longitude = 100,
@@ -71,7 +64,7 @@ namespace MockAirTrafficinfoApi.Services
                 DestinationAirport = airport2
             };
 
-            _planeContract3 = new PlaneContract
+            var planeContract3 = new PlaneContract
             {
                 Name = "Plane 3",
                 Longitude = 50,
@@ -93,27 +86,69 @@ namespace MockAirTrafficinfoApi.Services
                 },
                 Planes = new List<PlaneContract>
                 {
-                    _planeContract1,
-                    _planeContract2,
-                    _planeContract3
+                    planeContract1,
+                    planeContract2,
+                    planeContract3
                 }
             };
         }
 
         internal AirTrafficInfoContract GetAirTrafficInfo()
         {
-            //simulates update
-            _planeContract1.Longitude++;
-            _planeContract2.Latitude--;
-            _planeContract3.Latitude++;
-            _planeContract3.Longitude++;
-
             return _airTrafficInfoContract;
         }
 
         internal void UpdateAirTrafficInfo()
         {
-            _airTrafficInfoContract.Planes.ForEach(p => p.Longitude += 1);
+            _airTrafficInfoContract.Planes.ForEach(p => UpdatePlane(p));
+        }
+
+        private void UpdatePlane(PlaneContract planeContract)
+        {
+            if (planeContract.DestinationAirport.Latitude > planeContract.Latitude)
+            {
+                planeContract.Latitude++;
+            }
+            else if (planeContract.DestinationAirport.Latitude < planeContract.Latitude)
+            {
+                planeContract.Latitude--;
+            }
+
+            if (planeContract.DestinationAirport.Longitude > planeContract.Longitude)
+            {
+                planeContract.Longitude++;
+            }
+            else if (planeContract.DestinationAirport.Longitude < planeContract.Longitude)
+            {
+                planeContract.Longitude--;
+            }
+
+            if (planeContract.DestinationAirport.Latitude == planeContract.Latitude &&
+                planeContract.DestinationAirport.Longitude == planeContract.Longitude)
+            {
+                SelectNewDestinationAirport(planeContract);
+            }
+        }
+
+        private void SelectNewDestinationAirport(PlaneContract planeContract)
+        {
+            var random = new Random();
+
+            while (true)
+            {
+                var nextAirport = _airTrafficInfoContract.Airports[random
+                    .Next(0, _airTrafficInfoContract.Airports.Count)];
+
+                if (
+                    planeContract.DestinationAirport == null || //no destination so we can assign whatever
+                    planeContract.DestinationAirport.Name != nextAirport.Name)
+                {
+                    planeContract.DepartureAirport = planeContract.DestinationAirport;
+                    planeContract.DestinationAirport = nextAirport;
+
+                    break;
+                }
+            }
         }
     }
 }
