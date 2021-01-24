@@ -1,3 +1,12 @@
+# Possible Backend Setups:
+
+- localhost Mock - Info Api with services
+- localhost on premises - running Info Api and each plane and airport service in separate console, has to be launched manually
+- localhost Dockerised - running Info Api and each plane and airport in separate container
+- Azure Mock - free hosting
+- Azure Dockerised - TODO
+
+
 # Docker 
 
 ## test
