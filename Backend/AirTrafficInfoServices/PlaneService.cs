@@ -22,7 +22,10 @@ namespace AirTrafficInfoServices
             _httpClient = new HttpClient();
             _planeContract = new PlaneContract
             {
-                Name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString()
+                Name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
+                Longitude = new Random().Next(-100, 100),
+                Latitude = new Random().Next(1, 70),
+                SpeedInMetersPerSecond = 10000
             };
         }
 
@@ -32,10 +35,6 @@ namespace AirTrafficInfoServices
             var url = _hostEnvironment.EnvironmentName == "Docker"
                 ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo"
                 : $"https://localhost:44389/api/airtrafficinfo/UpdatePlaneInfo";
-
-            _planeContract.Longitude = new Random().Next(1, 100);
-            _planeContract.Latitude = new Random().Next(1, 100);
-            _planeContract.SpeedInMetersPerSecond = 10000;
 
             await SetupDestinationAirportForNewPlane();
 

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,11 +13,12 @@ namespace Plane
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) => 
+                {
+                    config.AddCommandLine(args); 
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    //var s = args[0]; //TODO: get number of container and paste to plane name
-                    // on if condition if docker environment
-
                     services.AddHostedService<Plane>();
                 });
     }

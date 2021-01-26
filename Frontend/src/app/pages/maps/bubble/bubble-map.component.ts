@@ -141,7 +141,7 @@ export class BubbleMapComponent implements OnDestroy {
                             itemOpt.longitude,
                             itemOpt.latitude,
                             //itemOpt.value
-                            30
+                            20
                           ],
                           itemStyle: {
                             normal: {
@@ -163,7 +163,7 @@ export class BubbleMapComponent implements OnDestroy {
                             itemOpt.longitude,
                             itemOpt.latitude,
                             // itemOpt.value,
-                            80
+                            70
                           ],
                           itemStyle: {
                             normal: {

@@ -6,12 +6,12 @@ namespace Airport
 {
     public class Airport : AirTrafficBackgroundService
     {
-        private readonly IConfiguration _configuration;
-        
         public Airport(IConfiguration configuration, IHostEnvironment hostEnvironment)
-            : base(new AirportService(hostEnvironment))
+            : base(new AirportService(configuration, hostEnvironment))
         {
-            _configuration = configuration;
+            //works on premises ps launch - dotnet run --color=888111
+            //var color = configuration.GetValue<string>("color");
+            //Console.WriteLine(color + " test");
         }
     }
 }

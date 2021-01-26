@@ -31,6 +31,16 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8002:80"
+  Plane_3:
+    image: plane
+    container_name: plane_3
+    build:
+      context: ./Plane
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8003:80"
   Airport_1:
     image: airport
     container_name: airport_1
@@ -41,6 +51,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8801:80"
+    command: color=#ff0000
   Airport_2:
     image: airport
     container_name: airport_2
@@ -51,3 +62,15 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8802:80"
+    command: color=#00ff00
+  Airport_3:
+    image: airport
+    container_name: airport_3
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8803:80"
+    command: color=#0000ff

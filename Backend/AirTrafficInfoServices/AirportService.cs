@@ -1,4 +1,5 @@
 ﻿using AirTrafficInfoContracts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -15,14 +16,16 @@ namespace AirTrafficInfoServices
         private readonly HttpClient _httpClient;
         private readonly AirportContract _airportContract;
 
-        public AirportService(IHostEnvironment hostEnvironment)
+        public AirportService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
+            var color = configuration.GetValue<string>("color");//required to install nuget: Microsoft.Extensions.Configuration.Binder
+
             _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
             _airportContract = new AirportContract
             {
                 Name = "Airport_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
-                Color = "#" + new Random().Next(100000, 999999).ToString()
+                Color = color == string.Empty ? "#" + new Random().Next(100000, 999999).ToString() : color
             };
         }
 
@@ -37,8 +40,8 @@ namespace AirTrafficInfoServices
                 ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo"
                 : $"https://localhost:44389/api/airtrafficinfo/UpdateAirportInfo";
 
-            _airportContract.Longitude = new Random().Next(1, 100);
-            _airportContract.Latitude = new Random().Next(1, 100);
+            _airportContract.Longitude = new Random().Next(-100, 100);
+            _airportContract.Latitude = new Random().Next(1, 70);
 
             while (!stoppingToken.IsCancellationRequested)
             {
