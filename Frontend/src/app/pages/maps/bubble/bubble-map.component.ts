@@ -93,8 +93,16 @@ export class BubbleMapComponent implements OnDestroy {
                   },
                   tooltip: {
                     trigger: 'item',
+
+                    useHTML: true,
+                    // formatter: function() {
+                    //   var img = '<img src = "assets/images/eva.png" height="50" width="50"/><p>plane 1</p>'
+                    //   return img
+                    // },
+
                     formatter: params => {
-                      return `${params.name}: ${params.value[2]}`;
+                      //return `${params.name}: ${params.value[2]}`;
+                      return `<img src = "assets/images/${params.name}.png" height="50" width="50"/>${params.name}: ${params.value[2]}`
                     },
                   },
                   visualMap: {
@@ -153,6 +161,7 @@ export class BubbleMapComponent implements OnDestroy {
                     },
                     {
                       type: 'graph',
+                      //type: 'scatter',
                       coordinateSystem: 'geo',
                       data: this.mapData2.map(itemOpt => {
                         return {
@@ -185,8 +194,9 @@ export class BubbleMapComponent implements OnDestroy {
   }
 
   private getAirTrafficInfo(){
-    //return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');//todo figure out environment detection? or split to 2 pages each constantly pointing each azure hosting - dockerised and mock
-    // return this.http.get('https://localhost:44389/api/AirTrafficInfo');
-    return this.http.get('http://localhost:8880/api/AirTrafficInfo');//Docker localhost
+    //todo figure out environment detection? or split to 2 pages each constantly pointing each azure hosting - dockerised and mock
+    return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');//localhost on premises mock
+     //return this.http.get('https://localhost:44389/api/AirTrafficInfo');//localhost on premises
+    //return this.http.get('http://localhost:8880/api/AirTrafficInfo');//Docker localhost
   }
 }
