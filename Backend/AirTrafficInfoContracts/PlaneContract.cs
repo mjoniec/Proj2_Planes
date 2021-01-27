@@ -7,7 +7,8 @@ namespace AirTrafficInfoContracts
         public string Name { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public DateTime PositionUpdateTime { get; set; }
+        public DateTime LastPositionUpdate { get; set; }
+        public DateTime DepartureTime { get; set; }
         public double SpeedInMetersPerSecond { get; set; }
         public AirportContract DepartureAirport { get; set; }
         public AirportContract DestinationAirport { get; set; }
@@ -17,11 +18,5 @@ namespace AirTrafficInfoContracts
         public string Color => DestinationAirport.Color;
         public double SymbolRotate { get; set; }
         public string Symbol => "arrow";
-
-        //remove that method from here to some extension
-        public void SetSpeedFromKilometersPerHour(int speedInKmH)
-        {
-            SpeedInMetersPerSecond = speedInKmH * 3600 * 1000;
-        }
     }
 }
