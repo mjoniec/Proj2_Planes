@@ -28,6 +28,7 @@ namespace AirTrafficInfoServices
             var bearing = CalculateBearing(plane.DepartureAirport.Latitude, plane.DepartureAirport.Longitude, plane.DestinationAirport.Latitude, plane.DestinationAirport.Longitude);
             var position = CalculatePosition(plane.DepartureAirport.Latitude, plane.DepartureAirport.Longitude, bearing, distanceCoveredInMeters);
 
+            plane.SymbolRotate = bearing;//to be verified if 2 rotation angle is assignable directly from bearing
             plane.Latitude = position[0];
             plane.Longitude = position[1];
         }

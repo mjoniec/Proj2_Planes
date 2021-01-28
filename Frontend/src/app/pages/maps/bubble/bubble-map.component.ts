@@ -102,7 +102,8 @@ export class BubbleMapComponent implements OnDestroy {
 
                     formatter: params => {
                       //return `${params.name}: ${params.value[2]}`;
-                      return `<img src = "assets/images/${params.name}.png" height="50" width="50"/>${params.name}: ${params.value[2]}`
+                      // return `<img src = "assets/images/${params.name}.png" height="50" width="50"/>${params.name}: ${params.value[2]}`
+                      return `<img src = "assets/images/Plane 1.png" height="50" width="50"/>`
                     },
                   },
                   visualMap: {
@@ -195,8 +196,8 @@ export class BubbleMapComponent implements OnDestroy {
 
   private getAirTrafficInfo(){
     //todo figure out environment detection? or split to 2 pages each constantly pointing each azure hosting - dockerised and mock
-    return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');//localhost on premises mock
-     //return this.http.get('https://localhost:44389/api/AirTrafficInfo');//localhost on premises
+    //return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');//localhost on premises mock
+    return this.http.get('https://localhost:44389/api/AirTrafficInfo');//localhost on premises
     //return this.http.get('http://localhost:8880/api/AirTrafficInfo');//Docker localhost
   }
 }

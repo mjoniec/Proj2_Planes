@@ -23,9 +23,15 @@ namespace AirTrafficInfoServices
             _planeContract = new PlaneContract
             {
                 Name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
-                Longitude = new Random().Next(-100, 100),
-                Latitude = new Random().Next(1, 70),
-                SpeedInMetersPerSecond = 10000
+                DepartureTime = DateTime.Now,
+                DepartureAirport = new AirportContract//for starting position lat long is what is only needed
+                {
+                    Longitude = new Random().Next(-100, 100),
+                    Latitude = new Random().Next(1, 70)
+                },
+                //Longitude = new Random().Next(-100, 100),
+                //Latitude = new Random().Next(1, 70),
+                SpeedInMetersPerSecond = 100000
             };
         }
 
@@ -87,9 +93,13 @@ namespace AirTrafficInfoServices
             {
                 var nextAirport = airports[random.Next(0, airports.Count)];
 
-                if (
-                    _planeContract.DestinationAirport == null || //no destination so we can assign whatever
-                    _planeContract.DestinationAirport.Name != nextAirport.Name)
+                if (_planeContract.DestinationAirport == null) //no destination so we can assign whatever
+                {
+                    _planeContract.DestinationAirport = nextAirport;
+
+                    break;
+                }
+                else if (_planeContract.DestinationAirport.Name != nextAirport.Name)
                 {
                     _planeContract.DepartureAirport = _planeContract.DestinationAirport;
                     _planeContract.DestinationAirport = nextAirport;
@@ -101,26 +111,30 @@ namespace AirTrafficInfoServices
 
         private async Task UpdatePlane()
         {
-            if (_planeContract.DestinationAirport.Latitude > _planeContract.Latitude)
-            {
-                _planeContract.Latitude++;
-            }
-            else if (_planeContract.DestinationAirport.Latitude < _planeContract.Latitude)
-            {
-                _planeContract.Latitude--;
-            }
+            var currentTime = DateTime.Now;
 
-            if (_planeContract.DestinationAirport.Longitude > _planeContract.Longitude)
-            {
-                _planeContract.Longitude++;
-            }
-            else if (_planeContract.DestinationAirport.Longitude < _planeContract.Longitude)
-            {
-                _planeContract.Longitude--;
-            }
+            PlaneNavigation.MovePlane(_planeContract, currentTime);
 
-            if (_planeContract.DestinationAirport.Latitude == _planeContract.Latitude &&
-                _planeContract.DestinationAirport.Longitude == _planeContract.Longitude)
+            //if (_planeContract.DestinationAirport.Latitude > _planeContract.Latitude)
+            //{
+            //    _planeContract.Latitude++;
+            //}
+            //else if (_planeContract.DestinationAirport.Latitude < _planeContract.Latitude)
+            //{
+            //    _planeContract.Latitude--;
+            //}
+
+            //if (_planeContract.DestinationAirport.Longitude > _planeContract.Longitude)
+            //{
+            //    _planeContract.Longitude++;
+            //}
+            //else if (_planeContract.DestinationAirport.Longitude < _planeContract.Longitude)
+            //{
+            //    _planeContract.Longitude--;
+            //}
+
+            if (Math.Abs(_planeContract.DestinationAirport.Latitude - _planeContract.Latitude) <= 0.1 &&
+                Math.Abs(_planeContract.DestinationAirport.Longitude - _planeContract.Longitude) <= 0.1)
             {
                 await SelectNewDestinationAirport();
             }

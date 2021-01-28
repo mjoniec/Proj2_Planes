@@ -25,7 +25,7 @@ namespace AirTrafficInfoServices
             _airportContract = new AirportContract
             {
                 Name = "Airport_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
-                Color = color == string.Empty ? "#" + new Random().Next(100000, 999999).ToString() : color
+                Color = string.IsNullOrEmpty(color) ? "#" + new Random().Next(100000, 999999).ToString() : color
             };
         }
 
