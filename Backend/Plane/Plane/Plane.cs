@@ -149,7 +149,7 @@ namespace Plane
         {
             var currentTime = DateTime.Now;
 
-            PlaneNavigation.MovePlane(_planeContract, currentTime);
+            PlaneNavigation2.MovePlane(_planeContract, currentTime);
 
             if (HasplaneReachedItsDestination())
             {
