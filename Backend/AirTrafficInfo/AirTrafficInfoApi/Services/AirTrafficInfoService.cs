@@ -37,8 +37,11 @@ namespace AirTrafficInfoApi.Services
             {
                 var planeToUpdate = _planes.First(p => p.Name == planeContract.Name);
 
+                //make a read model out of it?
                 planeToUpdate.Latitude = planeContract.Latitude;
                 planeToUpdate.Longitude = planeContract.Longitude;
+                planeToUpdate.Color = planeContract.Color;
+                planeToUpdate.SymbolRotate = planeContract.SymbolRotate;
             }
         }
 
