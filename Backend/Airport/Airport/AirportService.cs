@@ -1,34 +1,23 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using AirTrafficInfoContracts;
 using AirTrafficInfoServices;
-using System.Net.Http;
-using AirTrafficInfoContracts;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Airport
 {
-    public class Airport : AirTrafficBackgroundService
-    {
-        public Airport(IConfiguration configuration, IHostEnvironment hostEnvironment)
-            : base(new AirportService2(configuration, hostEnvironment))
-        {
-            //works on premises ps launch - dotnet run --color=888111
-            //var color = configuration.GetValue<string>("color");
-            //Console.WriteLine(color + " test");
-        }
-    }
-
-    public class AirportService2 : IAirTrafficService
+    public class AirportService : IAirTrafficService
     {
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private readonly AirportContract _airportContract;
 
-        public AirportService2(IConfiguration configuration, IHostEnvironment hostEnvironment)
+        public AirportService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             var color = configuration.GetValue<string>("color");//required to install nuget: Microsoft.Extensions.Configuration.Binder
 

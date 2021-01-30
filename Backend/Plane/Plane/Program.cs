@@ -19,7 +19,7 @@ namespace Plane
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Plane>();
+                    services.AddHostedService<PlaneBackgroundService>();
                 });
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AirTrafficInfoContracts;
 using AirTrafficInfoServices;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -12,28 +11,13 @@ using System.Threading.Tasks;
 
 namespace Plane
 {
-    public class Plane : AirTrafficBackgroundService
-    {
-        private readonly IConfiguration _configuration;
-        
-        public Plane(IConfiguration configuration, IHostEnvironment hostEnvironment) 
-            : base(new PlaneService2(hostEnvironment))
-        {
-            _configuration = configuration;
-
-            //works on premises ps launch - dotnet run --color=888111
-            //var color = _configuration.GetValue<string>("color");
-            //Console.WriteLine(color + " test");
-        }
-    }
-
-    public class PlaneService2 : IAirTrafficService
+    public class PlaneService : IAirTrafficService
     {
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private PlaneContract _planeContract;
 
-        public PlaneService2(IHostEnvironment hostEnvironment)
+        public PlaneService(IHostEnvironment hostEnvironment)
         {
             _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
@@ -151,7 +135,7 @@ namespace Plane
         {
             var currentTime = DateTime.Now;
 
-            PlaneNavigation2.MovePlane(ref _planeContract, currentTime);
+            Navigation.MovePlane(ref _planeContract, currentTime);
 
             _planeContract.LastPositionUpdate = currentTime;
 

@@ -1,11 +1,10 @@
 ﻿using AirTrafficInfoContracts;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Plane
 {
-    public static class PlaneNavigation2
+    public static class Navigation
     {
         /// <summary>
         /// Updates Latitude and Longitude by speed, destination airport amd time passed since last departure airport till now
@@ -40,7 +39,7 @@ namespace Plane
             var travelDurationSinceLastUpdateInMiliseconds = currentTime.Subtract(plane.LastPositionUpdate).TotalMilliseconds;
             var distanceCoveredInMeters = plane.SpeedInMetersPerSecond * travelDurationSinceLastUpdateInMiliseconds / 1000;
             //var bearing = CalculateBearing(plane.DepartureAirport.Latitude, plane.DepartureAirport.Longitude, plane.DestinationAirport.Latitude, plane.DestinationAirport.Longitude);
-            
+
             var bearing = BearingFromCoordinates(lat1Rad, lon1Rad, lat2Rad, lon2Rad);
             var position = CalculatePosition(lat1Rad, lon1Rad, bearing, distanceCoveredInMeters);
 

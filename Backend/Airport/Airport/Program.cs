@@ -19,7 +19,7 @@ namespace Airport
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Airport>();
+                    services.AddHostedService<AirportBackgroundService>();
                 });
     }
 }
