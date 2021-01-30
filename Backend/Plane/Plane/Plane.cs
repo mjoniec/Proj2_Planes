@@ -31,7 +31,7 @@ namespace Plane
     {
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
-        private readonly PlaneContract _planeContract;
+        private PlaneContract _planeContract;
 
         public PlaneService2(IHostEnvironment hostEnvironment)
         {
@@ -40,7 +40,7 @@ namespace Plane
             _planeContract = new PlaneContract
             {
                 Name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
-                SpeedInMetersPerSecond = 1000000
+                SpeedInMetersPerSecond = 3000000
             };
         }
 
@@ -62,7 +62,7 @@ namespace Plane
                     new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 
-                await Task.Delay(1100, stoppingToken);
+                await Task.Delay(600, stoppingToken);
             }
         }
 
@@ -89,6 +89,7 @@ namespace Plane
                     _planeContract.DepartureAirport = departureAirport;
                     _planeContract.DestinationAirport = destinationAirport;
                     _planeContract.DepartureTime = DateTime.Now;
+                    _planeContract.LastPositionUpdate = DateTime.Now;
 
                     break;
                 }
@@ -119,6 +120,7 @@ namespace Plane
                     _planeContract.DepartureAirport = _planeContract.DestinationAirport;
                     _planeContract.DestinationAirport = newDestinationAirport;
                     _planeContract.DepartureTime = DateTime.Now;
+                    _planeContract.Color = newDestinationAirport.Color;
 
                     break;
                 }
@@ -149,7 +151,9 @@ namespace Plane
         {
             var currentTime = DateTime.Now;
 
-            PlaneNavigation2.MovePlane(_planeContract, currentTime);
+            PlaneNavigation2.MovePlane(ref _planeContract, currentTime);
+
+            _planeContract.LastPositionUpdate = currentTime;
 
             if (HasplaneReachedItsDestination())
             {
@@ -159,8 +163,8 @@ namespace Plane
 
         private bool HasplaneReachedItsDestination()
         {
-            return (Math.Abs(_planeContract.DestinationAirport.Latitude - _planeContract.Latitude) <= 0.1 &&
-                Math.Abs(_planeContract.DestinationAirport.Longitude - _planeContract.Longitude) <= 0.1);
+            return (Math.Abs(_planeContract.DestinationAirport.Latitude - _planeContract.Latitude) <= 1 &&
+                Math.Abs(_planeContract.DestinationAirport.Longitude - _planeContract.Longitude) <= 1);
         }
     }
 }

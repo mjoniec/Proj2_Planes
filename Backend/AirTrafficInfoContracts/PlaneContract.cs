@@ -12,10 +12,11 @@ namespace AirTrafficInfoContracts
         public double SpeedInMetersPerSecond { get; set; }
         public AirportContract DepartureAirport { get; set; }
         public AirportContract DestinationAirport { get; set; }
-        public Type Type => Type.Plane;
+        public Type Type => Type.Plane;//this does not change hence could be readonly property
 
         //UI related
-        public string Color => DestinationAirport.Color;
+        //public string Color => DestinationAirport.Color;
+        public string Color { get; set; } // angular doesnt always refresh referencing properties - has to be poco
         public double SymbolRotate { get; set; }
         public string Symbol => "arrow";
     }

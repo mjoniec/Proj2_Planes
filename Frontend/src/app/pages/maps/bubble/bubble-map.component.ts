@@ -117,7 +117,7 @@ export class BubbleMapComponent implements OnDestroy {
                     },
                   },
                   geo: {
-                    name: 'World Population (2010)',
+                    name: 'World Population (2010)',//change that
                     type: 'map',
                     map: 'world',
                     roam: true,

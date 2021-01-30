@@ -12,49 +12,81 @@ namespace Plane
         /// Based on: https://www.movable-type.co.uk/scripts/latlong.html#destPoint
         /// </summary>
         /// <param name="geoCoordinate"></param>
-        public static void MovePlane(PlaneContract plane, DateTime currentTime)
+        public static void MovePlane(ref PlaneContract plane, DateTime currentTime)
         {
             //given:
-            //  departure and current time
+            //  departure time and current time
             //  speed
-            //  destination and departure position
+            //  destination position and departure position
 
             //calculate:
             //  traveled distance
             //  bearing
-            //  current position from departure distance and bearing
+            //  current position from departure position, distance and bearing
 
-            var travelDurationInSeconds = currentTime.Subtract(plane.DepartureTime).TotalSeconds;
-            var distanceCoveredInMeters = plane.SpeedInMetersPerSecond * travelDurationInSeconds;
+            //double lat1 = plane.DepartureAirport.Latitude;
+            //double lon1 = plane.DepartureAirport.Longitude;
+            double lat1 = plane.Latitude;
+            double lon1 = plane.Longitude;
+            double lat2 = plane.DestinationAirport.Latitude;
+            double lon2 = plane.DestinationAirport.Longitude;
+
+            double lat1Rad = ToRadians(lat1);
+            double lon1Rad = ToRadians(lon1);
+            double lat2Rad = ToRadians(lat2);
+            double lon2Rad = ToRadians(lon2);
+
+            //var travelDurationInMiliseconds = currentTime.Subtract(plane.DepartureTime).TotalMilliseconds;
+            var travelDurationSinceLastUpdateInMiliseconds = currentTime.Subtract(plane.LastPositionUpdate).TotalMilliseconds;
+            var distanceCoveredInMeters = plane.SpeedInMetersPerSecond * travelDurationSinceLastUpdateInMiliseconds / 1000;
             //var bearing = CalculateBearing(plane.DepartureAirport.Latitude, plane.DepartureAirport.Longitude, plane.DestinationAirport.Latitude, plane.DestinationAirport.Longitude);
-            var bearing = BearingFromCoordinate(plane.DepartureAirport.Latitude, plane.DepartureAirport.Longitude, plane.DestinationAirport.Latitude, plane.DestinationAirport.Longitude);
-            var position = CalculatePosition(plane.DepartureAirport.Latitude, plane.DepartureAirport.Longitude, bearing, distanceCoveredInMeters);
+            
+            var bearing = BearingFromCoordinates(lat1Rad, lon1Rad, lat2Rad, lon2Rad);
+            var position = CalculatePosition(lat1Rad, lon1Rad, bearing, distanceCoveredInMeters);
 
-            plane.SymbolRotate = bearing;//to be verified if 2 rotation angle is assignable directly from bearing
+            plane.SymbolRotate = bearing;
             plane.Latitude = position[0];
             plane.Longitude = position[1];
         }
 
-        private static double BearingFromCoordinate(double lat1, double long1, double lat2, double long2)
+        private static double BearingFromCoordinates(double lat1Rad, double lon1Rad, double lat2Rad, double lon2Rad)
         {
-            double dLon = (long2 - long1);
+            double dLonRad = (lon2Rad - lon1Rad);
 
-            double y = Math.Sin(dLon) * Math.Cos(lat2);
-            double x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1)
-                    * Math.Cos(lat2) * Math.Cos(dLon);
+            double y = Math.Sin(dLonRad) * Math.Cos(lat2Rad);
+            double x = Math.Cos(lat1Rad) * Math.Sin(lat2Rad) - Math.Sin(lat1Rad)
+                     * Math.Cos(lat2Rad) * Math.Cos(dLonRad);
 
-            double brng = Math.Atan2(y, x);
+            double brngRad = Math.Atan2(y, x);
+            double brngDeg = ToDegrees(brngRad);
+
+            double brng = (brngDeg + 360) % 360;
 
             return brng;
         }
 
-        private static double AngleFromBearing(double brng)
+        /// <summary>
+        /// Calculate a new coordinate based on start, distance and bearing
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <param name="bearing"></param>
+        /// <param name="distance">in meters</param>
+        /// <returns>list[latitude, longitude]</returns>
+        private static List<double> CalculatePosition(double lat1Rad, double lon1Rad, double bearing, double distance)
         {
-            //brng = Math.dToDegrees(brng);
-            brng = (brng + 360) % 360;
-            brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
+            var d = distance / 63710100.0; //Earth's radius in m
+            var b = ToRadians(bearing);
 
-            return brng;
+            var lat2 = Math.Asin(Math.Sin(lat1Rad) * Math.Cos(d) +
+                                 Math.Cos(lat1Rad) * Math.Sin(d) * Math.Cos(b));
+
+            var lon2 = lon1Rad + Math.Atan2(Math.Sin(b) * Math.Sin(d) * Math.Cos(lat1Rad),
+                              Math.Cos(d) - Math.Sin(lat1Rad) * Math.Sin(lat2));
+
+            lon2 = ((lon2 + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
+
+            return new List<double> { ToDegrees(lat2), ToDegrees(lon2) };
         }
 
         /// <summary>
@@ -67,7 +99,7 @@ namespace Plane
         /// <param name="lat2"></param>
         /// <param name="lon2"></param>
         /// <returns></returns>
-        private static double CalculateBearing(double lat1, double lon1, double lat2, double lon2)
+        private static double CalculateBearing2(double lat1, double lon1, double lat2, double lon2)
         {
             var y = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
             var x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon2 - lon1);
@@ -95,40 +127,14 @@ namespace Plane
             return bearing;
         }
 
-        /// <summary>
-        /// Calculate a new coordinate based on start, distance and bearing
-        /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        /// <param name="bearing"></param>
-        /// <param name="distance">in meters</param>
-        /// <returns>list[latitude, longitude]</returns>
-        private static List<double> CalculatePosition(double latitude, double longitude, double bearing, double distance)
+        static double ToRadians(double degree)
         {
-            var lat1 = ToRadians(latitude);
-            var lon1 = ToRadians(longitude);
-            var d = distance / 63710100.0; //Earth's radius in m
-            var b = ToRadians(bearing);
+            return degree * Math.PI / 180;
+        }
 
-            var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(d) +
-                  Math.Cos(lat1) * Math.Sin(d) * Math.Cos(b));
-
-            var lon2 = lon1 + Math.Atan2(Math.Sin(b) * Math.Sin(d) * Math.Cos(lat1),
-                          Math.Cos(d) - Math.Sin(lat1) * Math.Sin(lat2));
-
-            lon2 = ((lon2 + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
-
-            return new List<double> { ToDegrees(lat2), ToDegrees(lon2) };
-
-            static double ToRadians(double degree)
-            {
-                return degree * Math.PI / 180;
-            }
-
-            static double ToDegrees(double radians)
-            {
-                return radians * 180 / Math.PI;
-            }
+        static double ToDegrees(double radians)
+        {
+            return radians * 180 / Math.PI;
         }
     }
 }
