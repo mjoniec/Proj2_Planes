@@ -111,7 +111,7 @@ export class BubbleMapComponent implements OnDestroy {
                     min: 0,
                     max: this.max,
                     inRange: {
-                      symbolSize: [3, 30]//,
+                      symbolSize: [2, 15]//,
                       //symbol: 'triangle' // overrides each individual item style
                       //symbol: 'arrow'
                     },
@@ -150,7 +150,7 @@ export class BubbleMapComponent implements OnDestroy {
                             itemOpt.longitude,
                             itemOpt.latitude,
                             //itemOpt.value
-                            20
+                            10
                           ],
                           itemStyle: {
                             normal: {
@@ -173,7 +173,7 @@ export class BubbleMapComponent implements OnDestroy {
                             itemOpt.longitude,
                             itemOpt.latitude,
                             // itemOpt.value,
-                            70
+                            20
                           ],
                           itemStyle: {
                             normal: {
