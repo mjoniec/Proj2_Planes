@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AirTrafficInfoContracts
 {
@@ -7,12 +8,24 @@ namespace AirTrafficInfoContracts
         public string Name { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public double SpeedInMetersPerSecond { get; set; }
         public DateTime LastPositionUpdate { get; set; }
         public DateTime DepartureTime { get; set; }
-        public double SpeedInMetersPerSecond { get; set; }
-        public AirportContract DepartureAirport { get; set; }
-        public AirportContract DestinationAirport { get; set; }
-        public Type Type => Type.Plane;//this does not change hence could be readonly property
+
+        public List<double> PreviousPositionsLatitude { get; set; }
+        public List<double> PreviousPositionsLongitude { get; set; }
+
+        //Airport copy
+        public string DepartureAirportName { get; set; }
+        public double DepartureAirportLatitude { get; set; }
+        public double DepartureAirportLongitude { get; set; }
+        public string DestinationAirportName { get; set; }
+        public double DestinationAirportLatitude { get; set; }
+        public double DestinationAirportLongitude { get; set; }
+
+        //const
+        public Type Type => Type.Plane; //this does not change hence could be readonly property
+        public int PositionsHistory = 9; //this could go to refactor to be read from some config etc
 
         //UI related
         //public string Color => DestinationAirport.Color;

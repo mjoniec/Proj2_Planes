@@ -6,9 +6,12 @@
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Color { get; set; }
-        public double SymbolRotate { get; set; }
-        public string Symbol => "triangle";
         public bool IsGoodWeather { get; set; }
+
+        //const
         public Type Type => Type.Airport;
+        
+        //UI related
+        public string Symbol => "triangle";
     }
 }
