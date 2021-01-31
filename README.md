@@ -1,48 +1,62 @@
-# Possible Backend Setups:
+# Possible Setups:
 
-- localhost Mock - Info Api with services
-- localhost on premises - running Info Api and each plane and airport service in separate console, has to be launched manually
-- localhost Dockerised - running Info Api and each plane and airport in separate container
-- Azure Mock - free hosting
-- Azure Dockerised - TODO
+- localhost On Premises Ui + localhost On Premises Mock Api
+- localhost On Premises Ui + localhost On Premises Microservices - ps script
+- localhost On Premises Ui + localhost Dockerised Microservices - compose file
+- Azure On Premises Ui + Azure On Premises Mock Api
+- Azure On Premises Ui + Azure Dockerised Microservices
 
+
+# Run - On Premises
+
+- dotnet run --color=#888111 - run service with parameters
+- https://localhost:44389/api/AirTrafficInfo
+- http://localhost:4200/pages/maps/bubble
+
+# Run - Docker Compose 
+
+- docker-compose up
+- docker-compose up --build --force-recreate --no-deps
+- docker-compose down
+- http://localhost:8880/api/AirTrafficInfo
 
 # Docker 
 
-## test
-
-http://localhost:8880/api/AirTrafficInfo
-
-## status check
+status check
 
 - docker -v
-- docker ps
-- docker ps --all
+- docker ps - lists running containers
+- docker ps --all - not always shows what expected
 - docker image list
 - docker image ls
 - docker container ls -a (works best)
 - docker container list -all
 - docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" metalsprices_test1
 
-## build
+build
+
 - docker build -t image_name . 
+
+run
+
 - docker run -d -p 8080:80 --name container_name image_name
+- docker run -d -p 8081:81 --name plane_1 plane
+- docker run -d -p 8082:82 --name plane_2 plane
 
 -d: This is short for detach and means that the Docker container will run in the background. We won’t be seeing any output from the application that’s running inside the container. If we want to see that output, we can use:
 docker logs container_name
 
-## cleanup
+cleanup
 
-- docker rmi image_id
-- docker rm container_id
-- docker stop container_id
+- docker stop 1111_container_id
+- docker container rm 1111_container_id
+- docker rmi 2222_image_id
+- docker rm 1111_container_id
+- docker stop 1111_container_id
 - docker container prune -f (remove all containers, not asking for confirmation)
 - docker-compose down - stops and removes containers
 
-## compose
-
-- docker-compose up
-- docker-compose up --build --force-recreate --no-deps
+## compose info
 
   --force-recreate    Recreate containers even if their configuration
                       and image haven't changed.
@@ -62,28 +76,9 @@ docker logs container_name
 docker system prune -a will delete all images, even ones for other projects. It's recommended against the usage of this.
 
 ## hub
+
 - docker login -u "user" -p "password" docker.io
 - docker push mjdocker31/test2api
 - https://hub.docker.com/repository/docker/mjdocker31
 
-## useful links:
 
-### Azure Deploy
-
-https://medium.com/@pugillum/asp-net-core-2-web-api-docker-and-azure-f84e28aa6267
-
-### Localhost run
-
-https://docs.docker.com/engine/examples/dotnetcore/
-
-### Dockerfile
-
-https://softchris.github.io/pages/dotnet-dockerize.html#why
-
-### VS project setup
-
-https://docs.microsoft.com/pl-pl/visualstudio/containers/tutorial-multicontainer?view=vs-2019
-
-### Docker Hub push common error
-
-https://forums.docker.com/t/docker-push-error-requested-access-to-the-resource-is-denied/64468/6
