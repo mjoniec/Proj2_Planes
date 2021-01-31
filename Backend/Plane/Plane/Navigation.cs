@@ -27,8 +27,8 @@ namespace Plane
             //double lon1 = plane.DepartureAirport.Longitude;
             double lat1 = plane.Latitude;
             double lon1 = plane.Longitude;
-            double lat2 = plane.DestinationAirport.Latitude;
-            double lon2 = plane.DestinationAirport.Longitude;
+            double lat2 = plane.DestinationAirportLatitude;
+            double lon2 = plane.DestinationAirportLongitude;
 
             double lat1Rad = ToRadians(lat1);
             double lon1Rad = ToRadians(lon1);

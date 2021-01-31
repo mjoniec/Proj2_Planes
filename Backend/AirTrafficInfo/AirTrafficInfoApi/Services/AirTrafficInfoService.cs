@@ -1,5 +1,4 @@
 ﻿using AirTrafficInfoContracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,13 +8,11 @@ namespace AirTrafficInfoApi.Services
     {
         private readonly List<PlaneContract> _planes;
         private readonly List<AirportContract> _airports;
-        private readonly string _name;
 
         public AirTrafficInfoService()
         {
             _planes = new List<PlaneContract>();
             _airports = new List<AirportContract>();
-            _name = "AirTrafficInfoName_" + new Random().Next(1001, 9999).ToString();
         }
 
         internal AirTrafficInfoContract GetAirTrafficInfo() =>
@@ -37,7 +34,7 @@ namespace AirTrafficInfoApi.Services
             {
                 var planeToUpdate = _planes.First(p => p.Name == planeContract.Name);
 
-                //make a read model out of it?
+                //make a separate presentation model out of it?
                 planeToUpdate.Latitude = planeContract.Latitude;
                 planeToUpdate.Longitude = planeContract.Longitude;
                 planeToUpdate.Color = planeContract.Color;
@@ -55,8 +52,8 @@ namespace AirTrafficInfoApi.Services
             {
                 var airportToUpdate = _airports.First(p => p.Name == airportContract.Name);
 
-                airportToUpdate.Latitude = airportContract.Latitude;
-                airportToUpdate.Longitude = airportContract.Longitude;
+                //new presentation model lat lon readonly as they do not change
+                airportToUpdate.IsGoodWeather = airportContract.IsGoodWeather;
             }
         }
     }

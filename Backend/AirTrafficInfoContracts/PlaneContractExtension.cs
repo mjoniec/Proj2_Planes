@@ -17,6 +17,15 @@
             planeContract.Color = airportContract.Color;
         }
 
+        public static void SetNewDestinationAndDepartureAirports(this PlaneContract planeContract, AirportContract newDestinationAirportContract)
+        {
+            planeContract.DepartureAirportName = planeContract.DestinationAirportName;
+            planeContract.DepartureAirportLatitude = planeContract.DestinationAirportLatitude;
+            planeContract.DepartureAirportLongitude = planeContract.DestinationAirportLongitude;
+
+            planeContract.SetDestinationAirportData(newDestinationAirportContract);
+        }
+
         public static void AddPositionToHistory(this PlaneContract planeContract, double latitude, double longitude)
         {
             if (planeContract.PreviousPositionsLatitude.Count >= planeContract.PositionsHistory)

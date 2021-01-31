@@ -52,65 +52,39 @@ namespace Plane
 
         private async Task SetupDestinationAndDepartureAirportsForNewPlane()
         {
-            var retryCount = 0;
             var airports = await GetCurrentlyAvailableAirports();
 
-            if (airports.Count < 2)
+            if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
-                _planeContract.DestinationAirport = null;
-                _planeContract.DepartureAirport = null;
+                EmptyDestinationAndDepartureAirports();
 
                 return;
             }
 
-            while (retryCount < 15)
-            {
-                var departureAirport = SelectRandomAirport(airports);
-                var destinationAirport = SelectRandomAirport(airports);
+            var randomDepartureAirport = SelectRandomAirport(airports);
+            var randomDestinationAirport = SelectRandomAirportExceptTheOneProvided(airports, randomDepartureAirport.Name);
 
-                if (departureAirport != destinationAirport)
-                {
-                    _planeContract.DepartureAirport = departureAirport;
-                    _planeContract.DestinationAirport = destinationAirport;
-                    _planeContract.DepartureTime = DateTime.Now;
-                    _planeContract.LastPositionUpdate = DateTime.Now;
-
-                    break;
-                }
-
-                retryCount++;
-            }
+            _planeContract.SetDepartureAirportData(randomDepartureAirport);
+            _planeContract.SetDestinationAirportData(randomDestinationAirport);
+            _planeContract.DepartureTime = DateTime.Now;
+            _planeContract.LastPositionUpdate = DateTime.Now;
         }
 
         private async Task SelectNewDestinationAirport()
         {
-            var retryCount = 0;
             var airports = await GetCurrentlyAvailableAirports();
 
-            if (airports.Count < 2)
+            if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
-                _planeContract.DestinationAirport = null;
-                _planeContract.DepartureAirport = null;
+                EmptyDestinationAndDepartureAirports();
 
                 return;
             }
 
-            while (retryCount < 15)
-            {
-                var newDestinationAirport = SelectRandomAirport(airports);
+            var randomDestinationAirport = SelectRandomAirportExceptTheOneProvided(airports, _planeContract.DestinationAirportName);
 
-                if (_planeContract.DestinationAirport != newDestinationAirport)
-                {
-                    _planeContract.DepartureAirport = _planeContract.DestinationAirport;
-                    _planeContract.DestinationAirport = newDestinationAirport;
-                    _planeContract.DepartureTime = DateTime.Now;
-                    _planeContract.Color = newDestinationAirport.Color;
-
-                    break;
-                }
-
-                retryCount++;
-            }
+            _planeContract.SetNewDestinationAndDepartureAirports(randomDestinationAirport);
+            _planeContract.DepartureTime = DateTime.Now;            
         }
 
         private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
@@ -126,9 +100,30 @@ namespace Plane
             return airports;
         }
 
+        private void EmptyDestinationAndDepartureAirports()
+        {
+            _planeContract.DestinationAirportName = string.Empty;
+            _planeContract.DepartureAirportName = string.Empty;
+            _planeContract.Color = "#000000";
+        }
+
+        private bool AreEnoughAirportsToSelectNewDestination(List<AirportContract> airports)
+        {
+            return airports.Count >= 2;
+        }
+
         private AirportContract SelectRandomAirport(List<AirportContract> airports)
         {
             return airports[new Random().Next(0, airports.Count)];
+        }
+
+        private AirportContract SelectRandomAirportExceptTheOneProvided(List<AirportContract> airports, string exceptThisAirportName)
+        {
+            var airportsWithoutException = new List<AirportContract>(airports);
+
+            airportsWithoutException.RemoveAll(a => a.Name == exceptThisAirportName);
+
+            return airportsWithoutException[new Random().Next(0, airportsWithoutException.Count)];
         }
 
         private async Task UpdatePlane()
@@ -139,16 +134,16 @@ namespace Plane
 
             _planeContract.LastPositionUpdate = currentTime;
 
-            if (HasplaneReachedItsDestination())
+            if (HasPlaneReachedItsDestination())
             {
                 await SelectNewDestinationAirport();
             }
         }
 
-        private bool HasplaneReachedItsDestination()
+        private bool HasPlaneReachedItsDestination()
         {
-            return (Math.Abs(_planeContract.DestinationAirport.Latitude - _planeContract.Latitude) <= 1 &&
-                Math.Abs(_planeContract.DestinationAirport.Longitude - _planeContract.Longitude) <= 1);
+            return (Math.Abs(_planeContract.DestinationAirportLatitude - _planeContract.Latitude) <= 1 &&
+                Math.Abs(_planeContract.DestinationAirportLongitude - _planeContract.Longitude) <= 1);
         }
     }
 }
