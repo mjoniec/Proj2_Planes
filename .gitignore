@@ -46,3 +46,5 @@
 /Backend/AirTrafficInfoServices/bin/Debug
 /Backend/AirTrafficInfoServices/obj/Debug
 /Backend/AirTrafficInfoServices/obj
+/Backend/MqttServer/MqttServer/obj
+/Backend/MqttServer/.vs/MqttServer/v16
