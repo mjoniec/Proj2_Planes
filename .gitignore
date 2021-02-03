@@ -48,3 +48,6 @@
 /Backend/AirTrafficInfoServices/obj
 /Backend/MqttServer/MqttServer/obj
 /Backend/MqttServer/.vs/MqttServer/v16
+/Backend/MqttCommon/bin/Debug
+/Backend/MqttCommon/obj
+/Backend/MqttServer/MqttServer/bin/Debug/netcoreapp3.1
