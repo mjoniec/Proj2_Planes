@@ -13,8 +13,9 @@ namespace Airport
             : base(new AirportService(configuration, hostEnvironment))
         {
             //works on premises ps launch - dotnet run --color=888111
-            //var color = configuration.GetValue<string>("color");
-            //Console.WriteLine(color + " test");
+            var color = configuration.GetValue<string>("color");
+            Console.WriteLine(color + "_receivedFromCmdPara");
+            Console.WriteLine(hostEnvironment.EnvironmentName);
         }
     }
 }

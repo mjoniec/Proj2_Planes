@@ -51,3 +51,4 @@
 /Backend/MqttCommon/bin/Debug
 /Backend/MqttCommon/obj
 /Backend/MqttServer/MqttServer/bin/Debug/netcoreapp3.1
+/Backend/MqttServer/.vs/MqttServer/DesignTimeBuild

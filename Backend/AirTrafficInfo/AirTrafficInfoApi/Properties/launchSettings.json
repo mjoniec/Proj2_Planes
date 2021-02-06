@@ -24,7 +24,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:44389"//for on premises ps script launch
+      "applicationUrl": "https://localhost:44389"//, //for on premises ps script launch
+      //"applicationUrl": "http://localhost:62462",
+      //"sslPort": 44389
     }
   }
 }
