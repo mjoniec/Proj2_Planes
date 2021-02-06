@@ -14,7 +14,8 @@ namespace Plane
 {
     public class PlaneService : IAirTrafficService
     {
-        private readonly string AirTrafficinfoApiUrl;
+        private readonly string AirTrafficApiUpdatePlaneInfoUrl;
+        private readonly string AirTrafficApiGetAirportsUrl;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private PlaneContract _planeContract;
@@ -24,7 +25,8 @@ namespace Plane
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = configuration.GetValue<string>("name");
 
-            AirTrafficinfoApiUrl = configuration.GetValue<string>("AirTrafficinfoApiUrl");
+            AirTrafficApiUpdatePlaneInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdatePlaneInfoUrl));
+            AirTrafficApiGetAirportsUrl = configuration.GetValue<string>(nameof(AirTrafficApiGetAirportsUrl));
 
             _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
@@ -37,11 +39,6 @@ namespace Plane
 
         public async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //TODO: move to app settings 
-            //var url = _hostEnvironment.EnvironmentName == "Docker"
-            //    ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo"
-            //    : $"https://localhost:44389/api/airtrafficinfo/UpdatePlaneInfo";
-
             await SetupDestinationAndDepartureAirportsForNewPlane();
 
             while (!stoppingToken.IsCancellationRequested)
@@ -49,7 +46,7 @@ namespace Plane
                 await UpdatePlane();
 
                 await _httpClient.PostAsync(
-                    AirTrafficinfoApiUrl,
+                    AirTrafficApiUpdatePlaneInfoUrl,
                     new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 
@@ -96,11 +93,7 @@ namespace Plane
 
         private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
         {
-            var url = _hostEnvironment.EnvironmentName == "Docker"
-                ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/GetAirports"
-                : $"https://localhost:44389/api/airtrafficinfo/GetAirports";
-
-            var response = await _httpClient.GetAsync(url);
+            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl);
             var json = await response.Content.ReadAsStringAsync();
             var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
 

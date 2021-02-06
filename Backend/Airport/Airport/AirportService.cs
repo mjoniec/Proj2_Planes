@@ -13,7 +13,7 @@ namespace Airport
 {
     public class AirportService : IAirTrafficService
     {
-        private readonly string AirTrafficinfoApiUrl;
+        private readonly string AirTrafficApiUpdateAirportInfoUrl;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private readonly AirportContract _airportContract;
@@ -26,7 +26,7 @@ namespace Airport
             var latitude = configuration.GetValue<string>("latitude");
             var longitude = configuration.GetValue<string>("longitude");
 
-            AirTrafficinfoApiUrl = configuration.GetValue<string>("AirTrafficinfoApiUrl");
+            AirTrafficApiUpdateAirportInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdateAirportInfoUrl));
 
             _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
@@ -48,7 +48,7 @@ namespace Airport
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _httpClient.PostAsync(
-                    AirTrafficinfoApiUrl,
+                    AirTrafficApiUpdateAirportInfoUrl,
                     new StringContent(JsonConvert.SerializeObject(_airportContract),
                     Encoding.UTF8, "application/json"));
 
