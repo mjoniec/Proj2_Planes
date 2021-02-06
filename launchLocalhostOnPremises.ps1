@@ -16,8 +16,9 @@ $dirAirTrafficInfoApi = $currentDir + '\Backend\AirTrafficInfo\AirTrafficInfoApi
 $dirAirport = $currentDir + '\Backend\Airport\Airport';
 
 Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirTrafficInfoApi -ArgumentList 'run'
-Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirport -ArgumentList 'run --color=FF0000'
-Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirport -ArgumentList 'run --color=00FF000'
+Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirport -ArgumentList 'run --color=#FF0000 --latitude=50 --longitude=50'
+Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirport -ArgumentList 'run --color=#00FF00 --latitude=30 --longitude=100'
+Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirport -ArgumentList 'run --color=#0000FF --latitude=10 --longitude=10'
 
 #http://localhost:62462/api/AirTrafficInfo
 #https://localhost:62462/api/AirTrafficInfo
