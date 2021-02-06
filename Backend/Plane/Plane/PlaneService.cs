@@ -14,14 +14,17 @@ namespace Plane
 {
     public class PlaneService : IAirTrafficService
     {
+        private readonly string AirTrafficinfoApiUrl;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private PlaneContract _planeContract;
-
+        
         public PlaneService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = configuration.GetValue<string>("name");
+
+            AirTrafficinfoApiUrl = configuration.GetValue<string>("AirTrafficinfoApiUrl");
 
             _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
@@ -35,9 +38,9 @@ namespace Plane
         public async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             //TODO: move to app settings 
-            var url = _hostEnvironment.EnvironmentName == "Docker"
-                ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo"
-                : $"https://localhost:44389/api/airtrafficinfo/UpdatePlaneInfo";
+            //var url = _hostEnvironment.EnvironmentName == "Docker"
+            //    ? $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo"
+            //    : $"https://localhost:44389/api/airtrafficinfo/UpdatePlaneInfo";
 
             await SetupDestinationAndDepartureAirportsForNewPlane();
 
@@ -46,7 +49,7 @@ namespace Plane
                 await UpdatePlane();
 
                 await _httpClient.PostAsync(
-                    url,
+                    AirTrafficinfoApiUrl,
                     new StringContent(JsonConvert.SerializeObject(_planeContract),
                     Encoding.UTF8, "application/json"));
 
