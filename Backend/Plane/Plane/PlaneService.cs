@@ -1,5 +1,6 @@
 ﻿using AirTrafficInfoContracts;
 using AirTrafficInfoServices;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -17,13 +18,16 @@ namespace Plane
         private readonly HttpClient _httpClient;
         private PlaneContract _planeContract;
 
-        public PlaneService(IHostEnvironment hostEnvironment)
+        public PlaneService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
+            //required to install nuget: Microsoft.Extensions.Configuration.Binder
+            var name = configuration.GetValue<string>("name");
+
             _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
             _planeContract = new PlaneContract
             {
-                Name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString(),
+                Name = AssignName(name),
                 SpeedInMetersPerSecond = 3000000
             };
         }
@@ -144,6 +148,47 @@ namespace Plane
         {
             return (Math.Abs(_planeContract.DestinationAirportLatitude - _planeContract.Latitude) <= 1 &&
                 Math.Abs(_planeContract.DestinationAirportLongitude - _planeContract.Longitude) <= 1);
+        }
+
+        /// <summary>
+        /// we do not want the name on production to have anything other than city name or pilots name 
+        /// we also want to see more info easily on non production environments
+        /// </summary>
+        /// <param name="name"></param>
+        private string AssignName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                if (_hostEnvironment.EnvironmentName == "Development")//manual on premises launch from visual studio
+                {
+                    name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
+                }
+                else if (_hostEnvironment.EnvironmentName == "Docker")
+                {
+                    name = "Error - PlaneNameShouldHaveBeenGivenFor_" + _hostEnvironment.EnvironmentName + "_Environment_" + new Random().Next(1001, 9999).ToString();
+                }
+                else
+                {
+                    name = "Warning - Unpredicted Environment - Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
+                }
+            }
+            else
+            {
+                if (_hostEnvironment.EnvironmentName == "Development")//on premises launch from ps script
+                {
+                    name += "_" + _hostEnvironment.EnvironmentName;
+                }
+                else if (_hostEnvironment.EnvironmentName == "Docker")
+                {
+                    //production name - expected to be displayed as given from docker compose
+                }
+                else
+                {
+                    name += "Warning - Unpredicted Environment - Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
+                }
+            }
+
+            return name;
         }
     }
 }
