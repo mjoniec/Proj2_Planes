@@ -21,6 +21,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8001:80"
+    command: --name=Docker_Plane1
   Plane_2:
     image: plane
     container_name: plane_2
@@ -31,6 +32,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8002:80"
+    command: --name=Docker_Plane2
   Plane_3:
     image: plane
     container_name: plane_3
@@ -41,6 +43,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8003:80"
+    command: --name=Docker_Plane3
   Airport_1:
     image: airport
     container_name: airport_1
@@ -51,7 +54,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8801:80"
-    command: color=#ff0000
+    command: --name=Docker_Airport1 --color=#FF0000 --latitude=50 --longitude=50
   Airport_2:
     image: airport
     container_name: airport_2
@@ -62,7 +65,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8802:80"
-    command: color=#00ff00
+    command: --name=Docker_Airport2 --color=#00FF00 --latitude=30 --longitude=100
   Airport_3:
     image: airport
     container_name: airport_3
@@ -73,4 +76,4 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8803:80"
-    command: color=#0000ff
+    command: --name=Docker_Airport3 --color=#0000FF --latitude=10 --longitude=10
