@@ -46,7 +46,7 @@ namespace MockAirTrafficinfoApi.Services
                 Longitude = 75,
                 Latitude = 00,
                 SymbolRotate = -90,
-                PositionUpdateTime = DateTime.Now,
+                LastPositionUpdate = DateTime.Now,
                 SpeedInMetersPerSecond = 1,
                 DepartureAirport = airport1,
                 DestinationAirport = airport2
@@ -58,7 +58,7 @@ namespace MockAirTrafficinfoApi.Services
                 Longitude = 100,
                 Latitude = 25,
                 SymbolRotate = 180,
-                PositionUpdateTime = DateTime.Now,
+                LastPositionUpdate = DateTime.Now,
                 SpeedInMetersPerSecond = 1,
                 DepartureAirport = airport3,
                 DestinationAirport = airport2
@@ -70,7 +70,7 @@ namespace MockAirTrafficinfoApi.Services
                 Longitude = 50,
                 Latitude = 50,
                 SymbolRotate = -45,
-                PositionUpdateTime = DateTime.Now,
+                LastPositionUpdate = DateTime.Now,
                 SpeedInMetersPerSecond = 1,
                 DepartureAirport = airport1,
                 DestinationAirport = airport3

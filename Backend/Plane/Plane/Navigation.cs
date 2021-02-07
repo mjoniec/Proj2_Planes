@@ -88,44 +88,6 @@ namespace Plane
             return new List<double> { ToDegrees(lat2), ToDegrees(lon2) };
         }
 
-        /// <summary>
-        /// http://mathforum.org/library/drmath/view/55417.html
-        /// https://stackoverflow.com/questions/3932502/calculate-angle-between-two-latitude-longitude-points
-        /// https://www.cosmocode.de/en/blog/gohr/2010-06/29-calculate-a-destination-coordinate-based-on-distance-and-bearing-in-php
-        /// </summary>
-        /// <param name="lat1"></param>
-        /// <param name="lon1"></param>
-        /// <param name="lat2"></param>
-        /// <param name="lon2"></param>
-        /// <returns></returns>
-        private static double CalculateBearing2(double lat1, double lon1, double lat2, double lon2)
-        {
-            var y = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
-            var x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon2 - lon1);
-            double bearing = 0.0;
-
-            if (y > 0)
-            {
-                if (x > 0) bearing = Math.Atan(y / x);
-                if (x < 0) bearing = 180.0 - Math.Atan(-y / x);
-                if (x == 0) bearing = 90;
-            }
-            if (y < 0)
-            {
-                if (x > 0) bearing = -Math.Atan(-y / x);
-                if (x < 0) bearing = Math.Atan(y / x) - 180;
-                if (x == 0) bearing = 270;
-            }
-            if (y == 0)
-            {
-                if (x > 0) bearing = 0;
-                if (x < 0) bearing = 180;
-                if (x == 0) return 0; //the 2 points are the same
-            }
-
-            return bearing;
-        }
-
         static double ToRadians(double degree)
         {
             return degree * Math.PI / 180;
