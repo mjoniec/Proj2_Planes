@@ -13,8 +13,8 @@ services:
       - "8880:80"
   
 
-
-  Airport_1:
+#USA
+  Airport_new_york:
     image: airport
     container_name: airport_new_york
     build:
@@ -25,7 +25,43 @@ services:
     ports:
       - "8801:80"
     command: --name="New York" --color=#0000FF --latitude=40.68 --longitude=-74.17
-  Airport_2:
+  Airport_miami:
+    image: airport
+    container_name: airport_miami
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8802:80"
+    command: --name="Miami" --color=#0b40f4 --latitude=25.78 --longitude=-80.17
+  Airport_los_angeles:
+    image: airport
+    container_name: airport_los_angeles
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8803:80"
+    command: --name="Los Angeles" --color=#0a3bdb --latitude=33.93 --longitude=-118.4
+  Airport_san_francisco:
+    image: airport
+    container_name: airport_san_francisco
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8804:80"
+    command: --name="San Francisco" --color=#082eaa --latitude=37.78 --longitude=-122.41
+    
+  
+#Europe
+  Airport_london:
     image: airport
     container_name: airport_london
     build:
@@ -34,9 +70,44 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
-      - "8802:80"
+      - "8811:80"
     command: --name=London --color=#FF0000 --latitude=51.48 --longitude=-0.11
-  Airport_3:
+  Airport_sevilla:
+    image: airport
+    container_name: airport_sevilla
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8812:80"
+    command: --name=Sevilla --color=#ff1a1a --latitude=37.37 --longitude=-5.98
+  Airport_rome:
+    image: airport
+    container_name: airport_rome
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8813:80"
+    command: --name=Rome --color=#ff1a1a --latitude=41.89 --longitude=12.5
+  Airport_moscow:
+    image: airport
+    container_name: airport_moscow
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8814:80"
+    command: --name=Moscow --color=#ff3333 --latitude=55.75 --longitude=37.63
+
+#Asia    
+  Airport_tokyo:
     image: airport
     container_name: airport_tokyo
     build:
@@ -45,11 +116,35 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
-      - "8803:80"
+      - "8821:80"
     command: --name=Tokyo --color=#28FFB8 --latitude=35.67 --longitude=139.75
 
 
- 
+#Middle East
+  Airport_cairo:
+    image: airport
+    container_name: airport_cairo
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8831:80"
+    command: --name=Cairo --color=#ffff00 --latitude=29.9 --longitude=31.4
+  Airport_dubai:
+    image: airport
+    container_name: airport_dubai
+    build:
+      context: ./Airport
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8832:80"
+    command: --name=Dubai --color=#ffff33 --latitude=25.3 --longitude=55.2
+
+#Planes and Pilots
   Plane_1:
     image: plane
     container_name: plane_1
