@@ -84,7 +84,7 @@ export class BubbleMapComponent implements OnDestroy {
   
                 this.options = {
                   title: {
-                    text: 'World Population (2011)',
+                    text: 'Air Traffic',
                     left: 'center',
                     top: '16px',
                     textStyle: {
@@ -103,7 +103,8 @@ export class BubbleMapComponent implements OnDestroy {
                     formatter: params => {
                       //return `${params.name}: ${params.value[2]}`;
                       // return `<img src = "assets/images/${params.name}.png" height="50" width="50"/>${params.name}: ${params.value[2]}`
-                      return `<img src = "assets/images/Plane 1.png" height="50" width="50"/>`
+                      //png vs jpg return `<img src = "assets/images/Plane 1.png" height="50" width="50"/>`
+                      return `<img src = "assets/images/${params.name}.jpg" height="80" width="80"/> ${params.name}`
                     },
                   },
                   visualMap: {
@@ -117,7 +118,7 @@ export class BubbleMapComponent implements OnDestroy {
                     },
                   },
                   geo: {
-                    name: 'World Population (2010)',//change that
+                    name: 'Air Traffic',//change that
                     type: 'map',
                     map: 'world',
                     roam: true,
