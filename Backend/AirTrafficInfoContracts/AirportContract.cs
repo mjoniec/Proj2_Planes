@@ -10,8 +10,5 @@
 
         //const
         public Type Type => Type.Airport;
-        
-        //UI related
-        public string Symbol => "triangle";
     }
 }

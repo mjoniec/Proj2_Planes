@@ -145,7 +145,7 @@ export class BubbleMapComponent implements OnDestroy {
                       data: this.mapData.map(itemOpt => {
                         return {
                           name: itemOpt.name,
-                          symbol: itemOpt.symbol,
+                          symbol: "triangle",//itemOpt.symbol,
                           symbolRotate: itemOpt.symbolRotate,
                           value: [
                             itemOpt.longitude,
@@ -168,7 +168,7 @@ export class BubbleMapComponent implements OnDestroy {
                       data: this.mapData2.map(itemOpt => {
                         return {
                           name: itemOpt.name,
-                          symbol: itemOpt.symbol,
+                          symbol: "circle",//itemOpt.symbol,
                           symbolRotate: itemOpt.symbolRotate,
                           value: [
                             itemOpt.longitude,

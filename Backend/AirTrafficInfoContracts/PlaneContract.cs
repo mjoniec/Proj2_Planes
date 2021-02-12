@@ -29,8 +29,7 @@ namespace AirTrafficInfoContracts
 
         //UI related
         //public string Color => DestinationAirport.Color;
-        public string Color { get; set; } // angular doesnt always refresh referencing properties - has to be poco
-        public double SymbolRotate { get; set; }
-        public string Symbol => "arrow";
+        public string Color { get; set; } // angular doesnt always refresh referencing properties - has to be poco with color info copied from targeted airport. 
+        public double SymbolRotate { get; set; }//value should contain bearing angle calculated to mercator 2d map rotation
     }
 }
