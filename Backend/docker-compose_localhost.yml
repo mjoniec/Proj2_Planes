@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   AirTrafficInfo_1:
-    image: mjdocker31/planes:airtrafficinfoapi
+    image: airtrafficinfo
     container_name: airtrafficinfo_1
     build:
       context: ./AirTrafficInfo
@@ -15,7 +15,7 @@ services:
 
 #USA
   Airport_new_york:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_new_york
     build:
       context: ./Airport
@@ -26,7 +26,7 @@ services:
       - "8801:80"
     command: --name="New York" --color=#0000FF --latitude=40.68 --longitude=-74.17
   Airport_miami:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_miami
     build:
       context: ./Airport
@@ -37,7 +37,7 @@ services:
       - "8802:80"
     command: --name="Miami" --color=#0b40f4 --latitude=25.78 --longitude=-80.17
   Airport_los_angeles:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_los_angeles
     build:
       context: ./Airport
@@ -48,7 +48,7 @@ services:
       - "8803:80"
     command: --name="Los Angeles" --color=#0a3bdb --latitude=33.93 --longitude=-118.4
   Airport_san_francisco:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_san_francisco
     build:
       context: ./Airport
@@ -62,7 +62,7 @@ services:
   
 #Europe
   Airport_london:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_london
     build:
       context: ./Airport
@@ -73,7 +73,7 @@ services:
       - "8811:80"
     command: --name=London --color=#FF0000 --latitude=51.48 --longitude=-0.11
   Airport_sevilla:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_sevilla
     build:
       context: ./Airport
@@ -84,7 +84,7 @@ services:
       - "8812:80"
     command: --name=Sevilla --color=#ff1a1a --latitude=37.37 --longitude=-5.98
   Airport_rome:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_rome
     build:
       context: ./Airport
@@ -95,7 +95,7 @@ services:
       - "8813:80"
     command: --name=Rome --color=#ff1a1a --latitude=41.89 --longitude=12.5
   Airport_moscow:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_moscow
     build:
       context: ./Airport
@@ -109,7 +109,7 @@ services:
 
 #Asia    
   Airport_tokyo:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_tokyo
     build:
       context: ./Airport
@@ -120,7 +120,7 @@ services:
       - "8821:80"
     command: --name=Tokyo --color=#ff00ff --latitude=35.67 --longitude=139.75
   Airport_kuala_lumpur:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_kuala_lumpur
     build:
       context: ./Airport
@@ -134,7 +134,7 @@ services:
 
 #Middle East
   Airport_cairo:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_cairo
     build:
       context: ./Airport
@@ -145,7 +145,7 @@ services:
       - "8831:80"
     command: --name=Cairo --color=#ffff00 --latitude=29.9 --longitude=31.4
   Airport_dubai:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_dubai
     build:
       context: ./Airport
@@ -159,7 +159,7 @@ services:
 
 #Australia
   Airport_sydney:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_sydney
     build:
       context: ./Airport
@@ -173,7 +173,7 @@ services:
 
 #South America
   Airport_rio_de_janeiro:
-    image: mjdocker31/planes:airport
+    image: airport
     container_name: airport_rio_de_janeiro
     build:
       context: ./Airport
@@ -187,7 +187,7 @@ services:
 
 #Planes and Pilots
   Plane_maverick:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_maverick
     build:
       context: ./Plane
@@ -198,7 +198,7 @@ services:
       - "8001:80"
     command: --name="Maverick"
   Plane_iceman:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_iceman
     build:
       context: ./Plane
@@ -209,7 +209,7 @@ services:
       - "8002:80"
     command: --name="Iceman"
   Plane_slider:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_slider
     build:
       context: ./Plane
@@ -220,7 +220,7 @@ services:
       - "8003:80"
     command: --name="Slider"
   Plane_goose:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_goose
     build:
       context: ./Plane
@@ -231,7 +231,7 @@ services:
       - "8004:80"
     command: --name="Goose"
   Plane_jester:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_jester
     build:
       context: ./Plane
@@ -242,7 +242,7 @@ services:
       - "8005:80"
     command: --name="Jester"
   Plane_viper:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_viper
     build:
       context: ./Plane
@@ -253,7 +253,7 @@ services:
       - "8006:80"
     command: --name="Viper"
   Plane_neo:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_neo
     build:
       context: ./Plane
@@ -264,7 +264,7 @@ services:
       - "8007:80"
     command: --name="Neo"
   Plane_gandalf:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_gandalf
     build:
       context: ./Plane
@@ -275,7 +275,7 @@ services:
       - "8008:80"
     command: --name="Gandalf"
   Plane_aragorn:
-    image: mjdocker31/planes:plane
+    image: plane
     container_name: plane_aragorn
     build:
       context: ./Plane

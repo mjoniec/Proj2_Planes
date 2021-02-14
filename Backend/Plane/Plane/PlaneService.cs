@@ -33,7 +33,7 @@ namespace Plane
             _planeContract = new PlaneContract
             {
                 Name = AssignName(name),
-                SpeedInMetersPerSecond = 3000000
+                SpeedInMetersPerSecond = 1000000
             };
         }
 
