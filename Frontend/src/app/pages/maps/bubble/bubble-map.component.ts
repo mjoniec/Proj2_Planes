@@ -12,6 +12,7 @@ import { registerMap } from 'echarts';
     <nb-card>
       <nb-card-header>Bubble Maps</nb-card-header>
       <div echarts [options]="options" class="echarts"></div>
+      <!--<img src = "assets/images/traffic.jpg" height="596" width="1000"/> -->
     </nb-card>
   `,
 })
@@ -206,6 +207,9 @@ export class BubbleMapComponent implements OnDestroy {
     //return this.http.get('https://localhost:44389/api/AirTrafficInfo');
     
     //Docker localhost
-    return this.http.get('http://localhost:8880/api/AirTrafficInfo');
+    //return this.http.get('http://localhost:8880/api/AirTrafficInfo');
+
+    //Azure mock
+    return this.http.get('https://mockairtraffic.azurewebsites.net/api/MockAirTrafficInfo');
   }
 }

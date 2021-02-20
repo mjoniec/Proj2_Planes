@@ -52,3 +52,7 @@
 /Backend/MqttCommon/obj
 /Backend/MqttServer/MqttServer/bin/Debug/netcoreapp3.1
 /Backend/MqttServer/.vs/MqttServer/DesignTimeBuild
+/Backend/MockAirTrafficinfoApi/bin/Release/netcoreapp3.1
+/Backend/MockAirTrafficinfoApi/Properties/PublishProfiles
+/Backend/MockAirTrafficinfoApi/Properties/ServiceDependencies
+/Backend/MockAirTrafficinfoApi/MockAirTrafficinfoApi.csproj.user

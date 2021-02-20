@@ -20,7 +20,7 @@ namespace MockAirTrafficinfoApi.Services
         {
             var url = _hostEnvironment.EnvironmentName == "Development"
                 ? $"https://localhost:44389/api/mockAirTrafficInfo"
-                : "";//todo azure
+                : $"http://mockairtraffic.azurewebsites.net/api/mockAirTrafficInfo";
 
             while (!stoppingToken.IsCancellationRequested)
             {
