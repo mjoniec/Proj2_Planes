@@ -6,24 +6,32 @@
 - Azure On Premises Mock Api
 - Azure Dockerised Microservices
 
-# Run - On Premises
+# UI Client - Azure
+
+- https://planesui.azurewebsites.net
+
+# Mock Api - Azure
+
+- https://mockairtraffic.azurewebsites.net
+
+# On Premises Api - localhost
 
 - PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1
 - https://localhost:44389/api/AirTrafficInfo
 
-# Run - Docker Compose 
+# Docker Compose Api - localhost
 
 - docker-compose up
 - docker-compose up --build --force-recreate --no-deps
 - docker-compose down
 - http://localhost:8880/api/AirTrafficInfo
 
-# Run - UI - On Premises localhost
+# UI Client - localhost
 
 - PowerShell C:\...\Planes\Frontend> npm start
 - http://localhost:4200/pages/maps/bubble
 
-# Docker 
+# Docker general notes
 
 status check
 

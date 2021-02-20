@@ -56,3 +56,9 @@
 /Backend/MockAirTrafficinfoApi/Properties/PublishProfiles
 /Backend/MockAirTrafficinfoApi/Properties/ServiceDependencies
 /Backend/MockAirTrafficinfoApi/MockAirTrafficinfoApi.csproj.user
+/Backend/AirportService/bin/Release/netcoreapp3.1/runtimes/win/lib/netcoreapp2.0
+/Backend/AirportService/bin/Release/netcoreapp3.1
+/Backend/AirTrafficInfoServices/bin/Release/netcoreapp3.1
+/Backend/Mqtt/bin/Release/netcoreapp3.1
+/Backend/MqttCommon/bin/Release/netcoreapp3.1
+/Backend/PlaneService/bin/Release/netcoreapp3.1

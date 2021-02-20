@@ -25,7 +25,10 @@ namespace MockAirTrafficinfoApi
             {
                 options.AddPolicy("MyAllowedOrigins", builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200");
+                    builder.WithOrigins(
+                        "http://localhost:4200", 
+                        "http://planesui.azurewebsites.net",
+                        "https://planesui.azurewebsites.net/pages/maps/bubble");
                 });
             });
 
