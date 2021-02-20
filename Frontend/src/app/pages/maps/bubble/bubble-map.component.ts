@@ -34,7 +34,8 @@ export class BubbleMapComponent implements OnDestroy {
               private http: HttpClient) {
 
     combineLatest([
-      this.http.get('assets/map/world.json'),
+      // this.http.get('assets/map/world.json'),
+      this.http.get('https://mockairtraffic.azurewebsites.net/api/MockAirTrafficInfo/WorldMap'),
       this.theme.getJsTheme(),
     ])
       .pipe(takeWhile(() => this.alive))
@@ -71,8 +72,8 @@ export class BubbleMapComponent implements OnDestroy {
                 //   { 'latitude': 60, 'longitude': 50, 'name': 'airport y', 'value': 80, 'color': color4 }        
                 // ];
   
-                console.log('mapdata ', this.mapData);
-                console.log('mapdata2 ', this.mapData2);
+                //console.log('mapdata ', this.mapData);
+                //console.log('mapdata2 ', this.mapData2);
   
                 this.mapData.forEach((itemOpt) => {
                   if (itemOpt.value > this.max) {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MockAirTrafficinfoApi.Services;
+using System.Threading.Tasks;
 
 namespace MockAirTrafficinfoApi.Controllers
 {
@@ -10,10 +11,12 @@ namespace MockAirTrafficinfoApi.Controllers
     public class MockAirTrafficInfoController : ControllerBase
     {
         private readonly AirTrafficInfoService _airTrafficInfoService;
+        private readonly StaticResourcesService _staticResourcesService;
 
-        public MockAirTrafficInfoController(AirTrafficInfoService airTrafficInfoService)
+        public MockAirTrafficInfoController(AirTrafficInfoService airTrafficInfoService, StaticResourcesService staticResourcesService)
         {
             _airTrafficInfoService = airTrafficInfoService;
+            _staticResourcesService = staticResourcesService;
         }
 
         //https://localhost:44389/api/MockAirTrafficInfo
@@ -31,6 +34,14 @@ namespace MockAirTrafficinfoApi.Controllers
             _airTrafficInfoService.UpdateAirTrafficInfo();
 
             return Ok();
+        }
+
+        //https://localhost:44389/api/MockAirTrafficInfo/WorldMap
+        [EnableCors("MyAllowedOrigins")]
+        [HttpGet("WorldMap")]
+        public async Task<string> WorldMap()
+        {
+            return await _staticResourcesService.GetWorldMap();
         }
     }
 }
