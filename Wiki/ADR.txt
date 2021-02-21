@@ -1,0 +1,75 @@
+Architecture Decision Record
+
+1. Imainary business purpose is to provide a distributed solution that can help manage air traffic. 
+
+1. In reality the project goal is to give me an opportunity to work with distributed systems. Primaraly: Microservices, Docker, web apis, mqtt and http, net core. Secondaryly Azure and UI with Angular. 
+
+1. Single source of truth model entanglements and issues - exampe: display symbol was present in model at some - nuget change required to change sth on angular UI
+
+1. From point of view of plane it has 2 sources of weather info. It gets immediate notifications from MQTT about bad weather change that he needs to act upon. Traffic api info through HTTP is about available airports with good weather condition during next destinatio pick.
+
+1. Dependency between Angular UI assets, backend and infra - planes names are given in compose, ps1 files and hardcoded in mock api. They need to mach images names in angular assets for images to load. 
+
+1. how to rebuild only one container / project in compose if we made changes to vs solution and whole compose takes 15 minus to rebuild?
+
+1. mqtt common nuget/server/lib wraps external mqttnet nuget - some refactor needed to make it more clear
+
+1. ui bubble map example is good enough fit to host say 20 airports and 50 planes. It won be good to display tousands of nodes web and traffic. 
+
+1. Some good example (but code not schared or vanilla 5000 liner JS) found: http://works.artzub.com/wandera/
+Some actual working application like this example: https://flight-radar.eu/
+
+1. Spherical calculations used from: https://www.movable-type.co.uk/scripts/latlong.html Approximations on perfect sphere present. http://www.movable-type.co.uk/scripts/latlong-vectors.html
+
+1. Angular UI uses some 3rd party libs like echarts to display charts. Some issue that I had to work with example: https://github.com/apache/echarts/issues/9709
+
+1. Straight shortest flight paths lines are gonna get curved on mercator projection - https://www.findaspark.co.uk/wp-content/uploads/2017/10/aviation-interactive-site.png
+
+1. Microsoft.Extensions.Configuration.Binder had to be used to manage params passed to services on launch https://stackoverflow.com/questions/54767718/iconfiguration-does-not-contain-a-definition-for-getvalue
+
+1. mocked api has the same logic for planes as actual plane services - refactor to common source needed. Well designed plane and airport logic should enable to run simulation on multiple dockerised services as well as reuse code in simple mock service with foreach loop
+
+1. rxjs used in UI https://stackoverflow.com/questions/52671334/angular-6-run-a-function-in-every-x-seconds
+
+1. multiple hosted services running from single net core project - bug https://github.com/dotnet/runtime/issues/38751
+
+1. in core 3.0 background worker class and roj template introduced - no need to use ihosted service anymore
+
+1. dockerise background service https://medium.com/swlh/creating-a-worker-service-in-asp-net-core-3-0-6af5dc780c80
+
+1. separate solution for plane with one runnable project - easier for configuring docker
+
+1. local nuget feed in dockerfile https://stackoverflow.com/questions/48821991/dockerfile-cant-see-local-file-or-private-nuget-server https://stackoverflow.com/questions/42736107/where-is-nuget-config-file-located-in-visual-studio-project my source example https://www.nuget.org/packages/AirTrafficInfoContracts/1.0.0
+
+1. multiple instances docker compose https://blog.codingmilitia.com/2019/08/31/aspnet-028-from-zero-to-overkill-multiple-service-instances-tweaks/
+
+1. Single mqtt project - string is not versioned to one with trim and not - (fix this argument??). No need for nuget for now - not used in any other solution. 
+
+1. After update do 3.0 multiple changes in code were mandatory to match new mqtt nuget. No new features came out of this work. 
+
+1. why in airport and plane mqtt client has a singleton lifetime?
+
+1. host one instance only for testing - dockerise to 20x instances network how?
+
+1. model or config - or model and config? what to put in common lib proj and how to name it, split it?
+
+1. split client publisher with client subscriber - business req - no plane should be able to publish messages to apirport's mqtt topic
+
+1. separate appsettings in each service implementing IHostedService or BackgroundService, not provided in model lib project as it should be environment agnostic
+ https://stackoverflow.com/questions/27880433/using-iconfiguration-in-c-sharp-class-library/39548459#39548459
+
+1. added strong typed configuration - launchsettings.json. Remember to set copy if newer in json file properties
+https://docs.microsoft.com/pl-pl/archive/blogs/fkaduk/using-strongly-typed-configuration-in-net-core-console-app
+
+1. airtraffic api - scoped as a singleton service ?
+
+1. background service - provides execute async besides start and stop - thats what we need. Different service setup in program.cs
+ https://docs.microsoft.com/pl-pl/dotnet/architecture/microservices/multi-container-microservice-net-applications/background-tasks-with-ihostedservice
+
+1. why not mqtt for updating total service - http seems ok for per second post call per individual plane, mqtt d require another layer with service for handling traffic, decomposing individual messages from topic and figuring out what to do or update where, while web api could just get in endpoint params what is needed, which is in alignment with services each calling with its own plane so having this info already, no need to compose it into mqtt message and then retreiving, mqtt fits with one publisher, multiple subscribers not the other way around
+
+1. http Api Client can go to nuget as a separate project/solution, as it is used by multiple of my solutions. However it d be only a few lines of code, so some code duplication is acceptable for now. Can be done later, when need occurs to provide extension methods for stuffing POST request Body etc... 
+
+1. event definition is subscriber interface is necessary - plane service has DI and knows interface only, needs that reference to bind logic to event.
+
+1. logging info vs debug where and what - todo
