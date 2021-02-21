@@ -1,37 +1,27 @@
-# Possible Setups:
+# UI Client
 
-- localhost On Premises Mock Api - manually
-- localhost On Premises Services - ps script or manually
-- localhost Dockerised Microservices - compose file
-- Azure On Premises Mock Api
-- Azure Dockerised Microservices
+- Production - https://planesui.azurewebsites.net
+- localhost - PowerShell C:\...\Planes\Frontend> npm start - http://localhost:4200/pages/maps/bubble
 
-# UI Client - Azure
+# Mock Api
 
-- https://planesui.azurewebsites.net
+- Production - https://mockairtraffic.azurewebsites.net
+- localhost - https://localhost:44389/api/MockAirTrafficInfo
 
-# Mock Api - Azure
+# Api + distributed services - only localhost  
 
-- https://mockairtraffic.azurewebsites.net
+- On Premises - PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 - manual launch from visual studio wont set up names right - https://localhost:44389/api/AirTrafficInfo
+- Docker Compose - docker-compose up - http://localhost:8880/api/AirTrafficInfo
 
-# On Premises Api - localhost
+-------------------------
 
-- PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1
-- https://localhost:44389/api/AirTrafficInfo
+## Docker general notes
 
-# Docker Compose Api - localhost
+compose with images rebuild and proper shotdown so it could be launched again
 
-- docker-compose up
-- docker-compose up --build --force-recreate --no-deps
-- docker-compose down
-- http://localhost:8880/api/AirTrafficInfo
-
-# UI Client - localhost
-
-- PowerShell C:\...\Planes\Frontend> npm start
-- http://localhost:4200/pages/maps/bubble
-
-# Docker general notes
+- docker-compose up --build --force-recreate --no-deps 
+- ctrl + c - wait till all containers stops
+- docker-compose down - wait till all containers closes
 
 status check
 
@@ -99,3 +89,11 @@ docker system prune -a will delete all images, even ones for other projects. It'
 - docker build -t mjdocker31/planes:airport .
 - docker run mjdocker31/planes:airport
 - docker push mjdocker31/planes:airport
+
+## Possible Setups:
+
+- localhost On Premises Mock Api - manually
+- localhost On Premises Services - ps script or manually
+- localhost Dockerised Microservices - compose file
+- Azure On Premises Mock Api
+- Azure Dockerised Microservices
