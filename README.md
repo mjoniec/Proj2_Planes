@@ -1,6 +1,6 @@
 # UI Client
 
-- Production - https://planesui.azurewebsites.net
+- Production - https://planesui.azurewebsites.net - then navigate to map
 - localhost - PowerShell C:\...\Planes\Frontend> npm start - http://localhost:4200/pages/maps/bubble
 
 # Mock Api
@@ -12,6 +12,7 @@
 
 - On Premises - PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 - manual launch from visual studio wont set up names right - https://localhost:44389/api/AirTrafficInfo
 - Docker Compose - docker-compose up - http://localhost:8880/api/AirTrafficInfo
+
 
 -------------------------
 
