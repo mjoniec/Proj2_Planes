@@ -1,5 +1,4 @@
 ﻿using AirTrafficInfoContracts;
-using AirTrafficInfoServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Plane
 {
-    public class PlaneService : IAirTrafficService
+    public class PlaneService : IPlaneService
     {
         private readonly string AirTrafficApiUpdatePlaneInfoUrl;
         private readonly string AirTrafficApiGetAirportsUrl;
