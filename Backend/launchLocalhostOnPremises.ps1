@@ -1,11 +1,11 @@
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName;
 #Write-Output $currentDir
 
-$paramsAirport = @("/C"; $currentDir + "\Backend\Airport\Airport"; "dotnet run"; )
+$paramsAirport = @("/C"; $currentDir + "\Airport\Airport"; "dotnet run"; )
 
-$dirAirTrafficInfoApi = $currentDir + '\Backend\AirTrafficInfo\AirTrafficInfoApi';
-$dirAirport = $currentDir + '\Backend\Airport\Airport';
-$dirPlane = $currentDir + '\Backend\Plane\Plane';
+$dirAirTrafficInfoApi = $currentDir + '\AirTrafficInfo\AirTrafficInfoApi';
+$dirAirport = $currentDir + '\Airport\Airport';
+$dirPlane = $currentDir + '\Plane\Plane';
 
 Start-Process -FilePath 'dotnet' -WorkingDirectory $dirAirTrafficInfoApi -ArgumentList 'run'
 Start-Sleep -s 4
