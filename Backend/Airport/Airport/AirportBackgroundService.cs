@@ -1,15 +1,22 @@
-﻿using AirTrafficInfoServices;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Airport
 {
-    class AirportBackgroundService : AirTrafficBackgroundService
+    public class AirportBackgroundService : BackgroundService
     {
-        public AirportBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
-            : base(new AirportService(configuration, hostEnvironment))
-        {
+        private readonly IAirportService _service;
 
+        public AirportBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
+        {
+            _service = new AirportService(configuration, hostEnvironment);
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            await _service.ExecuteAsync(stoppingToken);
         }
     }
 }

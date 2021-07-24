@@ -1,5 +1,4 @@
 ﻿using AirTrafficInfoContracts;
-using AirTrafficInfoServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Airport
 {
-    public class AirportService : IAirTrafficService
+    public class AirportService : IAirportService
     {
         private readonly string AirTrafficApiUpdateAirportInfoUrl;
         private readonly IHostEnvironment _hostEnvironment;
