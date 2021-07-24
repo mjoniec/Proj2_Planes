@@ -66,3 +66,6 @@
 /Backend/SharedKernel/Mqtt/.vs/Mqtt/v16
 /Backend/SharedKernel/Mqtt/Mqtt/obj/Debug/netcoreapp3.1
 /Backend/SharedKernel/Mqtt/Mqtt/obj
+/Backend/SharedKernel/AirTrafficInfoContracts/.vs/AirTrafficInfoContracts
+/Backend/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/obj
+/Backend/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/bin/Debug/netcoreapp3.1

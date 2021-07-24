@@ -3,19 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{7377DD88-2D05-40E9-800A-F3D1E820A068}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaneService", "PlaneService\PlaneService.csproj", "{E9718E9B-9191-4C4B-84FA-887B15A89794}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportService", "AirportService\AirportService.csproj", "{04914668-BCFC-4EF7-835D-223D2FC70B5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mqtt", "Mqtt\Mqtt.csproj", "{B29761D6-0E8B-4694-8EE1-B70F90B5A608}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirTrafficInfoContracts", "AirTrafficInfoContracts\AirTrafficInfoContracts.csproj", "{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockAirTrafficinfoApi", "MockAirTrafficinfoApi\MockAirTrafficinfoApi.csproj", "{0D3C140B-CCC1-4F35-8241-B240F0785B59}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MqttCommon", "MqttCommon\MqttCommon.csproj", "{A1D1B103-3AF2-41BA-A787-028A2514B67A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7377DD88-2D05-40E9-800A-F3D1E820A068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7377DD88-2D05-40E9-800A-F3D1E820A068}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7377DD88-2D05-40E9-800A-F3D1E820A068}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7377DD88-2D05-40E9-800A-F3D1E820A068}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9718E9B-9191-4C4B-84FA-887B15A89794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9718E9B-9191-4C4B-84FA-887B15A89794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9718E9B-9191-4C4B-84FA-887B15A89794}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,22 +23,10 @@ Global
 		{04914668-BCFC-4EF7-835D-223D2FC70B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04914668-BCFC-4EF7-835D-223D2FC70B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04914668-BCFC-4EF7-835D-223D2FC70B5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B29761D6-0E8B-4694-8EE1-B70F90B5A608}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6D85F07-C9F8-47BE-9490-E8EA9CF5E26E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D3C140B-CCC1-4F35-8241-B240F0785B59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1D1B103-3AF2-41BA-A787-028A2514B67A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1D1B103-3AF2-41BA-A787-028A2514B67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1D1B103-3AF2-41BA-A787-028A2514B67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1D1B103-3AF2-41BA-A787-028A2514B67A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
