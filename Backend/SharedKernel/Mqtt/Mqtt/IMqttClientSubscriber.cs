@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mqtt.Interfaces
+namespace Mqtt
 {
     public interface IMqttClientSubscriber : IMqttClient
     {

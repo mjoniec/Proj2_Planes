@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Mqtt.Interfaces;
 using MQTTnet.Client;
 using System;
 using System.Text;

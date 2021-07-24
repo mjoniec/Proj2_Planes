@@ -5,7 +5,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Options;
 
-namespace MqttCommon
+namespace Mqtt
 {
     public abstract class MqttClient : IMqttClient
     {

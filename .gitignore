@@ -62,3 +62,7 @@
 /Backend/Mqtt/bin/Release/netcoreapp3.1
 /Backend/MqttCommon/bin/Release/netcoreapp3.1
 /Backend/PlaneService/bin/Release/netcoreapp3.1
+/Backend/SharedKernel/Mqtt/Mqtt/bin/Debug/netcoreapp3.1
+/Backend/SharedKernel/Mqtt/.vs/Mqtt/v16
+/Backend/SharedKernel/Mqtt/Mqtt/obj/Debug/netcoreapp3.1
+/Backend/SharedKernel/Mqtt/Mqtt/obj

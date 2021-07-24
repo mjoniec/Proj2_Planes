@@ -3,7 +3,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using System.Threading.Tasks;
 
-namespace MqttCommon
+namespace Mqtt
 {
     /// <summary>
     /// Publishes messages to connected mqtt topic

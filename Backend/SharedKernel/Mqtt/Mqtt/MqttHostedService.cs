@@ -10,12 +10,12 @@ using MQTTnet.Server;
 
 namespace Mqtt
 {
-    public class MqttService : IHostedService, IDisposable
+    public class MqttHostedService : IHostedService, IDisposable
     {
         private readonly ILogger _logger;
         private readonly IOptions<MqttConfig> _config;
         private IMqttServer _mqttServer;
-        public MqttService(ILogger<MqttService> logger, IOptions<MqttConfig> config)
+        public MqttHostedService(ILogger<MqttHostedService> logger, IOptions<MqttConfig> config)
         {
             _logger = logger;
             _config = config;
@@ -48,7 +48,7 @@ namespace Mqtt
             _mqttServer.ClientDisconnectedHandler = new MqttServerClientDisconnectedHandler(_logger);
             _mqttServer.ClientSubscribedTopicHandler = new MqttServerClientSubscribedTopicHandler(_logger);
             _mqttServer.ClientUnsubscribedTopicHandler = new MqttServerClientUnsubscribedTopicHandler(_logger);
-            
+
             //Now, start the server -- Notice this is resturning the MQTT Server's StartAsync, which is a task.
             return _mqttServer.StartAsync(optionsBuilder.Build());
         }

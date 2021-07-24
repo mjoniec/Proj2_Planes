@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Mqtt.Interfaces
+namespace Mqtt
 {
     public interface IMqttClient
     {
