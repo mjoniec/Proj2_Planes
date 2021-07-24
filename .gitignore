@@ -72,3 +72,5 @@
 /Backend/WeatherInfo/WeatherInfo/obj
 /Backend/WeatherInfo/.vs/WeatherInfo/v16
 /Backend/SharedKernel/Mqtt/.vs/Mqtt/DesignTimeBuild
+/Backend/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/bin
+/Backend/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/obj
