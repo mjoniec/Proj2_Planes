@@ -1,13 +1,52 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Model;
-using Mqtt.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace AirportService
+namespace WeatherInfo
 {
+    class OldAirportService
+    {
+    }
+
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = new HostBuilder()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    //for some reason on debug it acts as in production, see proj/env vars #22
+                    config.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: false);
+                    config.AddEnvironmentVariables();
+
+                    if (args != null)
+                    {
+                        config.AddCommandLine(args);
+                    }
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddOptions();
+                    services.Configure<MqttConfig>(hostContext.Configuration.GetSection("Mqtt"));//same section for server and client
+
+                    //adds mqtt server functionality
+                    services.AddSingleton<IHostedService, MqttService>();
+
+                    //adds client to publish messages
+                    services.AddSingleton<IMqttClientPublisher, MqttClientPublisher>();
+
+                    //adds service to run airport logic 
+                    services.AddHostedService<AirportService>();
+                })
+                .ConfigureLogging((hostingContext, logging) => {
+                    //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                });
+
+            await builder.RunConsoleAsync();
+        }
+    }
+
     public class AirportService : BackgroundService
     {
         private readonly ILogger _logger;

@@ -1,19 +1,50 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Model;
-using Mqtt;
-using Mqtt.Interfaces;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace PlaneService
+namespace WeatherInfo
 {
+    class OldPlaneService
+    {
+    }
+
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = new HostBuilder()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    //for some reason on debug it acts as in production, see proj/env vars #22
+                    config.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: false);
+                    config.AddEnvironmentVariables();
+
+                    if (args != null)
+                    {
+                        config.AddCommandLine(args);
+                    }
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddOptions();
+                    services.Configure<MqttConfig>(hostContext.Configuration.GetSection("Mqtt"));//same section for server and client
+
+                    //adds client to reveive messages
+                    services.AddSingleton<IMqttClientSubscriber, MqttClientSubscriber>();
+
+                    //adds service to run plane logic 
+                    services.AddHostedService<PlaneService>();
+                })
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                });
+
+            await builder.RunConsoleAsync();
+        }
+    }
+
     public class PlaneService : BackgroundService
     {
         private readonly ILogger<PlaneService> _logger;
@@ -50,7 +81,7 @@ namespace PlaneService
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation($"Plane " + _plane.Name + " position: " +_plane.Position.Latitude + " " + _plane.Position.Longitude );
+                _logger.LogInformation($"Plane " + _plane.Name + " position: " + _plane.Position.Latitude + " " + _plane.Position.Longitude);
 
                 //MovePlane();
                 MovePlane(_plane, DateTime.Now);
