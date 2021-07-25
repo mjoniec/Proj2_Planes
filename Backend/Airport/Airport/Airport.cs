@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -33,17 +34,13 @@ namespace Airport
             {
                 Name = AssignName(name),
                 Color = string.IsNullOrEmpty(color) ? "#" + new Random().Next(100000, 999999).ToString() : color,
-                Latitude = string.IsNullOrEmpty(latitude) ? new Random().Next(-150, 170) : Convert.ToDouble(latitude),
-                Longitude = string.IsNullOrEmpty(longitude) ? new Random().Next(-55, 70) : Convert.ToDouble(longitude)
+                Latitude = string.IsNullOrEmpty(latitude) ? new Random().Next(-150, 170) : double.Parse(latitude, CultureInfo.InvariantCulture),
+                Longitude = string.IsNullOrEmpty(longitude) ? new Random().Next(-55, 70) : double.Parse(longitude, CultureInfo.InvariantCulture)
             };
         }
 
         public async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //_configuration
-            //    .GetSection("Mqtt");
-            //.Bind(quandlApiOptions);
-             
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _httpClient.PostAsync(
