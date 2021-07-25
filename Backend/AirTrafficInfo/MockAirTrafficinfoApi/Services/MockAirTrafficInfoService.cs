@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace MockAirTrafficinfoApi.Services
 {
-    public class AirTrafficInfoService
+    public class MockAirTrafficInfoService
     {
         private readonly AirTrafficInfoContract _airTrafficInfoContract;
         
-        public AirTrafficInfoService()
+        public MockAirTrafficInfoService()
         {
             //USA
             var airport1 = new AirportContract

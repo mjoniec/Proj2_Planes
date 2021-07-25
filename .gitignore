@@ -75,3 +75,6 @@
 /Backend/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/bin
 /Backend/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/obj
 /Backend/SharedKernel/Mqtt/Mqtt/bin/Debug
+/Backend/AirTrafficInfo/MockAirTrafficinfoApi/bin/Debug/netcoreapp3.1
+/Backend/AirTrafficInfo/MockAirTrafficinfoApi/obj/Debug/netcoreapp3.1
+/Backend/AirTrafficInfo/MockAirTrafficinfoApi/obj

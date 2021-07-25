@@ -32,7 +32,7 @@ namespace MockAirTrafficinfoApi
                 });
             });
 
-            services.AddSingleton<AirTrafficInfoService>();
+            services.AddSingleton<MockAirTrafficInfoService>();
             services.AddSingleton<StaticResourcesService>();
         }
 

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirTrafficinfoApi", "AirTrafficinfoApi\AirTrafficinfoApi.csproj", "{048A451B-ED99-4C45-8D16-9521AE93007A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirTrafficinfoApi", "AirTrafficinfoApi\AirTrafficinfoApi.csproj", "{048A451B-ED99-4C45-8D16-9521AE93007A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockAirTrafficinfoApi", "MockAirTrafficinfoApi\MockAirTrafficinfoApi.csproj", "{6A6974AD-D279-4422-B90D-B724223F2178}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{048A451B-ED99-4C45-8D16-9521AE93007A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{048A451B-ED99-4C45-8D16-9521AE93007A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{048A451B-ED99-4C45-8D16-9521AE93007A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6974AD-D279-4422-B90D-B724223F2178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6974AD-D279-4422-B90D-B724223F2178}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6974AD-D279-4422-B90D-B724223F2178}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6974AD-D279-4422-B90D-B724223F2178}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

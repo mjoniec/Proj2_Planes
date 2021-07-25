@@ -10,10 +10,10 @@ namespace MockAirTrafficinfoApi.Controllers
     [ApiController]
     public class MockAirTrafficInfoController : ControllerBase
     {
-        private readonly AirTrafficInfoService _airTrafficInfoService;
+        private readonly MockAirTrafficInfoService _airTrafficInfoService;
         private readonly StaticResourcesService _staticResourcesService;
 
-        public MockAirTrafficInfoController(AirTrafficInfoService airTrafficInfoService, StaticResourcesService staticResourcesService)
+        public MockAirTrafficInfoController(MockAirTrafficInfoService airTrafficInfoService, StaticResourcesService staticResourcesService)
         {
             _airTrafficInfoService = airTrafficInfoService;
             _staticResourcesService = staticResourcesService;
