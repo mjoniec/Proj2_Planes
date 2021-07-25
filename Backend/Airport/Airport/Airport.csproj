@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AirTrafficInfoContracts" Version="1.0.8" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Mqtt" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>
