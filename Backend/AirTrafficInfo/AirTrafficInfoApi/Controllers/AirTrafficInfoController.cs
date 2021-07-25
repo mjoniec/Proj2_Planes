@@ -3,6 +3,7 @@ using AirTrafficInfoContracts;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AirTrafficInfoApi.Controllers
 {
@@ -11,10 +12,13 @@ namespace AirTrafficInfoApi.Controllers
     public class AirTrafficInfoController : ControllerBase
     {
         private readonly AirTrafficInfoService _airTrafficInfoService;
+        private readonly StaticResourcesService _staticResourcesService;
 
-        public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService)
+        public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService,
+            StaticResourcesService staticResourcesService)
         {
             _airTrafficInfoService = airTrafficInfoService;
+            _staticResourcesService = staticResourcesService;
         }
 
         [HttpGet]
@@ -43,6 +47,15 @@ namespace AirTrafficInfoApi.Controllers
         public void UpdateAirportInfo([FromBody] AirportContract airportContract)
         {
             _airTrafficInfoService.UpdateAirportInfo(airportContract);
+        }
+
+        //https://localhost:44389/api/AirTrafficInfo/WorldMap
+        [EnableCors("MyAllowedOrigins")]
+        [HttpGet]
+        [Route("WorldMap")]
+        public async Task<string> WorldMap()
+        {
+            return await _staticResourcesService.GetWorldMap();
         }
     }
 }

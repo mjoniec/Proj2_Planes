@@ -35,7 +35,13 @@ export class BubbleMapComponent implements OnDestroy {
 
     combineLatest([
       // this.http.get('assets/map/world.json'),
-      this.http.get('https://mockairtraffic.azurewebsites.net/api/MockAirTrafficInfo/WorldMap'),
+//      this.http.get('https://mockairtraffic.azurewebsites.net/api/MockAirTrafficInfo/WorldMap'),
+        
+        //production
+        //this.http.get('https://airtraffic.azurewebsites.net/api/AirTrafficInfo/WorldMap'),
+        
+        //localhost
+        this.http.get('https://localhost:44389/api/AirTrafficInfo/WorldMap'),
       this.theme.getJsTheme(),
     ])
       .pipe(takeWhile(() => this.alive))
