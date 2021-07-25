@@ -205,12 +205,12 @@ export class BubbleMapComponent implements OnDestroy {
     //return this.http.get('https://localhost:44389/api/MockAirTrafficInfo');
     
     //localhost on premises
-    //return this.http.get('https://localhost:44389/api/AirTrafficInfo');
+    return this.http.get('https://localhost:44389/api/AirTrafficInfo');
     
     //Docker localhost
     //return this.http.get('http://localhost:8880/api/AirTrafficInfo');
 
     //Azure mock
-    return this.http.get('https://mockairtraffic.azurewebsites.net/api/MockAirTrafficInfo');
+    //return this.http.get('https://mockairtraffic.azurewebsites.net/api/MockAirTrafficInfo');
   }
 }

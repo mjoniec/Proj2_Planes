@@ -78,3 +78,5 @@
 /Backend/AirTrafficInfo/MockAirTrafficinfoApi/bin/Debug/netcoreapp3.1
 /Backend/AirTrafficInfo/MockAirTrafficinfoApi/obj/Debug/netcoreapp3.1
 /Backend/AirTrafficInfo/MockAirTrafficinfoApi/obj
+/Backend/Plane/.vs/Plane/config
+/Backend/WeatherInfo/.vs/WeatherInfo/DesignTimeBuild
