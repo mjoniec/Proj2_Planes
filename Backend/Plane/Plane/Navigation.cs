@@ -48,6 +48,16 @@ namespace Plane
             plane.Longitude = position[1];
         }
 
+        public static bool HasPlaneReachedItsDestination(
+            double destinationAirportLatitude,
+            double destinationAirportLongitude,
+            double planeLatitude,
+            double planeLongitude)
+        {
+            return (Math.Abs(destinationAirportLatitude - planeLatitude) <= 1 &&
+                Math.Abs(destinationAirportLongitude - planeLongitude) <= 1);
+        }
+
         private static double BearingFromCoordinates(double lat1Rad, double lon1Rad, double lat2Rad, double lon2Rad)
         {
             double dLonRad = (lon2Rad - lon1Rad);

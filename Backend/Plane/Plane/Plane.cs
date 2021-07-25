@@ -141,8 +141,11 @@ namespace Plane
 
         private bool HasPlaneReachedItsDestination()
         {
-            return (Math.Abs(_planeContract.DestinationAirportLatitude - _planeContract.Latitude) <= 1 &&
-                Math.Abs(_planeContract.DestinationAirportLongitude - _planeContract.Longitude) <= 1);
+            return Navigation.HasPlaneReachedItsDestination(
+                _planeContract.DestinationAirportLatitude,
+                _planeContract.DestinationAirportLongitude,
+                _planeContract.Latitude,
+                _planeContract.Longitude);
         }
 
         /// <summary>
