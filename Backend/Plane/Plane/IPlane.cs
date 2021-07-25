@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Plane
 {
-    public interface IPlaneService
+    public interface IPlane
     {
         Task ExecuteAsync(CancellationToken stoppingToken);
     }

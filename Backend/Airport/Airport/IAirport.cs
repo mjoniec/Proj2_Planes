@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Airport
 {
-    public interface IAirportService
+    public interface IAirport
     {
         Task ExecuteAsync(CancellationToken stoppingToken);
     }

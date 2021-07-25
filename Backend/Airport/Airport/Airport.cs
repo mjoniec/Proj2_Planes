@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Airport
 {
-    public class AirportService : IAirportService
+    public class Airport : IAirport
     {
         private readonly string AirTrafficApiUpdateAirportInfoUrl;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private readonly AirportContract _airportContract;
 
-        public AirportService(IConfiguration configuration, IHostEnvironment hostEnvironment)
+        public Airport(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = configuration.GetValue<string>("name");
@@ -56,7 +56,7 @@ namespace Airport
         }
 
         /// <summary>
-        /// we do not want the name on production to have anything other than city name or pilots name 
+        /// we do not want the name on production to have anything other than city name
         /// we also want to see more info easily on non production environments
         /// </summary>
         /// <param name="name"></param>

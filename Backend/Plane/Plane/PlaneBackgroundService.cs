@@ -7,16 +7,16 @@ namespace Plane
 {
     public class PlaneBackgroundService : BackgroundService
     {
-        private readonly IPlaneService _service;
+        private readonly IPlane _plane;
 
         public PlaneBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
-            _service = new PlaneService(configuration, hostEnvironment);
+            _plane = new Plane(configuration, hostEnvironment);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _service.ExecuteAsync(stoppingToken);
+            await _plane.ExecuteAsync(stoppingToken);
         }
     }
 }

@@ -7,16 +7,16 @@ namespace Airport
 {
     public class AirportBackgroundService : BackgroundService
     {
-        private readonly IAirportService _service;
+        private readonly IAirport _airport;
 
         public AirportBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
-            _service = new AirportService(configuration, hostEnvironment);
+            _airport = new Airport(configuration, hostEnvironment);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _service.ExecuteAsync(stoppingToken);
+            await _airport.ExecuteAsync(stoppingToken);
         }
     }
 }

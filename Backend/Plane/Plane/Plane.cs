@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Plane
 {
-    public class PlaneService : IPlaneService
+    public class Plane : IPlane
     {
         private readonly string AirTrafficApiUpdatePlaneInfoUrl;
         private readonly string AirTrafficApiGetAirportsUrl;
@@ -19,7 +19,7 @@ namespace Plane
         private readonly HttpClient _httpClient;
         private PlaneContract _planeContract;
         
-        public PlaneService(IConfiguration configuration, IHostEnvironment hostEnvironment)
+        public Plane(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = configuration.GetValue<string>("name");
@@ -146,7 +146,7 @@ namespace Plane
         }
 
         /// <summary>
-        /// we do not want the name on production to have anything other than city name or pilots name 
+        /// we do not want the name on production to have anything other than pilot name 
         /// we also want to see more info easily on non production environments
         /// </summary>
         /// <param name="name"></param>
