@@ -1,5 +1,15 @@
 Architecture Decision Record
 
+1. Backend: 4 Folders with 4 solutions per each Bounded Context: Plane, Airport, TrafficApi, WeatherService. 
+
+1. 5th folder for shared Kernel containing: MQTT nuget (not planes solution specific), Common Contracts nuget. 
+
+1. Each launchable BC has a docker file. In main folder there is a compose file. 
+
+1. In main folder there is a ps file for on premises launch.
+
+1. Some low level technical logic like Airport/Plane Background Service was not abstracted into common lib. Too much complexity. Decision: business responsibility boundaries have priority over some code duplication. 
+
 1. Single source of truth model entanglements and issues - exampe: display symbol was present in model at some - nuget change required to change sth on angular UI
 
 1. From point of view of plane it has 2 sources of weather info. It gets immediate notifications from MQTT about bad weather change that he needs to act upon. Traffic api info through HTTP is about available airports with good weather condition during next destinatio pick.
@@ -10,7 +20,7 @@ Architecture Decision Record
 
 1. mqtt common nuget/server/lib wraps external mqttnet nuget - some refactor needed to make it more clear
 
-1. ui bubble map example is good enough fit to host say 20 airports and 50 planes. It won be good to display tousands of nodes web and traffic. 
+1. ui bubble map example is good enough fit to host say 20 airports and 50 planes. It won't be good to display hundreds of nodes in traffic. 
 
 1. Some good example (but code not schared or vanilla 5000 liner JS) found: http://works.artzub.com/wandera/
 Some actual working application like this example: https://flight-radar.eu/
