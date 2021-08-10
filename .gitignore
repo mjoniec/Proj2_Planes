@@ -81,3 +81,6 @@
 /Backend/Plane/.vs/Plane/config
 /Backend/WeatherInfo/.vs/WeatherInfo/DesignTimeBuild
 /Backend/AirTrafficInfo/AirTrafficInfoServices/obj
+/Backend/AirTrafficInfo/AirTrafficInfoServices/bin/Debug/netcoreapp3.1
+/Backend/AirTrafficInfo/SimulatedTraffic/bin/Debug/netcoreapp3.1
+/Backend/AirTrafficInfo/SimulatedTraffic/obj

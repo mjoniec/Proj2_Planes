@@ -2,9 +2,9 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace AirTrafficInfoServices
+namespace AirTrafficInfoApi.Services
 {
-    public class StaticResourcesService
+    public class StaticResourcesProvider
     {
         public async Task<string> GetWorldMap()
         {

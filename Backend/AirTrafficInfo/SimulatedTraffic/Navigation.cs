@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MockAirTrafficinfoApi.Services
+namespace SimulatedTraffic
 {
     public static class Navigation
     {

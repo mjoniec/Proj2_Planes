@@ -1,6 +1,5 @@
 ﻿using AirTrafficInfoApi.Services;
 using AirTrafficInfoContracts;
-using AirTrafficInfoServices;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -13,13 +12,13 @@ namespace AirTrafficInfoApi.Controllers
     public class AirTrafficInfoController : ControllerBase
     {
         private readonly AirTrafficInfoService _airTrafficInfoService;
-        private readonly StaticResourcesService _staticResourcesService;
+        private readonly StaticResourcesProvider _staticResourcesProvider;
 
         public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService,
-            StaticResourcesService staticResourcesService)
+            StaticResourcesProvider staticResourcesService)
         {
             _airTrafficInfoService = airTrafficInfoService;
-            _staticResourcesService = staticResourcesService;
+            _staticResourcesProvider = staticResourcesService;
         }
 
         [HttpGet]
@@ -33,21 +32,21 @@ namespace AirTrafficInfoApi.Controllers
         [Route("GetAirports")]
         public List<AirportContract> GetAirports()
         {
-            return _airTrafficInfoService.GetAirports();
+            return _airTrafficInfoService.GetAirTrafficInfo().Airports;
         }
 
         [HttpPost]
         [Route("UpdatePlaneInfo")]
         public void UpdatePlaneInfo([FromBody] PlaneContract planeContract)
         {
-            _airTrafficInfoService.UpdatePlaneInfo(planeContract);
+            _airTrafficInfoService.UpdatePlane(planeContract);
         }
 
         [HttpPost]
         [Route("UpdateAirportInfo")]
         public void UpdateAirportInfo([FromBody] AirportContract airportContract)
         {
-            _airTrafficInfoService.UpdateAirportInfo(airportContract);
+            _airTrafficInfoService.UpdateAirport(airportContract);
         }
 
         //https://localhost:44389/api/AirTrafficInfo/WorldMap
@@ -56,7 +55,7 @@ namespace AirTrafficInfoApi.Controllers
         [Route("WorldMap")]
         public async Task<string> WorldMap()
         {
-            return await _staticResourcesService.GetWorldMap();
+            return await _staticResourcesProvider.GetWorldMap();
         }
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AirTrafficInfoServices
+namespace SimulatedTraffic
 {
     public static class AirTrafficInfoContractDataFactory
     {

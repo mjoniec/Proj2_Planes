@@ -25,12 +25,16 @@ namespace AirTrafficInfoApi
             {
                 options.AddPolicy("MyAllowedOrigins", builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200");
+                    builder.WithOrigins(
+                        "http://localhost:4200",
+                        "http://planesui.azurewebsites.net",
+                        "https://planesui.azurewebsites.net/pages/maps/bubble"
+                    );
                 });
             });
 
-            services.AddSingleton<AirTrafficInfoService>();
-            services.AddSingleton<StaticResourcesService>();
+            services.AddSingleton<IAirTrafficInfoService, AirTrafficInfoService>();
+            services.AddSingleton<StaticResourcesProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

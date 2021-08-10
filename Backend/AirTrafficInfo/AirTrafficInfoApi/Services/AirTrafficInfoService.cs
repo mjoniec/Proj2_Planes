@@ -1,10 +1,11 @@
-﻿using AirTrafficInfoContracts;
+﻿using AirTrafficInfoApi.Services;
+using AirTrafficInfoContracts;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AirTrafficInfoApi.Services
 {
-    public class AirTrafficInfoService
+    public class AirTrafficInfoService : IAirTrafficInfoService
     {
         private List<PlaneContract> Planes => _airTrafficInfoContract.Planes;
         private List<AirportContract> Airports => _airTrafficInfoContract.Airports;
@@ -19,16 +20,14 @@ namespace AirTrafficInfoApi.Services
             };
         }
 
-        internal AirTrafficInfoContract GetAirTrafficInfo() =>
+        public AirTrafficInfoContract GetAirTrafficInfo() =>
             new AirTrafficInfoContract
             {
                 Airports = Airports,
                 Planes = Planes
             };
-        
-        public List<AirportContract> GetAirports() => Airports;
 
-        internal void UpdatePlaneInfo(PlaneContract planeContract)
+        public void UpdatePlane(PlaneContract planeContract)
         {
             if (!Planes.Any(p => p.Name == planeContract.Name))
             {
@@ -46,7 +45,7 @@ namespace AirTrafficInfoApi.Services
             }
         }
 
-        internal void UpdateAirportInfo(AirportContract airportContract)
+        public void UpdateAirport(AirportContract airportContract)
         {
             if (!Airports.Any(p => p.Name == airportContract.Name))
             {
