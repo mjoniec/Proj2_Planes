@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirTrafficinfoApi", "AirTra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockAirTrafficinfoApi", "MockAirTrafficinfoApi\MockAirTrafficinfoApi.csproj", "{6A6974AD-D279-4422-B90D-B724223F2178}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirTrafficInfoServices", "AirTrafficInfoServices\AirTrafficInfoServices.csproj", "{C379C65F-3D2D-4B01-A293-D7AF6A4262EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6A6974AD-D279-4422-B90D-B724223F2178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A6974AD-D279-4422-B90D-B724223F2178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A6974AD-D279-4422-B90D-B724223F2178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C379C65F-3D2D-4B01-A293-D7AF6A4262EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C379C65F-3D2D-4B01-A293-D7AF6A4262EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C379C65F-3D2D-4B01-A293-D7AF6A4262EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C379C65F-3D2D-4B01-A293-D7AF6A4262EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

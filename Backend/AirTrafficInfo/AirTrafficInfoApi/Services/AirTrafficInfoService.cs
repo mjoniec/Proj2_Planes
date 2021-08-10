@@ -6,33 +6,37 @@ namespace AirTrafficInfoApi.Services
 {
     public class AirTrafficInfoService
     {
-        private readonly List<PlaneContract> _planes;
-        private readonly List<AirportContract> _airports;
+        private List<PlaneContract> Planes => _airTrafficInfoContract.Planes;
+        private List<AirportContract> Airports => _airTrafficInfoContract.Airports;
+        private readonly AirTrafficInfoContract _airTrafficInfoContract;
 
         public AirTrafficInfoService()
         {
-            _planes = new List<PlaneContract>();
-            _airports = new List<AirportContract>();
+            _airTrafficInfoContract = new AirTrafficInfoContract
+            {
+                Airports = new List<AirportContract>(),
+                Planes = new List<PlaneContract>()
+            };
         }
 
         internal AirTrafficInfoContract GetAirTrafficInfo() =>
             new AirTrafficInfoContract
             {
-                Airports = _airports,
-                Planes = _planes
+                Airports = Airports,
+                Planes = Planes
             };
         
-        public List<AirportContract> GetAirports() => _airports;
+        public List<AirportContract> GetAirports() => Airports;
 
         internal void UpdatePlaneInfo(PlaneContract planeContract)
         {
-            if (!_planes.Any(p => p.Name == planeContract.Name))
+            if (!Planes.Any(p => p.Name == planeContract.Name))
             {
-                _planes.Add(planeContract);
+                Planes.Add(planeContract);
             }
             else
             {
-                var planeToUpdate = _planes.First(p => p.Name == planeContract.Name);
+                var planeToUpdate = Planes.First(p => p.Name == planeContract.Name);
 
                 //make a separate presentation model out of it?
                 planeToUpdate.Latitude = planeContract.Latitude;
@@ -44,13 +48,13 @@ namespace AirTrafficInfoApi.Services
 
         internal void UpdateAirportInfo(AirportContract airportContract)
         {
-            if (!_airports.Any(p => p.Name == airportContract.Name))
+            if (!Airports.Any(p => p.Name == airportContract.Name))
             {
-                _airports.Add(airportContract);
+                Airports.Add(airportContract);
             }
             else
             {
-                var airportToUpdate = _airports.First(p => p.Name == airportContract.Name);
+                var airportToUpdate = Airports.First(p => p.Name == airportContract.Name);
 
                 //new presentation model lat lon readonly as they do not change
                 airportToUpdate.IsGoodWeather = airportContract.IsGoodWeather;

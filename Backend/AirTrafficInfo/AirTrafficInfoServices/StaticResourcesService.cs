@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace AirTrafficInfoApi.Services
+namespace AirTrafficInfoServices
 {
     public class StaticResourcesService
     {
