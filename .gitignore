@@ -84,3 +84,6 @@
 /Backend/AirTrafficInfo/AirTrafficInfoServices/bin/Debug/netcoreapp3.1
 /Backend/AirTrafficInfo/SimulatedTraffic/bin/Debug/netcoreapp3.1
 /Backend/AirTrafficInfo/SimulatedTraffic/obj
+/Backend/SimulatedTraffic/SimulatedTraffic/bin/Debug/netcoreapp3.1
+/Backend/SimulatedTraffic/SimulatedTraffic/obj
+/Backend/SimulatedTraffic/.vs/SimulatedTraffic/v16

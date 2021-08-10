@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>dotnet-SimulatedTraffic-10A8DFB5-ABC4-46BC-AA31-D454D7C5A275</UserSecretsId>
+    <UserSecretsId>dotnet-SimulatedTraffic-CA74DE21-E6AA-463A-8623-E3833B6FE3DC</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AirTrafficInfoContracts" Version="1.0.8" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.10" />
   </ItemGroup>
 </Project>
