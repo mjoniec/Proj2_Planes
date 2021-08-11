@@ -1,8 +1,10 @@
 ﻿using AirTrafficInfoContracts;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,40 +12,74 @@ namespace SimulatedTraffic
 {
     public class SimulatedTrafficBackgroundService : BackgroundService
     {
-        private readonly IHostEnvironment _hostEnvironment;
+        //private readonly IHostEnvironment _hostEnvironment;
+        private readonly string _trafficApiUpdateAirportUrl;
+        private readonly string _trafficApiUpdatePlaneUrl;
         private readonly HttpClient _httpClient;
         private readonly AirTrafficInfoContract _airTrafficInfoContract;
 
         public SimulatedTrafficBackgroundService(IHostEnvironment hostEnvironment)
         {
+            _trafficApiUpdateAirportUrl = hostEnvironment.EnvironmentName == "Development"
+                ? $"https://localhost:44389/api/AirTrafficInfo/UpdateAirportInfo"
+                : $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo";//to be tested ...
+
+            //_hostEnvironment = hostEnvironment;
+            //TODO: refactor these urls after deployment is figured out
+            _trafficApiUpdatePlaneUrl = hostEnvironment.EnvironmentName == "Development"
+                ? $"https://localhost:44389/api/AirTrafficInfo/UpdatePlaneInfo"
+                : $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo";//to be tested ...
+
             _airTrafficInfoContract = AirTrafficInfoContractDataFactory.Get();
-            _hostEnvironment = hostEnvironment;
             _httpClient = new HttpClient();
+
+            SendAirportsToTrafficApi();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //TODO: refactor these urls after deployment is figured out
-            var url = _hostEnvironment.EnvironmentName == "Development"
-                ? $"https://localhost:44389/api/AirTrafficInfo"
-                : $"http://mockairtraffic.azurewebsites.net/api/mockAirTrafficInfo";
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                UpdateTraffic();
+                MovePlanes();
 
-                await _httpClient.PostAsync(url, null);
+                SendPlanesToTrafficApi();
 
-                await Task.Delay(1100, stoppingToken);
+                await Task.Delay(4000, stoppingToken);
             }
         }
 
-        private void UpdateTraffic()
+        private void SendAirportsToTrafficApi()
         {
-            _airTrafficInfoContract.Planes.ForEach(p => UpdatePlane(p));
+            _airTrafficInfoContract.Airports.ForEach(a => SendAirportToTrafficApi(a));
         }
 
-        private void UpdatePlane(PlaneContract planeContract)
+        private void SendAirportToTrafficApi(AirportContract airport)
+        {
+            _httpClient.PostAsync(
+                _trafficApiUpdateAirportUrl,
+                new StringContent(JsonConvert.SerializeObject(airport),
+                Encoding.UTF8, "application/json"));
+        }
+
+        private void SendPlanesToTrafficApi()
+        {
+            _airTrafficInfoContract.Planes.ForEach(p => SendPlaneUpdateToTrafficApi(p));
+        }
+
+        private void SendPlaneUpdateToTrafficApi(PlaneContract plane)
+        {
+            _httpClient.PostAsync(
+                _trafficApiUpdatePlaneUrl,
+                new StringContent(JsonConvert.SerializeObject(plane),
+                Encoding.UTF8, "application/json"));
+        }
+
+        private void MovePlanes()
+        {
+            _airTrafficInfoContract.Planes.ForEach(p => MovePlane(p));
+        }
+
+        private void MovePlane(PlaneContract planeContract)
         {
             //this is supposed to be calculated in mock system worker - export and this is to update only
             var currentTime = DateTime.Now;
