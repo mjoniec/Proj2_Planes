@@ -33,7 +33,8 @@ namespace AirTrafficInfoApi
                 });
             });
 
-            services.AddSingleton<IAirTrafficInfoService, AirTrafficInfoService>();
+            services.AddSingleton<AirTrafficInfoService>();
+            services.AddSingleton<IAirTrafficInfoService, AirTrafficInfoService>(s => s.GetService<AirTrafficInfoService>());
             services.AddSingleton<StaticResourcesProvider>();
         }
 
