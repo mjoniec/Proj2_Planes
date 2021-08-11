@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace AirTrafficInfoApi.Services
 {
+    //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
     public class StaticResourcesProvider
     {
         public async Task<string> GetWorldMap()

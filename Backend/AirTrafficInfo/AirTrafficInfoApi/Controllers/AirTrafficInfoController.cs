@@ -49,6 +49,7 @@ namespace AirTrafficInfoApi.Controllers
             _airTrafficInfoService.UpdateAirport(airportContract);
         }
 
+        //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
         //https://localhost:44389/api/AirTrafficInfo/WorldMap
         [EnableCors("MyAllowedOrigins")]
         [HttpGet]
