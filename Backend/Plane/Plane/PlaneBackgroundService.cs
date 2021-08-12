@@ -7,7 +7,7 @@ namespace Plane
 {
     public class PlaneBackgroundService : BackgroundService
     {
-        private readonly IPlane _plane;
+        private readonly Plane _plane;
 
         public PlaneBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
@@ -16,7 +16,21 @@ namespace Plane
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _plane.ExecuteAsync(stoppingToken);
+            //await _plane.ExecuteAsync(stoppingToken);
+
+            await _plane.StartPlane();
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await UpdatePlane();
+
+                await _httpClient.PostAsync(
+                    AirTrafficApiUpdatePlaneInfoUrl,
+                    new StringContent(JsonConvert.SerializeObject(_planeContract),
+                    Encoding.UTF8, "application/json"));
+
+                await Task.Delay(600, stoppingToken);
+            }
         }
     }
 }

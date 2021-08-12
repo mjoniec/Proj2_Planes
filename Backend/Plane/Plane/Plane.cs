@@ -11,7 +11,16 @@ using System.Threading.Tasks;
 
 namespace Plane
 {
-    public class Plane : IPlane
+    /// <summary>
+    /// Comment for PR:
+    /// - Domain object Plane should not have http client directly and handle connection logic - it should have airports data query or sth ...
+    /// - Domain object Plane should not have stopping token, that logic belongs in host service or worker, plane should expose how to start update and stop it, business domain behavior
+    /// - navigation (shared kernel?) class have move plane method, that is leaking language, it should have move point x by speed y on time t etc ...
+    /// - navigation in plane or domain specific assumption (like accuracy when we consider destination as reached) should be in plane
+    /// - plane and its navigation should be abstract to its host service, usable from simulated traffic and actual background worker 
+    /// </summary>
+
+    public class Plane
     {
         private readonly string AirTrafficApiUpdatePlaneInfoUrl;
         private readonly string AirTrafficApiGetAirportsUrl;
@@ -36,25 +45,13 @@ namespace Plane
             };
         }
 
-        public async Task ExecuteAsync(CancellationToken stoppingToken)
+        /// <summary>
+        /// Setup Destination and Departure Airports for the Plane
+        /// </summary>
+        /// <returns></returns>
+        public async Task StartPlane()
         {
-            await SetupDestinationAndDepartureAirportsForNewPlane();
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await UpdatePlane();
-
-                await _httpClient.PostAsync(
-                    AirTrafficApiUpdatePlaneInfoUrl,
-                    new StringContent(JsonConvert.SerializeObject(_planeContract),
-                    Encoding.UTF8, "application/json"));
-
-                await Task.Delay(600, stoppingToken);
-            }
-        }
-
-        private async Task SetupDestinationAndDepartureAirportsForNewPlane()
-        {
+            //any way not to duplicate this code with method below?
             var airports = await GetCurrentlyAvailableAirports();
 
             if (!AreEnoughAirportsToSelectNewDestination(airports))
@@ -71,6 +68,20 @@ namespace Plane
             _planeContract.SetDestinationAirportData(randomDestinationAirport);
             _planeContract.DepartureTime = DateTime.Now;
             _planeContract.LastPositionUpdate = DateTime.Now;
+        }
+
+        public async Task UpdatePlane()
+        {
+            var currentTime = DateTime.Now;
+
+            Navigation.MovePlane(ref _planeContract, currentTime);
+
+            _planeContract.LastPositionUpdate = currentTime;
+
+            if (HasPlaneReachedItsDestination())
+            {
+                await SelectNewDestinationAirport();
+            }
         }
 
         private async Task SelectNewDestinationAirport()
@@ -123,20 +134,6 @@ namespace Plane
             airportsWithoutException.RemoveAll(a => a.Name == exceptThisAirportName);
 
             return airportsWithoutException[new Random().Next(0, airportsWithoutException.Count)];
-        }
-
-        private async Task UpdatePlane()
-        {
-            var currentTime = DateTime.Now;
-
-            Navigation.MovePlane(ref _planeContract, currentTime);
-
-            _planeContract.LastPositionUpdate = currentTime;
-
-            if (HasPlaneReachedItsDestination())
-            {
-                await SelectNewDestinationAirport();
-            }
         }
 
         private bool HasPlaneReachedItsDestination()
