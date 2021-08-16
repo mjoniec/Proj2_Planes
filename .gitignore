@@ -88,3 +88,5 @@
 /Backend/SimulatedTraffic/SimulatedTraffic/obj
 /Backend/SimulatedTraffic/.vs/SimulatedTraffic/v16
 /Backend/SimulatedTraffic/.vs/SimulatedTraffic/DesignTimeBuild/.dtbcache.v2
+/Frontend/node_modules/.bin
+/Frontend/node_modules
