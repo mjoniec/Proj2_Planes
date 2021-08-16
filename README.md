@@ -1,9 +1,3 @@
-# UI Client
-
-- localhost - PowerShell C:\...\Planes\Frontend> npm start - 1st build likely to cause error, if so execute this: npm install --save-dev @angular-devkit/build-angular - open at url: http://localhost:4200/pages/maps/bubble
-- Production - https://planesui.azurewebsites.net - then navigate to map
-
-
 # Mock Api
 
 - Production - https://mockairtraffic.azurewebsites.net
@@ -14,6 +8,9 @@
 - On Premises - PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 - manual launch from visual studio wont set up names right - https://localhost:44389/api/AirTrafficInfo
 - Docker Compose - docker-compose up - http://localhost:8880/api/AirTrafficInfo
 
+# UI Client
+
+https://github.com/mjoniec/UI/tree/main/Proj2_Planes
 
 -------------------------
 
