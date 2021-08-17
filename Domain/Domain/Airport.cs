@@ -1,5 +1,5 @@
 ﻿using AirTrafficInfoContracts;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;//TODO get rid of these http specific clients, export to shared kernel expose through interface
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Airport
+namespace Domain
 {
-    public class Airport : IAirport
+    public class Airport
     {
         private readonly string AirTrafficApiUpdateAirportInfoUrl;
         private readonly IHostEnvironment _hostEnvironment;

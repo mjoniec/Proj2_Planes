@@ -1,5 +1,5 @@
 ﻿using AirTrafficInfoContracts;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;//TODO get rid of these http specific clients, export to shared kernel expose through interface
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Plane
+namespace Domain
 {
     /// <summary>
     /// Comment for PR:
@@ -27,7 +27,7 @@ namespace Plane
         private readonly IHostEnvironment _hostEnvironment;
         private readonly HttpClient _httpClient;
         private PlaneContract _planeContract;
-        
+
         public Plane(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
@@ -98,7 +98,7 @@ namespace Plane
             var randomDestinationAirport = SelectRandomAirportExceptTheOneProvided(airports, _planeContract.DestinationAirportName);
 
             _planeContract.SetNewDestinationAndDepartureAirports(randomDestinationAirport);
-            _planeContract.DepartureTime = DateTime.Now;            
+            _planeContract.DepartureTime = DateTime.Now;
         }
 
         private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()

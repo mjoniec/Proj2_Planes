@@ -7,7 +7,7 @@ namespace Airport
 {
     public class AirportBackgroundService : BackgroundService
     {
-        private readonly IAirport _airport;
+        private readonly Airport _airport;
 
         public AirportBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
