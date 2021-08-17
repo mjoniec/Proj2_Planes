@@ -25,7 +25,7 @@ namespace Domain
         private readonly string AirTrafficApiUpdatePlaneInfoUrl;
         private readonly string AirTrafficApiGetAirportsUrl;
         private readonly IHostEnvironment _hostEnvironment;
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient;//TODO - export http dependencies away from domain
         private PlaneContract _planeContract;
 
         public Plane(IConfiguration configuration, IHostEnvironment hostEnvironment)
@@ -150,7 +150,7 @@ namespace Domain
         /// we also want to see more info easily on non production environments
         /// </summary>
         /// <param name="name"></param>
-        private string AssignName(string name)
+        private string AssignName(string name) //TODO this should go to hosted services 
         {
             if (string.IsNullOrEmpty(name))
             {

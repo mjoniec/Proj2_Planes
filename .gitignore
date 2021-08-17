@@ -119,3 +119,4 @@
 /Backend/WeatherInfo/.vs/WeatherInfo/config
 /Domain/.vs/Domain/DesignTimeBuild
 /Domain/Domain/obj
+/HostedServices/WeatherInfoHostedServiceMqtt/.vs/WeatherInfoHostedServiceMqtt/DesignTimeBuild/.dtbcache.v2
