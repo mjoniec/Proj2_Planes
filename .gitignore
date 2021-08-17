@@ -90,3 +90,15 @@
 /Backend/SimulatedTraffic/.vs/SimulatedTraffic/DesignTimeBuild/.dtbcache.v2
 /Frontend/node_modules/.bin
 /Frontend/node_modules
+/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/bin/Debug/netcoreapp3.1
+/SharedKernel/AirTrafficInfoContracts/AirTrafficInfoContracts/obj
+/SharedKernel/Mqtt/Mqtt/obj
+/SharedKernel/Mqtt/Mqtt/bin/Debug
+/SharedKernel/Mqtt/.vs/Mqtt/v16/.suo
+/SharedKernel/Mqtt/.vs/Mqtt/v16
+/SharedKernel/Mqtt/.vs/Mqtt/DesignTimeBuild/.dtbcache.v2
+/SharedKernel/Mqtt/.vs/Mqtt/DesignTimeBuild
+/SharedKernel/Mqtt/.vs/Mqtt
+/SharedKernel/AirTrafficInfoContracts/.vs/AirTrafficInfoContracts/v16/.suo
+/SharedKernel/AirTrafficInfoContracts/.vs/AirTrafficInfoContracts/v16
+/SharedKernel/AirTrafficInfoContracts/.vs/AirTrafficInfoContracts/DesignTimeBuild/.dtbcache.v2
