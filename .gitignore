@@ -104,3 +104,17 @@
 /SharedKernel/AirTrafficInfoContracts/.vs/AirTrafficInfoContracts/DesignTimeBuild/.dtbcache.v2
 /Domain/Domain/obj
 /Domain/.vs/Domain/v16
+/HostedServices/AirportHostedService/.vs/AirportHostedService
+/HostedServices/AirportHostedService/AirportHostedService/obj
+/HostedServices/AirTrafficInfoApi/.vs/AirTrafficInfoApi/v16
+/HostedServices/AirTrafficInfoApi/AirTrafficInfoApi/obj
+/HostedServices/PlaneHostedService/.vs/PlaneHostedService
+/HostedServices/PlaneHostedService/PlaneHostedService/obj
+/HostedServices/SimulatedTrafficHostedService/.vs/SimulatedTrafficHostedService/DesignTimeBuild
+/HostedServices/SimulatedTrafficHostedService/SimulatedTrafficHostedService/bin/Debug/netcoreapp3.1
+/HostedServices/SimulatedTrafficHostedService/.vs/SimulatedTrafficHostedService/v16
+/HostedServices/SimulatedTrafficHostedService/SimulatedTrafficHostedService/obj
+/HostedServices/WeatherInfoHostedServiceMqtt/WeatherInfoHostedServiceMqtt/obj
+/HostedServices/WeatherInfoHostedServiceMqtt/.vs/WeatherInfoHostedServiceMqtt/v16
+/Backend/WeatherInfo/.vs/WeatherInfo/config
+/Domain/.vs/Domain/DesignTimeBuild
