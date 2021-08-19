@@ -120,3 +120,10 @@
 /Domain/.vs/Domain/DesignTimeBuild
 /Domain/Domain/obj
 /HostedServices/WeatherInfoHostedServiceMqtt/.vs/WeatherInfoHostedServiceMqtt/DesignTimeBuild/.dtbcache.v2
+/Domain/Domain/obj/Debug/netcoreapp3.1/Domain.AssemblyInfoInputs.cache
+/Domain/Domain/obj/Debug/netcoreapp3.1/Domain.assets.cache
+/Domain/Domain/obj/Debug/netcoreapp3.1/Domain.csproj.CoreCompileInputs.cache
+/Domain/Domain/obj/Debug/netcoreapp3.1/Domain.csproj.FileListAbsolute.txt
+/Domain/Domain/obj/Debug/netcoreapp3.1/Domain.csprojAssemblyReference.cache
+/Domain/Domain/obj/Debug/netcoreapp3.1/.NETCoreApp,Version=v3.1.AssemblyAttributes.cs
+/Domain/Domain/obj/Debug/netcoreapp3.1/Domain.AssemblyInfo.cs

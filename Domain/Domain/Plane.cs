@@ -1,12 +1,7 @@
 ﻿using AirTrafficInfoContracts;
-using Microsoft.Extensions.Configuration;//TODO get rid of these http specific clients, export to shared kernel expose through interface
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Domain
@@ -22,26 +17,14 @@ namespace Domain
 
     public class Plane
     {
-        private readonly string AirTrafficApiUpdatePlaneInfoUrl;
-        private readonly string AirTrafficApiGetAirportsUrl;
-        private readonly IHostEnvironment _hostEnvironment;
-        private readonly HttpClient _httpClient;//TODO - export http dependencies away from domain
         private PlaneContract _planeContract;
 
-        public Plane(IConfiguration configuration, IHostEnvironment hostEnvironment)
+        public Plane(string name)
         {
-            //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = configuration.GetValue<string>("name");
-
-            AirTrafficApiUpdatePlaneInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdatePlaneInfoUrl));
-            AirTrafficApiGetAirportsUrl = configuration.GetValue<string>(nameof(AirTrafficApiGetAirportsUrl));
-
-            _hostEnvironment = hostEnvironment;
-            _httpClient = new HttpClient();
             _planeContract = new PlaneContract
             {
-                Name = AssignName(name),
-                SpeedInMetersPerSecond = 1000000
+                Name = name,
+                SpeedInMetersPerSecond = 1000000 //business constant - speed is as such for updates to be notable
             };
         }
 
@@ -103,7 +86,7 @@ namespace Domain
 
         private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
         {
-            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl);
+            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl); //TODO get rid of these http specific clients, export to shared kernel expose through interface, inject some service here
             var json = await response.Content.ReadAsStringAsync();
             var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
 
@@ -143,47 +126,6 @@ namespace Domain
                 _planeContract.DestinationAirportLongitude,
                 _planeContract.Latitude,
                 _planeContract.Longitude);
-        }
-
-        /// <summary>
-        /// we do not want the name on production to have anything other than pilot name 
-        /// we also want to see more info easily on non production environments
-        /// </summary>
-        /// <param name="name"></param>
-        private string AssignName(string name) //TODO this should go to hosted services 
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                if (_hostEnvironment.EnvironmentName == "Development")//manual on premises launch from visual studio
-                {
-                    name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
-                }
-                else if (_hostEnvironment.EnvironmentName == "Docker")
-                {
-                    name = "Error - PlaneNameShouldHaveBeenGivenFor_" + _hostEnvironment.EnvironmentName + "_Environment_" + new Random().Next(1001, 9999).ToString();
-                }
-                else
-                {
-                    name = "Warning - Unpredicted Environment - Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
-                }
-            }
-            else
-            {
-                if (_hostEnvironment.EnvironmentName == "Development")//on premises launch from ps script
-                {
-                    name += "_" + _hostEnvironment.EnvironmentName;
-                }
-                else if (_hostEnvironment.EnvironmentName == "Docker")
-                {
-                    //production name - expected to be displayed as given from docker compose
-                }
-                else
-                {
-                    name += "Warning - Unpredicted Environment - Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
-                }
-            }
-
-            return name;
         }
     }
 }
