@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -19,13 +20,11 @@ namespace PlaneHostedService
 
         public PlaneBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
-            _httpClient = new HttpClient();
-
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = AssignName(configuration.GetValue<string>("name"));
 
             _plane = new Plane(name);
-
+            _httpClient = new HttpClient();
             _hostEnvironment = hostEnvironment;
             AirTrafficApiUpdatePlaneInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdatePlaneInfoUrl));
             AirTrafficApiGetAirportsUrl = configuration.GetValue<string>(nameof(AirTrafficApiGetAirportsUrl));
@@ -39,7 +38,7 @@ namespace PlaneHostedService
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                await UpdatePlane();
+                await _plane.UpdatePlane();
 
                 await _httpClient.PostAsync(
                     AirTrafficApiUpdatePlaneInfoUrl,
