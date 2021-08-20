@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "AirportService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

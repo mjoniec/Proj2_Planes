@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "TrafficSimulatorService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
