@@ -1,9 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TrafficSimulatorService
 {
@@ -18,7 +14,7 @@ namespace TrafficSimulatorService
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    services.AddHostedService<SimulatedTrafficBackgroundService>();
                 });
     }
 }
