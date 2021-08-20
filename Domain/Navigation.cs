@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contracts;
+using System;
 using System.Collections.Generic;
 
 namespace Domain
@@ -10,7 +11,7 @@ namespace Domain
         /// Based on: https://www.movable-type.co.uk/scripts/latlong.html#destPoint
         /// </summary>
         /// <param name="geoCoordinate"></param>
-        public static void MovePlane(ref PlaneContract plane, DateTime currentTime)
+        public static void MovePlane(ref PlaneContract plane, DateTime currentTime)//TODO is ref really needed here ????
         {
             //given:
             //  departure time and current time

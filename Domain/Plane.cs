@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Contracts;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
