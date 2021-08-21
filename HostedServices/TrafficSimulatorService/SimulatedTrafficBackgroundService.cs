@@ -2,6 +2,7 @@
 using HttpUtils;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,10 +30,14 @@ namespace TrafficSimulatorService
                 ? $"https://localhost:44389/api/AirTrafficInfo/UpdatePlaneInfo"
                 : $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo";//to be tested ...
 
-            _planes = DomainObjectsDataFactory.GetPlanes();
+            _trafficInfoHttpClient = new TrafficInfoHttpClient();
             _airports = DomainObjectsDataFactory.GetAirports();
-            //_airTrafficInfoContract = DomainObjectsDataFactory.Get();
+            _planes = DomainObjectsDataFactory.GetPlanes();
 
+            //start all planes, it sets up departure and destination airports, else positions will show as 0
+            var airportsContracts = _airports.Select(a => a.AirportContract).ToList();
+            _planes.ForEach(p => p.StartPlane(airportsContracts));
+            
             SendAirportsToTrafficApi();
         }
 
@@ -55,13 +60,11 @@ namespace TrafficSimulatorService
 
         private void SendAirportsToTrafficApi()
         {
-            //_airTrafficInfoContract.Airports.ForEach(a => SendAirportToTrafficApi(a));
             _airports.ForEach(async a => await _trafficInfoHttpClient.PostAirportInfo(a.AirportContract, _trafficApiUpdateAirportUrl));
         }
 
         private void SendPlanesToTrafficApi()
         {
-            //_airTrafficInfoContract.Planes.ForEach(p => _trafficInfoHttpClient.PostPlaneInfo(p, _trafficApiUpdatePlaneUrl));
             _planes.ForEach(async p => await _trafficInfoHttpClient.PostPlaneInfo(p.PlaneContract, _trafficApiUpdatePlaneUrl));
         }
     }
