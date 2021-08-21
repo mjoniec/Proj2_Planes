@@ -1,9 +1,7 @@
 ﻿using Domain;
+using HttpUtils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
@@ -13,8 +11,7 @@ namespace AirportService
     public class AirportBackgroundService : BackgroundService
     {
         private readonly Airport _airport;
-
-        private readonly HttpClient _httpClient;
+        private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly string AirTrafficApiUpdateAirportInfoUrl;
 
@@ -27,7 +24,7 @@ namespace AirportService
             var longitude = configuration.GetValue<string>("longitude");
 
             _airport = new Airport(name, color, latitude, longitude);
-            _httpClient = new HttpClient();
+            _trafficInfoHttpClient = new TrafficInfoHttpClient();
             _hostEnvironment = hostEnvironment;
             AirTrafficApiUpdateAirportInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdateAirportInfoUrl));
         }
@@ -37,13 +34,8 @@ namespace AirportService
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _airport.UpdateAirport();
-
-                await _httpClient.PostAsync(
-                    AirTrafficApiUpdateAirportInfoUrl, //TODO get rid of these http specific clients, export to shared kernel expose through interface
-                    new StringContent(JsonConvert.SerializeObject(_airportContract),
-                    Encoding.UTF8, "application/json"));
-
-                await Task.Delay(1100, stoppingToken);
+                await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, AirTrafficApiUpdateAirportInfoUrl);
+                await Task.Delay(5100, stoppingToken);
             }
         }
     }

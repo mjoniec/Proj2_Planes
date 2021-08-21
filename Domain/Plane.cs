@@ -18,7 +18,7 @@ namespace Domain
         private PlaneContract _planeContract;
         private bool _planeReachedItsDestination;
 
-        public PlaneContract PlaneContract => _planeContract;
+        public PlaneContract PlaneContract => _planeContract; //TODO should I expose this according to DDD ?
         public bool PlaneReachedItsDestination => _planeReachedItsDestination;
 
         public Plane(string name)

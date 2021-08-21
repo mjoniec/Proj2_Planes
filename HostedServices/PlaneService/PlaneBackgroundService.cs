@@ -48,7 +48,7 @@ namespace PlaneService
                 }
 
                 await _trafficInfoHttpClient.PostPlaneInfo(_plane.PlaneContract, AirTrafficApiUpdatePlaneInfoUrl);
-                await Task.Delay(600, stoppingToken);
+                await Task.Delay(800, stoppingToken);
             }
         }
     }

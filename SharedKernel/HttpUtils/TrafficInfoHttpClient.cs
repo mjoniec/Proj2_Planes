@@ -16,6 +16,14 @@ namespace HttpUtils
             _httpClient = new HttpClient();
         }
 
+        public async Task PostAirportInfo(AirportContract airportContract, string airTrafficApiUpdateAirportInfoUrl)
+        {
+            await _httpClient.PostAsync(
+                    airTrafficApiUpdateAirportInfoUrl,
+                    new StringContent(JsonConvert.SerializeObject(airportContract),
+                    Encoding.UTF8, "application/json"));
+        }
+
         public async Task PostPlaneInfo(PlaneContract planeContract, string airTrafficApiUpdatePlaneInfoUrl)
         {
             await _httpClient.PostAsync(
