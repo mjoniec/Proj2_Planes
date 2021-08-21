@@ -13,12 +13,12 @@ namespace AirportService
         private readonly Airport _airport;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly IHostEnvironment _hostEnvironment;
-        private readonly string AirTrafficApiUpdateAirportInfoUrl;
+        private readonly string _airTrafficApiUpdateAirportInfoUrl;
 
         public AirportBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = HostServiceNameSelector.AssignName("Plane", _hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
+            var name = HostServiceNameSelector.AssignName("Airport", _hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
             var color = configuration.GetValue<string>("color");
             var latitude = configuration.GetValue<string>("latitude");
             var longitude = configuration.GetValue<string>("longitude");
@@ -26,7 +26,7 @@ namespace AirportService
             _airport = new Airport(name, color, latitude, longitude);
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             _hostEnvironment = hostEnvironment;
-            AirTrafficApiUpdateAirportInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdateAirportInfoUrl));
+            _airTrafficApiUpdateAirportInfoUrl = configuration.GetValue<string>(nameof(_airTrafficApiUpdateAirportInfoUrl));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,7 +34,7 @@ namespace AirportService
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _airport.UpdateAirport();
-                await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, AirTrafficApiUpdateAirportInfoUrl);
+                await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, _airTrafficApiUpdateAirportInfoUrl);
                 await Task.Delay(5100, stoppingToken);
             }
         }
