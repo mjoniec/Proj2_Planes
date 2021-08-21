@@ -1,11 +1,7 @@
-﻿using Contracts;
-using Domain;
+﻿using Domain;
+using HttpUtils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
@@ -15,8 +11,7 @@ namespace PlaneService
     public class PlaneBackgroundService : BackgroundService
     {
         private readonly Plane _plane;
-
-        private readonly HttpClient _httpClient;
+        private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly string AirTrafficApiUpdatePlaneInfoUrl;
         private readonly string AirTrafficApiGetAirportsUrl;
@@ -27,7 +22,8 @@ namespace PlaneService
             var name = HostServiceNameSelector.AssignName("Plane", _hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
 
             _plane = new Plane(name);
-            _httpClient = new HttpClient();
+            _trafficInfoHttpClient = new TrafficInfoHttpClient();
+
             _hostEnvironment = hostEnvironment;
             AirTrafficApiUpdatePlaneInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdatePlaneInfoUrl));
             AirTrafficApiGetAirportsUrl = configuration.GetValue<string>(nameof(AirTrafficApiGetAirportsUrl));
@@ -35,40 +31,25 @@ namespace PlaneService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _plane.StartPlane(await GetCurrentlyAvailableAirports());
+            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(AirTrafficApiGetAirportsUrl));
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                _plane.UpdatePlane();//should plane management logic go to a separate domain lifecycle manager ?
+                //should plane management logic from these few lines go to a separate domain lifecycle manager, 
+                //exported as a tick for a loop holder object? ?
+
+                _plane.UpdatePlane();
 
                 if (_plane.PlaneReachedItsDestination)
                 {
-                    var airports = await GetCurrentlyAvailableAirports();
+                    var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(AirTrafficApiGetAirportsUrl);
 
                     _plane.SelectNewDestinationAirport(airports);
                 }
 
-                await PostPlaneInfo(_plane.PlaneContract);
+                await _trafficInfoHttpClient.PostPlaneInfo(_plane.PlaneContract, AirTrafficApiUpdatePlaneInfoUrl);
                 await Task.Delay(600, stoppingToken);
             }
-        }
-
-        private async Task PostPlaneInfo(PlaneContract planeContract)
-        {
-            await _httpClient.PostAsync(
-                AirTrafficApiUpdatePlaneInfoUrl,
-                new StringContent(JsonConvert.SerializeObject(planeContract),
-                Encoding.UTF8, "application/json"));
-        }
-
-        private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
-        {
-            //TODO get rid of these http specific clients, export to shared kernel expose through interface, inject some service here
-            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl); 
-            var json = await response.Content.ReadAsStringAsync();
-            var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
-
-            return airports;
         }
     }
 }
