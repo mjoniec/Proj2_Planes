@@ -37,8 +37,6 @@ namespace Domain
         /// <returns></returns>
         public void StartPlane(List<AirportContract> airports)
         {
-            //any way not to duplicate this code with method below?
-
             if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
                 EmptyDestinationAndDepartureAirports();
@@ -47,12 +45,13 @@ namespace Domain
             }
 
             var randomDepartureAirport = SelectRandomAirport(airports);
-            var randomDestinationAirport = SelectRandomAirportExceptTheOneProvided(airports, randomDepartureAirport.Name);
 
             _planeContract.SetDepartureAirportData(randomDepartureAirport);
-            _planeContract.SetDestinationAirportData(randomDestinationAirport);
-            _planeContract.DepartureTime = DateTime.Now;
+            _planeContract.Latitude = randomDepartureAirport.Latitude;
+            _planeContract.Longitude = randomDepartureAirport.Longitude;
             _planeContract.LastPositionUpdate = DateTime.Now;
+
+            SetDestinationAirport(airports, randomDepartureAirport.Name);
         }
 
         public void UpdatePlane()
@@ -74,7 +73,12 @@ namespace Domain
                 return;
             }
 
-            var randomDestinationAirport = SelectRandomAirportExceptTheOneProvided(airports, _planeContract.DestinationAirportName);
+            SetDestinationAirport(airports, _planeContract.DestinationAirportName);
+        }
+
+        private void SetDestinationAirport(List<AirportContract> airports, string exceptThisAirportName)
+        {
+            var randomDestinationAirport = SelectRandomAirportExceptTheOneProvided(airports, exceptThisAirportName);
 
             _planeContract.SetNewDestinationAndDepartureAirports(randomDestinationAirport);
             _planeContract.DepartureTime = DateTime.Now;

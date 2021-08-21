@@ -3,12 +3,12 @@ using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Utils;
 
 namespace PlaneService
 {
@@ -24,7 +24,7 @@ namespace PlaneService
         public PlaneBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = AssignName(configuration.GetValue<string>("name"));
+            var name = HostServiceNameSelector.AssignName("Plane", _hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
 
             _plane = new Plane(name);
             _httpClient = new HttpClient();
@@ -39,7 +39,7 @@ namespace PlaneService
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                _plane.UpdatePlane();
+                _plane.UpdatePlane();//should plane management logic go to a separate domain lifecycle manager ?
 
                 if (_plane.PlaneReachedItsDestination)
                 {
@@ -63,52 +63,12 @@ namespace PlaneService
 
         private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
         {
-            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl); //TODO get rid of these http specific clients, export to shared kernel expose through interface, inject some service here
+            //TODO get rid of these http specific clients, export to shared kernel expose through interface, inject some service here
+            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl); 
             var json = await response.Content.ReadAsStringAsync();
             var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
 
             return airports;
-        }
-
-        /// <summary>
-        /// we do not want the name on production to have anything other than pilot name 
-        /// we also want to see more info easily on non production environments
-        /// </summary>
-        /// <param name="name"></param>
-        private string AssignName(string name) //TODO this should go to hosted services 
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                if (_hostEnvironment.EnvironmentName == "Development")//manual on premises launch from visual studio
-                {
-                    name = "Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
-                }
-                else if (_hostEnvironment.EnvironmentName == "Docker")
-                {
-                    name = "Error - PlaneNameShouldHaveBeenGivenFor_" + _hostEnvironment.EnvironmentName + "_Environment_" + new Random().Next(1001, 9999).ToString();
-                }
-                else
-                {
-                    name = "Warning - Unpredicted Environment - Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
-                }
-            }
-            else
-            {
-                if (_hostEnvironment.EnvironmentName == "Development")//on premises launch from ps script
-                {
-                    name += "_" + _hostEnvironment.EnvironmentName;
-                }
-                else if (_hostEnvironment.EnvironmentName == "Docker")
-                {
-                    //production name - expected to be displayed as given from docker compose
-                }
-                else
-                {
-                    name += "Warning - Unpredicted Environment - Plane_" + _hostEnvironment.EnvironmentName + "_" + new Random().Next(1001, 9999).ToString();
-                }
-            }
-
-            return name;
         }
     }
 }

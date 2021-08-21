@@ -148,3 +148,5 @@
 /SharedKernel/MqttUtils/obj
 /SharedKernel/MqttUtils/bin/Debug/netcoreapp3.1
 /.vs
+/SharedKernel/Utils/obj
+/SharedKernel/Utils/bin/Debug/netcoreapp3.1
