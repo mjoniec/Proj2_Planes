@@ -5,25 +5,25 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HostedServices", "HostedServices", "{DC9DFCE7-C5A4-4546-AB3E-564E2AEAEAC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficInfoHttpApi", "HostedServices\TrafficInfoHttpApi\TrafficInfoHttpApi.csproj", "{B7F6199E-02C1-4A85-A40E-7940DE745D3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrafficInfoHttpApi", "HostedServices\TrafficInfoHttpApi\TrafficInfoHttpApi.csproj", "{B7F6199E-02C1-4A85-A40E-7940DE745D3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaneService", "HostedServices\PlaneService\PlaneService.csproj", "{C6FDAB01-CF11-4145-8710-CEE37BE2A013}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaneService", "HostedServices\PlaneService\PlaneService.csproj", "{C6FDAB01-CF11-4145-8710-CEE37BE2A013}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportService", "HostedServices\AirportService\AirportService.csproj", "{0095112C-5473-45F1-8615-06D52A1AAC94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportService", "HostedServices\AirportService\AirportService.csproj", "{0095112C-5473-45F1-8615-06D52A1AAC94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficSimulatorService", "HostedServices\TrafficSimulatorService\TrafficSimulatorService.csproj", "{CFA14EFE-4DE1-4C82-8380-0737D4C79DAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrafficSimulatorService", "HostedServices\TrafficSimulatorService\TrafficSimulatorService.csproj", "{CFA14EFE-4DE1-4C82-8380-0737D4C79DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherInfoMqttApi", "HostedServices\WeatherInfoMqttApi\WeatherInfoMqttApi.csproj", "{F46DE8A5-697D-48F3-989A-EC70CE88D450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherInfoMqttApi", "HostedServices\WeatherInfoMqttApi\WeatherInfoMqttApi.csproj", "{F46DE8A5-697D-48F3-989A-EC70CE88D450}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5A3A344F-DB95-421C-A94A-251D2A061C11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{5A3A344F-DB95-421C-A94A-251D2A061C11}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel", "SharedKernel", "{80FC5AF8-FC74-4E7D-87F1-7BBA4F7CA66A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpUtils", "SharedKernel\HttpUtils\HttpUtils.csproj", "{2D490487-97C2-4EDA-90DA-A439F037807F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpUtils", "SharedKernel\HttpUtils\HttpUtils.csproj", "{2D490487-97C2-4EDA-90DA-A439F037807F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MqttUtils", "SharedKernel\MqttUtils\MqttUtils.csproj", "{A71C80BD-4890-4A51-AD13-E53FF4098238}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MqttUtils", "SharedKernel\MqttUtils\MqttUtils.csproj", "{A71C80BD-4890-4A51-AD13-E53FF4098238}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "SharedKernel\Contracts\Contracts.csproj", "{BCB2D607-7C46-4F80-B6B4-5AEDD538D5BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "SharedKernel\Contracts\Contracts.csproj", "{BCB2D607-7C46-4F80-B6B4-5AEDD538D5BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

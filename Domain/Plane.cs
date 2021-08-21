@@ -1,8 +1,6 @@
 ﻿using Contracts;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Domain
 {
@@ -18,13 +16,18 @@ namespace Domain
     public class Plane
     {
         private PlaneContract _planeContract;
+        private bool _planeReachedItsDestination;
+
+        public PlaneContract PlaneContract => _planeContract;
+        public bool PlaneReachedItsDestination => _planeReachedItsDestination;
 
         public Plane(string name)
         {
+            _planeReachedItsDestination = false;
             _planeContract = new PlaneContract
             {
                 Name = name,
-                SpeedInMetersPerSecond = 1000000 //business constant - speed is as such for updates to be notable
+                SpeedInMetersPerSecond = 1000000 //business constant - speed is as such for updates to be notable - export to some config ?
             };
         }
 
@@ -32,10 +35,9 @@ namespace Domain
         /// Setup Destination and Departure Airports for the Plane
         /// </summary>
         /// <returns></returns>
-        public async Task StartPlane()
+        public void StartPlane(List<AirportContract> airports)
         {
             //any way not to duplicate this code with method below?
-            var airports = await GetCurrentlyAvailableAirports();
 
             if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
@@ -53,24 +55,18 @@ namespace Domain
             _planeContract.LastPositionUpdate = DateTime.Now;
         }
 
-        public async Task UpdatePlane()
+        public void UpdatePlane()
         {
             var currentTime = DateTime.Now;
 
             Navigation.MovePlane(ref _planeContract, currentTime);
 
             _planeContract.LastPositionUpdate = currentTime;
-
-            if (HasPlaneReachedItsDestination())
-            {
-                await SelectNewDestinationAirport();
-            }
+            _planeReachedItsDestination = HasPlaneReachedItsDestination();
         }
 
-        private async Task SelectNewDestinationAirport()
+        public void SelectNewDestinationAirport(List<AirportContract> airports)
         {
-            var airports = await GetCurrentlyAvailableAirports();
-
             if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
                 EmptyDestinationAndDepartureAirports();
@@ -82,15 +78,6 @@ namespace Domain
 
             _planeContract.SetNewDestinationAndDepartureAirports(randomDestinationAirport);
             _planeContract.DepartureTime = DateTime.Now;
-        }
-
-        private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
-        {
-            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl); //TODO get rid of these http specific clients, export to shared kernel expose through interface, inject some service here
-            var json = await response.Content.ReadAsStringAsync();
-            var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
-
-            return airports;
         }
 
         private void EmptyDestinationAndDepartureAirports()
@@ -110,13 +97,13 @@ namespace Domain
             return airports[new Random().Next(0, airports.Count)];
         }
 
-        private AirportContract SelectRandomAirportExceptTheOneProvided(List<AirportContract> airports, string exceptThisAirportName)
+        private AirportContract SelectRandomAirportExceptTheOneProvided(List<AirportContract> allAirports, string exceptThisAirportName)
         {
-            var airportsWithoutException = new List<AirportContract>(airports);
+            var airportsExcludingGivenException = new List<AirportContract>(allAirports);
 
-            airportsWithoutException.RemoveAll(a => a.Name == exceptThisAirportName);
+            airportsExcludingGivenException.RemoveAll(a => a.Name == exceptThisAirportName);
 
-            return airportsWithoutException[new Random().Next(0, airportsWithoutException.Count)];
+            return airportsExcludingGivenException[new Random().Next(0, airportsExcludingGivenException.Count)];
         }
 
         private bool HasPlaneReachedItsDestination()

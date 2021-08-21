@@ -1,8 +1,10 @@
-﻿using Domain;
+﻿using Contracts;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -33,21 +35,39 @@ namespace PlaneService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //await _plane.ExecuteAsync(stoppingToken);
-
-            await _plane.StartPlane();
+            _plane.StartPlane(await GetCurrentlyAvailableAirports());
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                await _plane.UpdatePlane();
+                _plane.UpdatePlane();
 
-                await _httpClient.PostAsync(
-                    AirTrafficApiUpdatePlaneInfoUrl,
-                    new StringContent(JsonConvert.SerializeObject(_planeContract),
-                    Encoding.UTF8, "application/json"));
+                if (_plane.PlaneReachedItsDestination)
+                {
+                    var airports = await GetCurrentlyAvailableAirports();
 
+                    _plane.SelectNewDestinationAirport(airports);
+                }
+
+                await PostPlaneInfo(_plane.PlaneContract);
                 await Task.Delay(600, stoppingToken);
             }
+        }
+
+        private async Task PostPlaneInfo(PlaneContract planeContract)
+        {
+            await _httpClient.PostAsync(
+                AirTrafficApiUpdatePlaneInfoUrl,
+                new StringContent(JsonConvert.SerializeObject(planeContract),
+                Encoding.UTF8, "application/json"));
+        }
+
+        private async Task<List<AirportContract>> GetCurrentlyAvailableAirports()
+        {
+            var response = await _httpClient.GetAsync(AirTrafficApiGetAirportsUrl); //TODO get rid of these http specific clients, export to shared kernel expose through interface, inject some service here
+            var json = await response.Content.ReadAsStringAsync();
+            var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
+
+            return airports;
         }
 
         /// <summary>
