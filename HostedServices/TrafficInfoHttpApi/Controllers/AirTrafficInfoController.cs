@@ -29,6 +29,7 @@ namespace TrafficInfoHttpApi.Controllers
         }
 
         [HttpGet]
+        [EnableCors("MyAllowedOrigins")]
         [Route("GetAirports")]
         public List<AirportContract> GetAirports()
         {
@@ -36,6 +37,7 @@ namespace TrafficInfoHttpApi.Controllers
         }
 
         [HttpPost]
+        [EnableCors("MyAllowedOrigins")]
         [Route("UpdatePlaneInfo")]
         public void UpdatePlaneInfo([FromBody] PlaneContract planeContract)
         {
@@ -43,6 +45,7 @@ namespace TrafficInfoHttpApi.Controllers
         }
 
         [HttpPost]
+        [EnableCors("MyAllowedOrigins")]
         [Route("UpdateAirportInfo")]
         public void UpdateAirportInfo([FromBody] AirportContract airportContract)
         {
@@ -52,8 +55,7 @@ namespace TrafficInfoHttpApi.Controllers
         //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
         //https://localhost:44389/api/AirTrafficInfo/WorldMap
         [EnableCors("MyAllowedOrigins")]
-        [HttpGet]
-        [Route("WorldMap")]
+        [HttpGet("WorldMap")]
         public async Task<string> WorldMap()
         {
             return await _staticResourcesProvider.GetWorldMap();
