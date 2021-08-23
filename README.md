@@ -1,4 +1,4 @@
-# api + simulated traffic service + UI - all localhost manual launch
+## traffic api + simulated traffic service + UI - all on premises localhost manual launch
 
 - C:\...\UI\Proj2_Planes> npm start
 - http://localhost:4200/pages/maps/bubble (use Chrome, no ad blockers etc. else CORS issiue may prevent calls to traffic api)
@@ -6,12 +6,12 @@
 - https://localhost:44389/api/AirTrafficInfo
 
 
-# Api + distributed services - only localhost  
+## Api + distributed services - only localhost  
 
 - On Premises - PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 - manual launch from visual studio wont set up names right - https://localhost:44389/api/AirTrafficInfo
 - Docker Compose - docker-compose up - http://localhost:8880/api/AirTrafficInfo
 
-# UI Client source
+## UI Client source
 
 https://github.com/mjoniec/UI/tree/main/Proj2_Planes
 
