@@ -34,7 +34,7 @@ namespace Utils
             {
                 if (hostEnvironmentName == "Development")//on premises launch from ps script
                 {
-                    name += "_" + hostEnvironmentName;
+                    
                 }
                 else if (hostEnvironmentName == "Docker")
                 {
