@@ -12,26 +12,24 @@ namespace PlaneService
     {
         private readonly Plane _plane;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
-        private readonly IHostEnvironment _hostEnvironment;
-        private readonly string AirTrafficApiUpdatePlaneInfoUrl;
-        private readonly string AirTrafficApiGetAirportsUrl;
+        private readonly string TrafficInfoApiUpdatePlaneUrl;
+        private readonly string TrafficInfoApiUpdateGetAirportsUrl;
 
         public PlaneBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = HostServiceNameSelector.AssignName("Plane", _hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
+            var name = HostServiceNameSelector.AssignName("Plane", hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
 
             _plane = new Plane(name);
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
 
-            _hostEnvironment = hostEnvironment;
-            AirTrafficApiUpdatePlaneInfoUrl = configuration.GetValue<string>(nameof(AirTrafficApiUpdatePlaneInfoUrl));
-            AirTrafficApiGetAirportsUrl = configuration.GetValue<string>(nameof(AirTrafficApiGetAirportsUrl));
+            TrafficInfoApiUpdatePlaneUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdatePlaneUrl));
+            TrafficInfoApiUpdateGetAirportsUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdateGetAirportsUrl));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(AirTrafficApiGetAirportsUrl));
+            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiUpdateGetAirportsUrl));
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -42,12 +40,12 @@ namespace PlaneService
 
                 if (_plane.PlaneReachedItsDestination)
                 {
-                    var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(AirTrafficApiGetAirportsUrl);
+                    var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiUpdateGetAirportsUrl);
 
                     _plane.SelectNewDestinationAirport(airports);
                 }
 
-                await _trafficInfoHttpClient.PostPlaneInfo(_plane.PlaneContract, AirTrafficApiUpdatePlaneInfoUrl);
+                await _trafficInfoHttpClient.PostPlaneInfo(_plane.PlaneContract, TrafficInfoApiUpdatePlaneUrl);
                 await Task.Delay(800, stoppingToken);
             }
         }
