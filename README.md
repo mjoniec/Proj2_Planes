@@ -1,21 +1,31 @@
-## traffic api + simulated traffic service + UI - all on premises localhost manual launch
+## UI
 
 - C:\...\UI\Proj2_Planes> npm start
 - http://localhost:4200/pages/maps/bubble (use Chrome, no ad blockers etc. else CORS issiue may prevent calls to traffic api)
-- manual launch TrafficInfoHttpApi and then TrafficSimulatorService
+- can be paired with: simulated, powershell or docker type of backend
+- source with separate readme https://github.com/mjoniec/UI/tree/main/Proj2_Planes
+
+## localhost docker
+
+- !!! needs to be updated after multiple code changes !!!
+- traffic api + multiple airport and plane services
+- hosted on docker containers
+- all launched by executing: PowerShell C:\...\Planes\HostedServices> Docker Compose - docker-compose up 
+- http://localhost:8880/api/AirTrafficInfo
+
+## localhost powershell
+
+- traffic api + multiple airport and plane services 
+- hosted on premises
+- all launched by executing: PowerShell C:\...\Planes\HostedServices> .\launchLocalhostOnPremises.ps1 
 - https://localhost:44389/api/AirTrafficInfo
 
+## localhost simulated
 
-## Api + distributed services - only localhost  
-
-- On Premises - PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 - manual launch from visual studio wont set up names right - https://localhost:44389/api/AirTrafficInfo
-- Docker Compose - docker-compose up - http://localhost:8880/api/AirTrafficInfo
-
-## UI Client source
-
-https://github.com/mjoniec/UI/tree/main/Proj2_Planes
-
--------------------------
+- traffic api + traffic simulator service
+- hosted on premises
+- manual launch TrafficInfoHttpApi and then TrafficSimulatorService from Visual Studio
+- https://localhost:44389/api/AirTrafficInfo
 
 ## Docker general notes
 
