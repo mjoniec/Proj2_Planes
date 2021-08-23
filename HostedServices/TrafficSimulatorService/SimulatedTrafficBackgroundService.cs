@@ -10,13 +10,11 @@ namespace TrafficSimulatorService
 {
     public class SimulatedTrafficBackgroundService : BackgroundService
     {
-        //private readonly IHostEnvironment _hostEnvironment;
         private readonly string _trafficApiUpdateAirportUrl;
         private readonly string _trafficApiUpdatePlaneUrl;
         private readonly List<Plane> _planes;
         private readonly List<Airport> _airports;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
-        //private readonly AirTrafficInfoContract _airTrafficInfoContract;
 
         public SimulatedTrafficBackgroundService(IHostEnvironment hostEnvironment)
         {
@@ -24,7 +22,6 @@ namespace TrafficSimulatorService
                 ? $"https://localhost:44389/api/AirTrafficInfo/UpdateAirportInfo"
                 : $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo";//to be tested ...
 
-            //_hostEnvironment = hostEnvironment;
             //TODO: refactor these urls after deployment is figured out
             _trafficApiUpdatePlaneUrl = hostEnvironment.EnvironmentName == "Development"
                 ? $"https://localhost:44389/api/AirTrafficInfo/UpdatePlaneInfo"

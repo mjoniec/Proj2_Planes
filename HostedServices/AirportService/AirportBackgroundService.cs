@@ -12,21 +12,19 @@ namespace AirportService
     {
         private readonly Airport _airport;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
-        private readonly IHostEnvironment _hostEnvironment;
-        private readonly string _airTrafficApiUpdateAirportInfoUrl;
+        private readonly string TrafficInfoApiUpdateAirportUrl;
 
         public AirportBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = HostServiceNameSelector.AssignName("Airport", _hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
+            var name = HostServiceNameSelector.AssignName("Airport", hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
             var color = configuration.GetValue<string>("color");
             var latitude = configuration.GetValue<string>("latitude");
             var longitude = configuration.GetValue<string>("longitude");
 
             _airport = new Airport(name, color, latitude, longitude);
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
-            _hostEnvironment = hostEnvironment;
-            _airTrafficApiUpdateAirportInfoUrl = configuration.GetValue<string>(nameof(_airTrafficApiUpdateAirportInfoUrl));
+            TrafficInfoApiUpdateAirportUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdateAirportUrl));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,7 +32,7 @@ namespace AirportService
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _airport.UpdateAirport();
-                await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, _airTrafficApiUpdateAirportInfoUrl);
+                await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, TrafficInfoApiUpdateAirportUrl);
                 await Task.Delay(5100, stoppingToken);
             }
         }
