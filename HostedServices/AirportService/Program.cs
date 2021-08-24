@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MqttUtils;
 
 namespace AirportService
 {
@@ -19,6 +20,8 @@ namespace AirportService
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.Configure<MqttConfig>(hostContext.Configuration.GetSection("MqttConfig"));
+                    services.AddSingleton<MqttClientPublisher>();
                     services.AddHostedService<AirportBackgroundService>();
                 });
     }

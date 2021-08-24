@@ -14,23 +14,23 @@ namespace WeatherInfoMqttApi
     public class MqttServerHostedService : IHostedService, IDisposable
     {
         private readonly ILogger _logger;
-        private readonly IOptions<MqttConfig> _config;
+        private readonly IOptions<MqttConfig> _mqttConfig;
         private IMqttServer _mqttServer;
         
         public MqttServerHostedService(ILogger<MqttServerHostedService> logger, IOptions<MqttConfig> config)
         {
             _logger = logger;
-            _config = config;
+            _mqttConfig = config;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Starting MQTT Service on port " + _config.Value.Port);
+            _logger.LogInformation("Starting MQTT Service on port " + _mqttConfig.Value.Port);
 
             //Building the config
             var optionsBuilder = new MqttServerOptionsBuilder()
                 .WithConnectionBacklog(1000)
-                .WithDefaultEndpointPort(_config.Value.Port);
+                .WithDefaultEndpointPort(_mqttConfig.Value.Port);
 
             //Getting an MQTT Instance
             _mqttServer = new MqttFactory().CreateMqttServer();

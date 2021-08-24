@@ -25,6 +25,24 @@ namespace Domain
         public async Task UpdateAirport()
         {
             //weather related todo
+            if (_airportContract.IsGoodWeather)
+            {
+                SetBadWeatherAtRandom();
+            }
+            else
+            {
+                SetGoodWeatherAfterSomeDurationOfBadWeather();
+            }
+        }
+
+        private void SetBadWeatherAtRandom()
+        {
+
+        }
+
+        private void SetGoodWeatherAfterSomeDurationOfBadWeather()
+        {
+
         }
     }
 }

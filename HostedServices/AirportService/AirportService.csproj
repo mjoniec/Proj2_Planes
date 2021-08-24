@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\MqttUtils\MqttUtils.csproj" />
     <ProjectReference Include="..\..\SharedKernel\Utils\Utils.csproj" />
   </ItemGroup>
 </Project>
