@@ -7,11 +7,11 @@ using MQTTnet.Client.Options;
 
 namespace MqttUtils
 {
-    public abstract class MqttClient : IMqttClient
+    public abstract class MqttClient
     {
         //protected readonly MqttConfig _config;
         protected readonly IOptions<MqttConfig> _config;
-        protected readonly MQTTnet.Client.IMqttClient _client = new MqttFactory().CreateMqttClient();
+        protected readonly IMqttClient _client = new MqttFactory().CreateMqttClient();
 
         //public MqttClient(MqttConfig config)
         public MqttClient(IOptions<MqttConfig> config)

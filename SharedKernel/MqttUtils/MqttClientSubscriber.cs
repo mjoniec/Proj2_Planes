@@ -6,9 +6,9 @@ using System.Text;
 namespace MqttUtils
 {
     /// <summary>
-    /// Receives messages from subscribed mqtt topic
+    /// Receives messages from subscribed mqtt topic, and exposes event when message is received. 
     /// </summary>
-    public class MqttClientSubscriber : MqttClient, IMqttClientSubscriber
+    public class MqttClientSubscriber : MqttClient
     {
         public event EventHandler<MessageEventArgs> RaiseMessageReceivedEvent;
 

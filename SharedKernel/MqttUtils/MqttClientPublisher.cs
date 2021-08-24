@@ -8,7 +8,7 @@ namespace MqttUtils
     /// <summary>
     /// Publishes messages to connected mqtt topic
     /// </summary>
-    public class MqttClientPublisher : MqttClient, IMqttClientPublisher
+    public class MqttClientPublisher : MqttClient
     {
         //public MqttClientPublisher(MqttConfig config) : base(config)
         public MqttClientPublisher(IOptions<MqttConfig> config) : base(config)
@@ -16,7 +16,7 @@ namespace MqttUtils
 
         }
 
-        async Task IMqttClientPublisher.PublishAsync(string message)
+        public async Task PublishAsync(string message)
         {
             var mqttApplicationMessageBuilder = new MqttApplicationMessageBuilder()
                 .WithTopic(_config.Value.Topic)
