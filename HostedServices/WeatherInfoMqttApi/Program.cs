@@ -16,7 +16,7 @@ namespace WeatherInfoMqttApi
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.Configure<MqttConfig>(hostContext.Configuration.GetSection("Mqtt"));//same section for server and client
-                    services.AddHostedService<MqttHostedService>();
+                    services.AddHostedService<MqttServerHostedService>();
                 });
     }
 }

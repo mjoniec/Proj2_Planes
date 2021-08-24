@@ -1,22 +1,23 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQTTnet;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Server;
+using MqttUtils;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace MqttUtils
+namespace WeatherInfoMqttApi
 {
-    //TODO: export this to a runnable mqtt server api project
-    public class MqttHostedService : IHostedService, IDisposable
+    public class MqttServerHostedService : IHostedService, IDisposable
     {
         private readonly ILogger _logger;
         private readonly IOptions<MqttConfig> _config;
         private IMqttServer _mqttServer;
-        public MqttHostedService(ILogger<MqttHostedService> logger, IOptions<MqttConfig> config)
+        
+        public MqttServerHostedService(ILogger<MqttServerHostedService> logger, IOptions<MqttConfig> config)
         {
             _logger = logger;
             _config = config;
