@@ -1,5 +1,4 @@
 ﻿using Domain;
-using HttpUtils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
