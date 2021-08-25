@@ -1,8 +1,9 @@
 ﻿using Contracts;
 using System;
 using System.Collections.Generic;
+using Utils;
 
-namespace Domain
+namespace PlaneService.Domain
 {
     /// <summary>
     /// Comment for PR:

@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace AirportService.Domain
 {
     public class Airport
     {

@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AirportService.Domain;
+using PlaneService.Domain;
 using System.Collections.Generic;
 
 namespace TrafficSimulatorService

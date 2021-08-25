@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\SharedKernel\Utils\Utils.csproj" />
+    <ProjectReference Include="..\AirportService\AirportService.csproj" />
+    <ProjectReference Include="..\PlaneService\PlaneService.csproj" />
   </ItemGroup>
 </Project>

@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Domain
+namespace Utils
 {
-    internal static class Navigation //NOT Sure if this is part of a domain or shared kernel with geo specific calculations ... at least partially separatable
+    public static class Navigation //NOT Sure if this is part of a domain or shared kernel with geo specific calculations ... at least partially separatable
     {
         /// <summary>
         /// Updates Latitude and Longitude by speed, destination airport amd time passed since last departure airport till now
