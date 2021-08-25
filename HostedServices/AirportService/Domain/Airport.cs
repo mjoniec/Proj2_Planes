@@ -7,9 +7,25 @@ namespace AirportService.Domain
 {
     public class Airport
     {
-        private readonly AirportContract _airportContract;
+        //these const values inderictly determine that in order for the application to work properly, meaning:
+        // - not getting all airports unavailable at the same time
+        // - not getting bad weather too fewer times to notice it
+        // the invoker of the domain update method should not call it approximately more frequently than once every second
+        // 1% chance every 1 second >> 100 seconds / 14 airports >> every 7 seconds some airport will go out of service for 10 seconds
+        //but we also need to give planes the chance to reach their destination at the same time witnessing the bad weather and plane redirection
+        // 1% chance every 10 seconds >> every 70 seconds some airport will go out of service for 10 seconds
+        //so no less frequently than 10 seconds tick
+        public const double SuggestedUpdateinvokeIntervalInSeconds = 4.0;
 
-        public AirportContract AirportContract => _airportContract; //TODO should I expose this according to DDD ?
+        private const double BadWeatherDurationInSeconds = 10.0;
+        private const int BadWeatherOccurenceChanceLikeOneToThisConstValue = 100;
+        private readonly TimeSpan BadWeatherDuration = TimeSpan.FromSeconds(BadWeatherDurationInSeconds);
+        private DateTime _badWeatherOccurence;//we need to know when bad weather happened in order to set it back after 10 seconds
+
+        //should I expose this according to DDD ? Anemic model shared across whole solution is not sth that I recall being recommended...
+        public AirportContract AirportContract => _airportContract; 
+
+        private readonly AirportContract _airportContract;
 
         public Airport(string name, string color, string latitude, string longitude)
         {
@@ -27,7 +43,7 @@ namespace AirportService.Domain
             //weather related todo
             if (_airportContract.IsGoodWeather)
             {
-                SetBadWeatherAtRandom();
+                SetBadWeather();
             }
             else
             {
@@ -35,14 +51,28 @@ namespace AirportService.Domain
             }
         }
 
-        private void SetBadWeatherAtRandom()
+        /// <summary>
+        /// 1% chance
+        /// </summary>
+        private void SetBadWeather()
         {
+            var badWeather = GetBadWeatherAtRandom();
 
+            if (badWeather)
+            {
+                _airportContract.IsGoodWeather = !badWeather;
+                _badWeatherOccurence = DateTime.Now;
+            }
         }
 
         private void SetGoodWeatherAfterSomeDurationOfBadWeather()
         {
+            _airportContract.IsGoodWeather = DateTime.Now - _badWeatherOccurence > BadWeatherDuration;
+        }
 
+        private bool GetBadWeatherAtRandom()
+        {
+            return new Random().Next(1, BadWeatherOccurenceChanceLikeOneToThisConstValue + 1) == BadWeatherOccurenceChanceLikeOneToThisConstValue;
         }
     }
 }
