@@ -15,7 +15,6 @@ namespace AirportService.Domain
         //but we also need to give planes the chance to reach their destination at the same time witnessing the bad weather and plane redirection
         // 1% chance every 10 seconds >> every 70 seconds some airport will go out of service for 10 seconds
         //so no less frequently than 10 seconds tick
-        public const double SuggestedUpdateinvokeIntervalInSeconds = 4.0;
 
         private const double BadWeatherDurationInSeconds = 10.0;
         private const int BadWeatherOccurenceChanceLikeOneToThisConstValue = 100;
@@ -43,18 +42,18 @@ namespace AirportService.Domain
             //weather related todo
             if (_airportContract.IsGoodWeather)
             {
-                SetBadWeather();
+                TrySetBadWeather();
             }
             else
             {
-                SetGoodWeatherAfterSomeDurationOfBadWeather();
+                TrySetGoodWeatherAfterSomeDurationOfBadWeather();
             }
         }
 
         /// <summary>
         /// 1% chance
         /// </summary>
-        private void SetBadWeather()
+        private void TrySetBadWeather()
         {
             var badWeather = GetBadWeatherAtRandom();
 
@@ -65,7 +64,7 @@ namespace AirportService.Domain
             }
         }
 
-        private void SetGoodWeatherAfterSomeDurationOfBadWeather()
+        private void TrySetGoodWeatherAfterSomeDurationOfBadWeather()
         {
             _airportContract.IsGoodWeather = DateTime.Now - _badWeatherOccurence > BadWeatherDuration;
         }

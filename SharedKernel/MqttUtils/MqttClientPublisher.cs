@@ -10,16 +10,15 @@ namespace MqttUtils
     /// </summary>
     public class MqttClientPublisher : MqttClient
     {
-        //public MqttClientPublisher(MqttConfig config) : base(config)
         public MqttClientPublisher(IOptions<MqttConfig> config) : base(config)
         {
 
         }
 
-        public async Task PublishAsync(string message)
+        public async Task PublishAsync(string message, string topic)
         {
             var mqttApplicationMessageBuilder = new MqttApplicationMessageBuilder()
-                .WithTopic(_config.Value.Topic)
+                .WithTopic(topic)
                 .WithPayload(message)
                 .WithExactlyOnceQoS()
                 .WithRetainFlag()

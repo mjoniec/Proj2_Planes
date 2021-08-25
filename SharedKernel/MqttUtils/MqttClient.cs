@@ -9,11 +9,9 @@ namespace MqttUtils
 {
     public abstract class MqttClient
     {
-        //protected readonly MqttConfig _config;
         protected readonly IOptions<MqttConfig> _config;
         protected readonly IMqttClient _client = new MqttFactory().CreateMqttClient();
 
-        //public MqttClient(MqttConfig config)
         public MqttClient(IOptions<MqttConfig> config)
         {
             _config = config;
@@ -29,7 +27,7 @@ namespace MqttUtils
 
             var subscribeResults = await _client
                 .SubscribeAsync(new MqttTopicFilterBuilder()
-                .WithTopic(_config.Value.Topic)
+                //.WithTopic(_config.Value.Topic)//TODO - export subscribe as a public action with topic passed as a param
                 .Build());
 
             //TODO: improve this on if connected properly

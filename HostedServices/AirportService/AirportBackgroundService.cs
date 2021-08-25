@@ -28,7 +28,8 @@ namespace AirportService
             IOptions<MqttConfig> mqttConfig)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = HostServiceNameSelector.AssignName("Airport", hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
+            var name = HostServiceNameSelector.AssignName("Airport", 
+                hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
             var color = configuration.GetValue<string>("color");
             var latitude = configuration.GetValue<string>("latitude");
             var longitude = configuration.GetValue<string>("longitude");
@@ -63,7 +64,8 @@ namespace AirportService
                     {
                         _badWeatherInfoSent = true;//prevents from messages beeing continually sent while the weather is bad
 
-                        await _mqttClientPublisher.PublishAsync("Wheather status change for airport: " + _airport.AirportContract.Name);
+                        await _mqttClientPublisher.PublishAsync("Wheather status change for airport: " + 
+                            _airport.AirportContract.Name, _airport.AirportContract.Name);
                     }
                 }
 
