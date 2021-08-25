@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MQTTnet;
 using MQTTnet.Client;
@@ -17,27 +16,13 @@ namespace MqttUtils
             _config = config;
         }
 
-        public async Task<bool> Start()
+        public async Task Start()
         {
             var options = new MqttClientOptionsBuilder()
                 .WithTcpServer(_config.Value.Ip, _config.Value.Port)
                 .Build();
 
             await _client.ConnectAsync(options);
-
-            var subscribeResults = await _client
-                .SubscribeAsync(new MqttTopicFilterBuilder()
-                //.WithTopic(_config.Value.Topic)//TODO - export subscribe as a public action with topic passed as a param
-                .Build());
-
-            //TODO: improve this on if connected properly
-            if (subscribeResults.Items.Any(item =>
-                item.ResultCode == MQTTnet.Client.Subscribing.MqttClientSubscribeResultCode.UnspecifiedError))
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

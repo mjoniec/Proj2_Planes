@@ -1,7 +1,6 @@
 ﻿using AirportService.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using MqttUtils;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +14,6 @@ namespace AirportService
         private readonly Airport _airport;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly MqttClientPublisher _mqttClientPublisher;
-        private readonly IOptions<MqttConfig> _mqttConfig;
 
         //this logic belongs in domain object lifecycle manager, not in the contract or domain object itself. 
         //If bad weather event happened we want to send mqtt notification once.
@@ -24,8 +22,7 @@ namespace AirportService
         public AirportBackgroundService(
             IConfiguration configuration, 
             IHostEnvironment hostEnvironment,
-            MqttClientPublisher mqttClientPublisher,
-            IOptions<MqttConfig> mqttConfig)
+            MqttClientPublisher mqttClientPublisher)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = HostServiceNameSelector.AssignName("Airport", 
@@ -38,13 +35,13 @@ namespace AirportService
             _airport = new Airport(name, color, latitude, longitude);
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             _mqttClientPublisher = mqttClientPublisher;
-            _mqttConfig = mqttConfig;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await _mqttClientPublisher.Start();
 
+            //airport management logic should go to a separate domain lifecycle manager, exported as a tick for a loop holder object
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _airport.UpdateAirport();
@@ -69,7 +66,7 @@ namespace AirportService
                     }
                 }
 
-                await Task.Delay(5100, stoppingToken);
+                await Task.Delay(4000, stoppingToken);
             }
         }
     }

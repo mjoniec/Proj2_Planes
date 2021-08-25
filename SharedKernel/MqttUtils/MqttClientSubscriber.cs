@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using MQTTnet;
 using MQTTnet.Client;
 using System;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MqttUtils
 {
@@ -20,6 +23,28 @@ namespace MqttUtils
 
                 OnRaiseMessageReceivedEvent(new MessageEventArgs(message));
             });
+        }
+
+        public async Task<bool> SubscribeToTopic(string topic)
+        {
+            var subscribeResults = await _client.SubscribeAsync(
+                new MqttTopicFilterBuilder()
+                    .WithTopic(topic)
+                    .Build());
+
+            //TODO: improve this on if connected properly
+            if (subscribeResults.Items.Any(item =>
+                item.ResultCode == MQTTnet.Client.Subscribing.MqttClientSubscribeResultCode.UnspecifiedError))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task Unsubscribe(string topic)
+        {
+            await _client.UnsubscribeAsync(topic);
         }
 
         private void OnRaiseMessageReceivedEvent(MessageEventArgs e)

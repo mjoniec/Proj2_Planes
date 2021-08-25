@@ -20,7 +20,7 @@ namespace PlaneService.Domain
         private bool _planeReachedItsDestination;
 
         public PlaneContract PlaneContract => _planeContract; //TODO should I expose this according to DDD ?
-        public bool PlaneReachedItsDestination => _planeReachedItsDestination;
+        public bool PlaneReachedItsDestination => _planeReachedItsDestination;//I think this should be an event, refactor away from procedural state machine
 
         public Plane(string name)
         {
