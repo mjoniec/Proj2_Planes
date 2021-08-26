@@ -17,14 +17,13 @@ namespace PlaneService.Domain
     public class Plane
     {
         private PlaneContract _planeContract;
-        private bool _planeReachedItsDestination;
 
         public PlaneContract PlaneContract => _planeContract; //TODO should I expose this according to DDD ?
-        public bool PlaneReachedItsDestination => _planeReachedItsDestination;//I think this should be an event, refactor away from procedural state machine
+        public bool PlaneReachedItsDestination { get; private set; }//I think this should be an event, refactor away from procedural state machine
 
         public Plane(string name)
         {
-            _planeReachedItsDestination = false;
+            PlaneReachedItsDestination = false;
             _planeContract = new PlaneContract
             {
                 Name = name,
@@ -62,7 +61,7 @@ namespace PlaneService.Domain
             Navigation.MovePlane(ref _planeContract, currentTime);
 
             _planeContract.LastPositionUpdate = currentTime;
-            _planeReachedItsDestination = HasPlaneReachedItsDestination();
+            PlaneReachedItsDestination = HasPlaneReachedItsDestination();
         }
 
         public void SelectNewDestinationAirport(List<AirportContract> airports)

@@ -15,7 +15,7 @@ namespace WeatherInfoMqttApi
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.Configure<MqttConfig>(hostContext.Configuration.GetSection("Mqtt"));
+                    services.Configure<MqttConfig>(hostContext.Configuration.GetSection("MqttConfig"));
                     services.AddHostedService<MqttServerHostedService>();
                 });
     }
