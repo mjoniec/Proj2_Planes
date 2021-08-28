@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using Utils;
@@ -20,9 +21,16 @@ namespace PlaneService.Domain
 
         public PlaneContract PlaneContract => _planeContract; //TODO should I expose this according to DDD ?
         public bool PlaneReachedItsDestination { get; private set; }//I think this should be an event, refactor away from procedural state machine
+        private readonly ILogger<Plane> _logger;
 
         public Plane(string name)
         {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+
+            _logger = loggerFactory.CreateLogger<Plane>();
             PlaneReachedItsDestination = false;
             _planeContract = new PlaneContract
             {
@@ -37,6 +45,8 @@ namespace PlaneService.Domain
         /// <returns></returns>
         public void StartPlane(List<AirportContract> airports)
         {
+            _logger.LogInformation(_planeContract.Name + "Plane start at: " + DateTime.Now.ToString("G"));
+
             if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
                 EmptyDestinationAndDepartureAirports();
@@ -56,6 +66,8 @@ namespace PlaneService.Domain
 
         public void UpdatePlane()
         {
+            _logger.LogInformation(_planeContract.Name + "Plane update at: " + DateTime.Now.ToString("G"));
+
             var currentTime = DateTime.Now;
 
             Navigation.MovePlane(ref _planeContract, currentTime);
@@ -66,8 +78,12 @@ namespace PlaneService.Domain
 
         public void SelectNewDestinationAirport(List<AirportContract> airports)
         {
+            _logger.LogInformation("SelectNewDestinationAirport");
+
             if (!AreEnoughAirportsToSelectNewDestination(airports))
             {
+                _logger.LogWarning("NOT AreEnoughAirportsToSelectNewDestination - should not happen !!!");
+
                 EmptyDestinationAndDepartureAirports();
 
                 return;

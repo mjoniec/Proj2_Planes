@@ -49,7 +49,7 @@ namespace AirportService
             //airport management logic should go to a separate domain lifecycle manager, exported as a tick for a loop holder object
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Execute loop at " + DateTime.Now.ToString("G"));
+                _logger.LogInformation(_airport.AirportContract.Name + "Execute loop at " + DateTime.Now.ToString("G"));
 
                 await _airport.UpdateAirport();
 
