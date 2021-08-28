@@ -13,10 +13,10 @@ namespace AirportService
     public class AirportBackgroundService : BackgroundService
     {
         private readonly ILogger<AirportBackgroundService> _logger;
-        private readonly string TrafficInfoApiUpdateAirportUrl;
         private readonly Airport _airport;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly MqttClientPublisher _mqttClientPublisher;
+        private readonly string TrafficInfoApiUpdateAirportUrl;
 
         //this logic belongs in domain object lifecycle manager, not in the contract or domain object itself. 
         //If bad weather event happened we want to send mqtt notification once.
@@ -24,15 +24,22 @@ namespace AirportService
 
         public AirportBackgroundService(
             ILogger<AirportBackgroundService> logger,
-            Airport airport,
-            IConfiguration configuration, 
+            IConfiguration configuration,
+            IHostEnvironment hostEnvironment,
             MqttClientPublisher mqttClientPublisher)
         {
-            TrafficInfoApiUpdateAirportUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdateAirportUrl));
+            var name = HostServiceNameSelector.AssignName("Airport",
+                hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
+            var color = configuration.GetValue<string>("color");
+            var latitude = configuration.GetValue<string>("latitude");
+            var longitude = configuration.GetValue<string>("longitude");
+
+            _airport = new Airport(name, color, latitude, longitude);
+
             _logger = logger;
-            _airport = airport;
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             _mqttClientPublisher = mqttClientPublisher;
+            TrafficInfoApiUpdateAirportUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdateAirportUrl));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

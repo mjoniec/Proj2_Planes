@@ -1,4 +1,3 @@
-using AirportService.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +21,6 @@ namespace AirportService
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.Configure<MqttConfig>(hostContext.Configuration.GetSection("MqttConfig"));
-                    services.AddSingleton<Airport>();
                     services.AddSingleton<MqttClientPublisher>();
                     services.AddHostedService<AirportBackgroundService>();
                 });

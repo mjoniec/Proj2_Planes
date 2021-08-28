@@ -1,11 +1,7 @@
 ﻿using Contracts;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
-using Utils;
 
 namespace AirportService.Domain
 {
@@ -30,19 +26,6 @@ namespace AirportService.Domain
 
         private readonly AirportContract _airportContract;
         private readonly ILogger<Airport> _logger;
-
-        public Airport(ILogger<Airport> logger, IConfiguration configuration, IHostEnvironment hostEnvironment)
-        {
-            _logger = logger;
-
-            var name = HostServiceNameSelector.AssignName("Airport",
-                hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
-            var color = configuration.GetValue<string>("color");
-            var latitude = configuration.GetValue<string>("latitude");
-            var longitude = configuration.GetValue<string>("longitude");
-
-            _airportContract = AirportContractExtension.GetAirportContractWithValidatedOrDefaultValues(name, color, latitude, longitude);
-        }
 
         public Airport(string name, string color, string latitude, string longitude)
         {
