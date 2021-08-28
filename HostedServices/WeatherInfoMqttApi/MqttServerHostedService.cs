@@ -13,14 +13,14 @@ namespace WeatherInfoMqttApi
 {
     public class MqttServerHostedService : IHostedService, IDisposable
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<MqttServerHostedService> _logger;
         private readonly IOptions<MqttConfig> _mqttConfig;
         private IMqttServer _mqttServer;
         
-        public MqttServerHostedService(ILogger<MqttServerHostedService> logger, IOptions<MqttConfig> config)
+        public MqttServerHostedService(ILogger<MqttServerHostedService> logger, IOptions<MqttConfig> mqttConfig)
         {
             _logger = logger;
-            _mqttConfig = config;
+            _mqttConfig = mqttConfig;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

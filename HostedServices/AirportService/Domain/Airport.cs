@@ -1,7 +1,11 @@
 ﻿using Contracts;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Utils;
 
 namespace AirportService.Domain
 {
@@ -25,20 +29,36 @@ namespace AirportService.Domain
         public AirportContract AirportContract => _airportContract; 
 
         private readonly AirportContract _airportContract;
+        private readonly ILogger<Airport> _logger;
+
+        public Airport(ILogger<Airport> logger, IConfiguration configuration, IHostEnvironment hostEnvironment)
+        {
+            _logger = logger;
+
+            var name = HostServiceNameSelector.AssignName("Airport",
+                hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
+            var color = configuration.GetValue<string>("color");
+            var latitude = configuration.GetValue<string>("latitude");
+            var longitude = configuration.GetValue<string>("longitude");
+
+            _airportContract = AirportContractExtension.GetAirportContractWithValidatedOrDefaultValues(name, color, latitude, longitude);
+        }
 
         public Airport(string name, string color, string latitude, string longitude)
         {
-            _airportContract = new AirportContract
+            var loggerFactory = LoggerFactory.Create(builder =>
             {
-                Name = name,
-                Color = string.IsNullOrEmpty(color) ? "#" + new Random().Next(100000, 999999).ToString() : color,
-                Latitude = string.IsNullOrEmpty(latitude) ? new Random().Next(-35, 35) : double.Parse(latitude, CultureInfo.InvariantCulture),
-                Longitude = string.IsNullOrEmpty(longitude) ? new Random().Next(-35, 35) : double.Parse(longitude, CultureInfo.InvariantCulture)
-            };
+                builder.AddConsole();
+            });
+
+            _logger = loggerFactory.CreateLogger<Airport>();
+            _airportContract = AirportContractExtension.GetAirportContractWithValidatedOrDefaultValues(name, color, latitude, longitude);
         }
 
         public async Task UpdateAirport()
         {
+            _logger.LogInformation("UpdateAirport: " + DateTime.Now.ToString("G"));
+
             if (_airportContract.IsGoodWeather)
             {
                 TrySetBadWeather();
@@ -51,10 +71,13 @@ namespace AirportService.Domain
 
         private void TrySetBadWeather()
         {
+            _logger.LogInformation("TrySetBadWeather");
+
             var badWeather = GetBadWeatherAtRandom();
 
             if (badWeather)
             {
+                _logger.LogInformation("badWeather");
                 _airportContract.IsGoodWeather = !badWeather;
                 _badWeatherOccurence = DateTime.Now;
             }
@@ -62,12 +85,17 @@ namespace AirportService.Domain
 
         private void TrySetGoodWeatherAfterSomeDurationOfBadWeather()
         {
+            _logger.LogInformation("TrySetGoodWeatherAfterSomeDurationOfBadWeather");
+
             _airportContract.IsGoodWeather = DateTime.Now - _badWeatherOccurence > BadWeatherDuration;
         }
 
         private bool GetBadWeatherAtRandom()
         {
-            return new Random().Next(1, BadWeatherOccurenceChanceLikeOneToThisConstValue + 1) == BadWeatherOccurenceChanceLikeOneToThisConstValue;
+            _logger.LogInformation("GetBadWeatherAtRandom");
+
+            return false; //TODO temporarly turned off bad weather occurence
+            //return new Random().Next(1, BadWeatherOccurenceChanceLikeOneToThisConstValue + 1) == BadWeatherOccurenceChanceLikeOneToThisConstValue;
         }
     }
 }

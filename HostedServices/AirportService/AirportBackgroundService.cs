@@ -1,7 +1,9 @@
 ﻿using AirportService.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MqttUtils;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
@@ -10,6 +12,7 @@ namespace AirportService
 {
     public class AirportBackgroundService : BackgroundService
     {
+        private readonly ILogger<AirportBackgroundService> _logger;
         private readonly string TrafficInfoApiUpdateAirportUrl;
         private readonly Airport _airport;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
@@ -20,19 +23,14 @@ namespace AirportService
         private bool _badWeatherInfoSent;
 
         public AirportBackgroundService(
+            ILogger<AirportBackgroundService> logger,
+            Airport airport,
             IConfiguration configuration, 
-            IHostEnvironment hostEnvironment,
             MqttClientPublisher mqttClientPublisher)
         {
-            //required to install nuget: Microsoft.Extensions.Configuration.Binder
-            var name = HostServiceNameSelector.AssignName("Airport", 
-                hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
-            var color = configuration.GetValue<string>("color");
-            var latitude = configuration.GetValue<string>("latitude");
-            var longitude = configuration.GetValue<string>("longitude");
-
             TrafficInfoApiUpdateAirportUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdateAirportUrl));
-            _airport = new Airport(name, color, latitude, longitude);
+            _logger = logger;
+            _airport = airport;
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             _mqttClientPublisher = mqttClientPublisher;
         }
@@ -44,21 +42,27 @@ namespace AirportService
             //airport management logic should go to a separate domain lifecycle manager, exported as a tick for a loop holder object
             while (!stoppingToken.IsCancellationRequested)
             {
+                _logger.LogInformation("Execute loop at " + DateTime.Now.ToString("G"));
+
                 await _airport.UpdateAirport();
 
-                //TODO - do not await with further execution untill response received
-                //??? add fallback or sth ?
+                //TODO - do not await with further execution untill response received ? add fallback or sth ?
                 await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, TrafficInfoApiUpdateAirportUrl);
 
-                //TODO these business conditions ll have to get unit tested at some point
+                //TODO these business conditions ll have to get unit tested
                 if (_airport.AirportContract.IsGoodWeather)
                 {
+                    _logger.LogInformation("good weather");
                     _badWeatherInfoSent = false;//set up ready for next bad weather publish
                 }
                 else
                 {
+                    _logger.LogInformation("bad weather");
+
                     if (!_badWeatherInfoSent)
                     {
+                        _logger.LogInformation("sending bad weather info to mqtt topic:" + _airport.AirportContract.Name);
+
                         _badWeatherInfoSent = true;//prevents from messages beeing continually sent while the weather is bad
 
                         await _mqttClientPublisher.PublishAsync("Wheather status change for airport: " + 
