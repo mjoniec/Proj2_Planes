@@ -40,5 +40,14 @@ namespace Utils
 
             return airports;
         }
+
+        public async Task<AirportContract> GetAirport(string airTrafficApiGetAirportUrl, string airportName)
+        {
+            var response = await _httpClient.GetAsync(airTrafficApiGetAirportUrl + "/" + airportName);
+            var json = await response.Content.ReadAsStringAsync();
+            var airport = JsonConvert.DeserializeObject<AirportContract>(json);
+
+            return airport;
+        }
     }
 }

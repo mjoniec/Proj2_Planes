@@ -17,7 +17,7 @@ namespace AirportService.Domain
         //so no less frequently than 10 seconds tick
 
         private const double BadWeatherDurationInSeconds = 10.0;
-        private const int BadWeatherOccurenceChanceLikeOneToThisConstValue = 10;
+        private const int BadWeatherOccurenceChanceLikeOneToThisConstValue = 4;
         private readonly TimeSpan BadWeatherDuration = TimeSpan.FromSeconds(BadWeatherDurationInSeconds);
         private DateTime _badWeatherOccurence;//we need to know when bad weather happened in order to set it back after 10 seconds
 
@@ -56,12 +56,12 @@ namespace AirportService.Domain
         {
             _logger.LogInformation("TrySetBadWeather");
 
-            var badWeather = GetBadWeatherAtRandom();
+            var badWeatherHappened = GetBadWeatherAtRandom();
 
-            if (badWeather)
+            if (badWeatherHappened)
             {
                 _logger.LogInformation("badWeather");
-                _airportContract.IsGoodWeather = !badWeather;
+                _airportContract.IsGoodWeather = !badWeatherHappened;
                 _badWeatherOccurence = DateTime.Now;
             }
         }
@@ -77,8 +77,8 @@ namespace AirportService.Domain
         {
             _logger.LogInformation("GetBadWeatherAtRandom");
 
-            return false; //TODO temporarly turned off bad weather occurence
-            //return new Random().Next(1, BadWeatherOccurenceChanceLikeOneToThisConstValue + 1) == BadWeatherOccurenceChanceLikeOneToThisConstValue;
+            //return false; //TODO temporarly turned off bad weather occurence
+            return new Random().Next(1, BadWeatherOccurenceChanceLikeOneToThisConstValue + 1) == BadWeatherOccurenceChanceLikeOneToThisConstValue;
         }
     }
 }

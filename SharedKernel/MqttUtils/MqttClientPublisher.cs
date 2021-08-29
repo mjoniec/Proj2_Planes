@@ -21,10 +21,12 @@ namespace MqttUtils
                 .WithTopic(topic)
                 .WithPayload(message)
                 .WithExactlyOnceQoS()
-                .WithRetainFlag()
+                //.WithRetainFlag() no history of messages for planes during airport change will receive all messages from history
                 .Build();
 
-            await _client.PublishAsync(mqttApplicationMessageBuilder);
+            //await _client.
+
+            //await _client..PublishAsync(mqttApplicationMessageBuilder);
         }
     }
 }

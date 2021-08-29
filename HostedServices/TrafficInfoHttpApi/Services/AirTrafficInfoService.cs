@@ -19,6 +19,11 @@ namespace TrafficInfoHttpApi.Services
 
         public AirTrafficInfoContract GetAirTrafficInfo() => _airTrafficInfoContract;
 
+        public AirportContract GetAirport(string airportName)
+        {
+            return _airTrafficInfoContract.Airports.FirstOrDefault(a => a.Name == airportName);
+        }
+
         public void UpdatePlane(PlaneContract planeContract)
         {
             //if (!_airTrafficInfoContract.Planes.Any(p => p.Name == planeContract.Name))

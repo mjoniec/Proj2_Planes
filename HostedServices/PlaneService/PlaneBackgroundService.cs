@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MqttUtils;
 using PlaneService.Domain;
 using System;
 using System.Threading;
@@ -16,14 +15,13 @@ namespace PlaneService
         private readonly Plane _plane;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly string TrafficInfoApiUpdatePlaneUrl;
-        private readonly string TrafficInfoApiUpdateGetAirportsUrl;
-        private readonly MqttClientSubscriber _mqttClientSubscriber;
+        private readonly string TrafficInfoApiGetAirportUrl;
+        private readonly string TrafficInfoApiGetAirportsUrl;
 
         public PlaneBackgroundService(
             ILogger<PlaneBackgroundService> logger,
             IConfiguration configuration, 
-            IHostEnvironment hostEnvironment,
-            MqttClientSubscriber mqttClientSubscriber)
+            IHostEnvironment hostEnvironment)
         {
             //required to install nuget: Microsoft.Extensions.Configuration.Binder
             var name = HostServiceNameSelector.AssignName("Plane", hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
@@ -33,31 +31,34 @@ namespace PlaneService
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             
             TrafficInfoApiUpdatePlaneUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdatePlaneUrl));
-            TrafficInfoApiUpdateGetAirportsUrl = configuration.GetValue<string>(nameof(TrafficInfoApiUpdateGetAirportsUrl));
-
-            //mqtt related
-            _mqttClientSubscriber = mqttClientSubscriber;
-            _mqttClientSubscriber.RaiseMessageReceivedEvent += MqttMessageReceivedHandler;
-            _ = _mqttClientSubscriber.Start();
+            TrafficInfoApiGetAirportUrl = configuration.GetValue<string>(nameof(TrafficInfoApiGetAirportUrl));
+            TrafficInfoApiGetAirportsUrl = configuration.GetValue<string>(nameof(TrafficInfoApiGetAirportsUrl));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiUpdateGetAirportsUrl));
-            
-            await _mqttClientSubscriber.SubscribeToTopic(_plane.PlaneContract.DestinationAirportName);
+            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiGetAirportsUrl));
 
+            //plane management logic should go to a separate domain lifecycle manager, exported as a tick for a loop holder object
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation(_plane.PlaneContract.Name + " Execute loop at " + DateTime.Now.ToString("G"));
-
-                //plane management logic should go to a separate domain lifecycle manager, exported as a tick for a loop holder object
+                _logger.LogInformation(_plane.PlaneContract.Name + " update loop at " + DateTime.Now.ToString("G"));
 
                 _plane.UpdatePlane();
 
+                var airport = await _trafficInfoHttpClient.GetAirport(
+                    TrafficInfoApiGetAirportUrl, _plane.PlaneContract.DestinationAirportName);
+
+                if (!airport.IsGoodWeather)
+                {
+                    _logger.LogInformation("Plane's Destination Bad Weather");
+
+                    await SelectNewDestinationAirport();
+                }
+
                 if (_plane.PlaneReachedItsDestination)
                 {
-                    _logger.LogInformation("PlaneReachedItsDestination");
+                    _logger.LogInformation("Plane Reached Its Destination");
 
                     await SelectNewDestinationAirport();
                 }
@@ -67,27 +68,13 @@ namespace PlaneService
             }
         }
 
-        /// <summary>
-        /// Upon receiving the event changes plane's destination airport
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void MqttMessageReceivedHandler(object sender, MessageEventArgs e)
-        {
-            await SelectNewDestinationAirport();
-        }
-
         private async Task SelectNewDestinationAirport()
         {
             _logger.LogInformation("SelectNewDestinationAirport");
 
-            await _mqttClientSubscriber.Unsubscribe(_plane.PlaneContract.DestinationAirportName);
-
-            var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiUpdateGetAirportsUrl);
+            var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiGetAirportsUrl);
 
             _plane.SelectNewDestinationAirport(airports);
-
-            await _mqttClientSubscriber.SubscribeToTopic(_plane.PlaneContract.DestinationAirportName);
         }
     }
 }

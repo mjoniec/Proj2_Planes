@@ -30,6 +30,14 @@ namespace TrafficInfoHttpApi.Controllers
 
         [HttpGet]
         [EnableCors("MyAllowedOrigins")]
+        [Route("GetAirport/{airportName}")]
+        public AirportContract GetAirport(string airportName)
+        {
+            return _airTrafficInfoService.GetAirport(airportName);
+        }
+
+        [HttpGet]
+        [EnableCors("MyAllowedOrigins")]
         [Route("GetAirports")]
         public List<AirportContract> GetAirports()
         {
@@ -38,16 +46,34 @@ namespace TrafficInfoHttpApi.Controllers
 
         [HttpPost]
         [EnableCors("MyAllowedOrigins")]
-        [Route("UpdatePlaneInfo")]
-        public void UpdatePlaneInfo([FromBody] PlaneContract planeContract)
+        [Route("AddPlane")]
+        public void AddPlane([FromBody] PlaneContract planeContract)
         {
             _airTrafficInfoService.UpdatePlane(planeContract);
         }
 
         [HttpPost]
         [EnableCors("MyAllowedOrigins")]
-        [Route("UpdateAirportInfo")]
-        public void UpdateAirportInfo([FromBody] AirportContract airportContract)
+        [Route("AddAirport")]
+        public void AddAirport([FromBody] AirportContract airportContract)
+        {
+            _airTrafficInfoService.UpdateAirport(airportContract);
+        }
+
+        [HttpPost]
+        //[HttpPut]
+        [EnableCors("MyAllowedOrigins")]
+        [Route("UpdatePlane")]
+        public void UpdatePlane([FromBody] PlaneContract planeContract)//refactor to name and position
+        {
+            _airTrafficInfoService.UpdatePlane(planeContract);
+        }
+
+        [HttpPost]
+        //[HttpPut]
+        [EnableCors("MyAllowedOrigins")]
+        [Route("UpdateAirport")]
+        public void UpdateAirport([FromBody] AirportContract airportContract)//refactor to name and weather flag
         {
             _airTrafficInfoService.UpdateAirport(airportContract);
         }

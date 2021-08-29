@@ -19,6 +19,10 @@ namespace MqttUtils
         {
             _client.UseApplicationMessageReceivedHandler(async e =>
             {
+                //TODO some big error here
+                //for some reason this handler is triggered continually instead of just once
+                //possibly when re subscribing to a queue plane receives all messages from the beginning
+
                 var message = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
 
                 OnRaiseMessageReceivedEvent(new MessageEventArgs(message));
@@ -30,6 +34,7 @@ namespace MqttUtils
             var subscribeResults = await _client.SubscribeAsync(
                 new MqttTopicFilterBuilder()
                     .WithTopic(topic)
+                    //.WithRetainHandling(MQTTnet.Protocol.MqttRetainHandling.
                     .Build());
 
             //TODO: improve this on if connected properly
