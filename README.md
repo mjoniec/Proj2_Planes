@@ -109,3 +109,7 @@ docker system prune -a will delete all images, even ones for other projects. It'
 - localhost Dockerised Microservices - compose file
 - Azure On Premises Mock Api
 - Azure Dockerised Microservices
+
+## Mqtt leftover
+
+Task #41. There is a branch present with MQTT server and clients - working but not suitable for this project. Mights be useful for some another project. At least move it away to a separate folder DEMO in Code sample project for further use. It would be a waste of some nice code, that is likely to be useful in the future. 
