@@ -47,6 +47,13 @@ namespace PlaneService.Domain
             var airport = await _trafficInfoHttpClient.GetAirport(
                 GetAirportUrl, _plane.PlaneContract.DestinationAirportName);
 
+            if (airport == null)
+            {
+                _logger.LogError("No airport destination for plane: " + _plane.PlaneContract.Name);
+
+                return;
+            }
+
             if (!airport.IsGoodWeather)
             {
                 _logger.LogInformation("Plane's Destination Bad Weather");

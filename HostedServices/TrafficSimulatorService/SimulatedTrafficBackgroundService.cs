@@ -1,69 +1,47 @@
 ﻿using AirportService.Domain;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using PlaneService.Domain;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Utils;
 
 namespace TrafficSimulatorService
 {
     public class SimulatedTrafficBackgroundService : BackgroundService
     {
-        private readonly string _trafficApiUpdateAirportUrl;
-        private readonly string _trafficApiUpdatePlaneUrl;
-        private readonly List<Plane> _planes;
-        private readonly List<Airport> _airports;
-        private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
+        private readonly List<PlaneLifetimeManager> _planesManagers;
+        private readonly List<AirportLifetimeManager> _airportsManagers;
 
-        public SimulatedTrafficBackgroundService(IHostEnvironment hostEnvironment)
+        public SimulatedTrafficBackgroundService(IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
-            _trafficApiUpdateAirportUrl = hostEnvironment.EnvironmentName == "Development"
-                ? $"https://localhost:44389/api/AirTrafficInfo/UpdateAirportInfo"
-                : $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdateAirportInfo";//to be tested ...
+            var updateAirportUrl = configuration.GetValue<string>("UpdateAirportUrl");
+            var addAirportUrl = configuration.GetValue<string>("AddAirportUrl");
+            var updatePlaneUrl = configuration.GetValue<string>("UpdatePlaneUrl");
+            var addPlaneUrl = configuration.GetValue<string>("AddPlaneUrl");
+            var getAirportUrl = configuration.GetValue<string>("GetAirportUrl");
+            var getAirportsUrl = configuration.GetValue<string>("GetAirportsUrl");
 
-            //TODO: refactor these urls after deployment is figured out
-            _trafficApiUpdatePlaneUrl = hostEnvironment.EnvironmentName == "Development"
-                ? $"https://localhost:44389/api/AirTrafficInfo/UpdatePlaneInfo"
-                : $"http://airtrafficinfo_1:80/api/airtrafficinfo/UpdatePlaneInfo";//to be tested ...
+            _airportsManagers = DomainObjectsDataFactory.GetAirportLifetimeManagers(updateAirportUrl, addAirportUrl).Result;
 
-            _trafficInfoHttpClient = new TrafficInfoHttpClient();
-            _airports = DomainObjectsDataFactory.GetAirports();
-            _planes = DomainObjectsDataFactory.GetPlanes();
+            Task.Delay(2000);//concurrent requests from planes may ask for data not yet setup
 
-            //start all planes, it sets up departure and destination airports, else positions will show as 0
-            var airportsContracts = _airports.Select(a => a.AirportContract).ToList();
-            _planes.ForEach(p => p.StartPlane(airportsContracts));
-            
-            SendAirportsToTrafficApi();
+            _planesManagers = DomainObjectsDataFactory.GetPlaneLifetimeManagers(updatePlaneUrl, addPlaneUrl, getAirportUrl, getAirportsUrl);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _planesManagers.ForEach(async p => await p.Start());
+
+            await Task.Delay(2000, stoppingToken);//concurrent requests from planes may ask for data not yet setup
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                UpdatePlanes();
-                SendPlanesToTrafficApi();
-                //for now airports do not change weather so no need for status update
+                _airportsManagers.ForEach(async a => await a.Loop());
+                _planesManagers.ForEach(async p => await p.Loop());
 
                 await Task.Delay(4000, stoppingToken);
             }
-        }
-
-        private void UpdatePlanes()
-        {
-            _planes.ForEach(p => p.UpdatePlane());
-        }
-
-        private void SendAirportsToTrafficApi()
-        {
-            _airports.ForEach(async a => await _trafficInfoHttpClient.AddAirport(a.AirportContract, _trafficApiUpdateAirportUrl));
-        }
-
-        private void SendPlanesToTrafficApi()
-        {
-            _planes.ForEach(async p => await _trafficInfoHttpClient.AddPlane(p.PlaneContract, _trafficApiUpdatePlaneUrl));
         }
     }
 }
