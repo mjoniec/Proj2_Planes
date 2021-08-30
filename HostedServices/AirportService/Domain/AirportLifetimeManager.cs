@@ -10,11 +10,11 @@ namespace AirportService.Domain
         private readonly ILogger<AirportLifetimeManager> _logger;
         private readonly Airport _airport;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
-        private readonly string TrafficInfoApiUpdateAirportUrl;
+        private readonly string UpdateAirportUrl;
 
         public AirportLifetimeManager(
             string name, string color, string latitude, string longitude,
-            string trafficInfoApiUpdateAirportUrl)
+            string updateAirportUrl, string addAirportUr)
         {
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -24,7 +24,9 @@ namespace AirportService.Domain
             _logger = loggerFactory.CreateLogger<AirportLifetimeManager>();
             _airport = new Airport(name, color, latitude, longitude);
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
-            TrafficInfoApiUpdateAirportUrl = trafficInfoApiUpdateAirportUrl;
+            UpdateAirportUrl = updateAirportUrl;
+
+            _trafficInfoHttpClient.AddAirport(_airport.AirportContract, addAirportUr);
         }
 
         public async Task Loop()
@@ -32,7 +34,7 @@ namespace AirportService.Domain
             _logger.LogInformation(_airport.AirportContract.Name + " Execute loop at " + DateTime.Now.ToString("G"));
 
             await _airport.UpdateAirport();
-            await _trafficInfoHttpClient.PostAirportInfo(_airport.AirportContract, TrafficInfoApiUpdateAirportUrl);
+            await _trafficInfoHttpClient.UpdateAirport(_airport.AirportContract, UpdateAirportUrl);
         }
     }
 }

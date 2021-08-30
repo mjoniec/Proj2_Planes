@@ -21,12 +21,13 @@ namespace PlaneService
             _logger = logger;
 
             var name = HostServiceNameSelector.AssignName("Plane", hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
-            var trafficInfoApiUpdatePlaneUrl = configuration.GetValue<string>("TrafficInfoApiUpdatePlaneUrl");
-            var trafficInfoApiGetAirportUrl = configuration.GetValue<string>("TrafficInfoApiGetAirportUrl");
-            var trafficInfoApiGetAirportsUrl = configuration.GetValue<string>("TrafficInfoApiGetAirportsUrl");
+            var updatePlaneUrl = configuration.GetValue<string>("UpdatePlaneUrl");
+            var addPlaneUrl = configuration.GetValue<string>("AddPlaneUrl");
+            var getAirportUrl = configuration.GetValue<string>("GetAirportUrl");
+            var getAirportsUrl = configuration.GetValue<string>("GetAirportsUrl");
 
-            _planeLifetimeManager = new PlaneLifetimeManager(name, trafficInfoApiUpdatePlaneUrl,
-                trafficInfoApiGetAirportUrl, trafficInfoApiGetAirportsUrl);
+            _planeLifetimeManager = new PlaneLifetimeManager(name, updatePlaneUrl, addPlaneUrl,
+                getAirportUrl, getAirportsUrl);
 
             _logger.LogInformation("Created PlaneBackgroundService for: " + name);
         }

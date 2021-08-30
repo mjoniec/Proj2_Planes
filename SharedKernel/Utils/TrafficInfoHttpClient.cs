@@ -16,18 +16,34 @@ namespace Utils
             _httpClient = new HttpClient();
         }
 
-        public async Task PostAirportInfo(AirportContract airportContract, string airTrafficApiUpdateAirportInfoUrl)
+        public async Task AddAirport(AirportContract airportContract, string addAirportUrl)
         {
             await _httpClient.PostAsync(
-                    airTrafficApiUpdateAirportInfoUrl,
+                    addAirportUrl,
                     new StringContent(JsonConvert.SerializeObject(airportContract),
                     Encoding.UTF8, "application/json"));
         }
 
-        public async Task PostPlaneInfo(PlaneContract planeContract, string airTrafficApiUpdatePlaneInfoUrl)
+        public async Task AddPlane(PlaneContract planeContract, string addPlaneUrl)
         {
             await _httpClient.PostAsync(
-                airTrafficApiUpdatePlaneInfoUrl,
+                addPlaneUrl,
+                new StringContent(JsonConvert.SerializeObject(planeContract),
+                Encoding.UTF8, "application/json"));
+        }
+
+        public async Task UpdateAirport(AirportContract airportContract, string updateAirportUrl)
+        {
+            await _httpClient.PutAsync(
+                    updateAirportUrl,
+                    new StringContent(JsonConvert.SerializeObject(airportContract),
+                    Encoding.UTF8, "application/json"));
+        }
+
+        public async Task UpdatePlane(PlaneContract planeContract, string updatePlaneUrl)
+        {
+            await _httpClient.PutAsync(
+                updatePlaneUrl,
                 new StringContent(JsonConvert.SerializeObject(planeContract),
                 Encoding.UTF8, "application/json"));
         }

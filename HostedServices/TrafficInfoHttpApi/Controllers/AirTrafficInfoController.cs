@@ -49,7 +49,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("AddPlane")]
         public void AddPlane([FromBody] PlaneContract planeContract)
         {
-            _airTrafficInfoService.UpdatePlane(planeContract);
+            _airTrafficInfoService.AddPlane(planeContract);
         }
 
         [HttpPost]
@@ -57,11 +57,10 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("AddAirport")]
         public void AddAirport([FromBody] AirportContract airportContract)
         {
-            _airTrafficInfoService.UpdateAirport(airportContract);
+            _airTrafficInfoService.AddAirport(airportContract);
         }
 
-        [HttpPost]
-        //[HttpPut]
+        [HttpPut]
         [EnableCors("MyAllowedOrigins")]
         [Route("UpdatePlane")]
         public void UpdatePlane([FromBody] PlaneContract planeContract)//refactor to name and position
@@ -69,8 +68,7 @@ namespace TrafficInfoHttpApi.Controllers
             _airTrafficInfoService.UpdatePlane(planeContract);
         }
 
-        [HttpPost]
-        //[HttpPut]
+        [HttpPut]
         [EnableCors("MyAllowedOrigins")]
         [Route("UpdateAirport")]
         public void UpdateAirport([FromBody] AirportContract airportContract)//refactor to name and weather flag

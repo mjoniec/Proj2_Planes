@@ -58,12 +58,12 @@ namespace TrafficSimulatorService
 
         private void SendAirportsToTrafficApi()
         {
-            _airports.ForEach(async a => await _trafficInfoHttpClient.PostAirportInfo(a.AirportContract, _trafficApiUpdateAirportUrl));
+            _airports.ForEach(async a => await _trafficInfoHttpClient.AddAirport(a.AirportContract, _trafficApiUpdateAirportUrl));
         }
 
         private void SendPlanesToTrafficApi()
         {
-            _planes.ForEach(async p => await _trafficInfoHttpClient.PostPlaneInfo(p.PlaneContract, _trafficApiUpdatePlaneUrl));
+            _planes.ForEach(async p => await _trafficInfoHttpClient.AddPlane(p.PlaneContract, _trafficApiUpdatePlaneUrl));
         }
     }
 }

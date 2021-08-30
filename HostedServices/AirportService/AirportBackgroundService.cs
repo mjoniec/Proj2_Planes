@@ -25,11 +25,12 @@ namespace AirportService
             var color = configuration.GetValue<string>("color");
             var latitude = configuration.GetValue<string>("latitude");
             var longitude = configuration.GetValue<string>("longitude");
-            var trafficInfoApiUpdateAirportUrl = configuration.GetValue<string>("TrafficInfoApiUpdateAirportUrl");
+            var updateAirportUrl = configuration.GetValue<string>("UpdateAirportUrl");
+            var addAirportUrl = configuration.GetValue<string>("AddAirportUrl");
 
             _airportLifetimeManager = new AirportLifetimeManager(
                 name, color, latitude, longitude,
-                trafficInfoApiUpdateAirportUrl);
+                updateAirportUrl, addAirportUrl);
 
             _logger.LogInformation("Created AirportBackgroundService for: " + name);
         }

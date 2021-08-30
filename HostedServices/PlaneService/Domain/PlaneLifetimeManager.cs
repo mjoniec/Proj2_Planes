@@ -10,12 +10,13 @@ namespace PlaneService.Domain
         private readonly ILogger<PlaneLifetimeManager> _logger;
         private readonly Plane _plane;
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
-        private readonly string TrafficInfoApiUpdatePlaneUrl;
-        private readonly string TrafficInfoApiGetAirportUrl;
-        private readonly string TrafficInfoApiGetAirportsUrl;
+        private readonly string UpdatePlaneUrl;
+        private readonly string AddPlaneUrl;
+        private readonly string GetAirportUrl;
+        private readonly string GetAirportsUrl;
 
-        public PlaneLifetimeManager(string name, string trafficInfoApiUpdatePlaneUrl, 
-            string trafficInfoApiGetAirportUrl, string trafficInfoApiGetAirportsUrl)
+        public PlaneLifetimeManager(string name, string updatePlaneUrl, string addPlaneUrl,
+            string getAirportUrl, string getAirportsUrl)
         {
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -25,14 +26,16 @@ namespace PlaneService.Domain
             _logger = loggerFactory.CreateLogger<PlaneLifetimeManager>();
             _plane = new Plane(name);
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
-            TrafficInfoApiUpdatePlaneUrl = trafficInfoApiUpdatePlaneUrl;
-            TrafficInfoApiGetAirportUrl = trafficInfoApiGetAirportUrl;
-            TrafficInfoApiGetAirportsUrl = trafficInfoApiGetAirportsUrl;
+            UpdatePlaneUrl = updatePlaneUrl;
+            AddPlaneUrl = addPlaneUrl;
+            GetAirportUrl = getAirportUrl;
+            GetAirportsUrl = getAirportsUrl;
         }
 
         public async Task Start()
         {
-            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiGetAirportsUrl));
+            _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl));
+            await _trafficInfoHttpClient.AddPlane(_plane.PlaneContract, AddPlaneUrl);
         }
 
         public async Task Loop()
@@ -42,7 +45,7 @@ namespace PlaneService.Domain
             _plane.UpdatePlane();
 
             var airport = await _trafficInfoHttpClient.GetAirport(
-                TrafficInfoApiGetAirportUrl, _plane.PlaneContract.DestinationAirportName);
+                GetAirportUrl, _plane.PlaneContract.DestinationAirportName);
 
             if (!airport.IsGoodWeather)
             {
@@ -58,14 +61,14 @@ namespace PlaneService.Domain
                 await SelectNewDestinationAirport();
             }
 
-            await _trafficInfoHttpClient.PostPlaneInfo(_plane.PlaneContract, TrafficInfoApiUpdatePlaneUrl);
+            await _trafficInfoHttpClient.UpdatePlane(_plane.PlaneContract, UpdatePlaneUrl);
         }
 
         private async Task SelectNewDestinationAirport()
         {
             _logger.LogInformation("SelectNewDestinationAirport");
 
-            var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(TrafficInfoApiGetAirportsUrl);
+            var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl);
 
             _plane.SelectNewDestinationAirport(airports);
         }

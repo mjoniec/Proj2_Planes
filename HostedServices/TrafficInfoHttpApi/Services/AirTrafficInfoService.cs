@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,7 @@ namespace TrafficInfoHttpApi.Services
             return _airTrafficInfoContract.Airports.FirstOrDefault(a => a.Name == airportName);
         }
 
-        public void UpdatePlane(PlaneContract planeContract)
+        public void AddPlane(PlaneContract planeContract)
         {
             //if (!_airTrafficInfoContract.Planes.Any(p => p.Name == planeContract.Name))
             if (!_airTrafficInfoContract.Planes.Select(p => p.Name)
@@ -32,6 +33,20 @@ namespace TrafficInfoHttpApi.Services
                 .Contains(planeContract.Name))
             {
                 _airTrafficInfoContract.Planes.Add(planeContract);
+            }
+            else
+            {
+                throw new Exception(planeContract.Name + " already exists");
+            }
+        }
+
+        public void UpdatePlane(PlaneContract planeContract)
+        {
+            if (!_airTrafficInfoContract.Planes.Select(p => p.Name)
+                .ToList()//copy needed for concurrent collection modification errors
+                .Contains(planeContract.Name))
+            {
+                throw new Exception(planeContract.Name + " does not exist");
             }
             else
             {
@@ -45,14 +60,27 @@ namespace TrafficInfoHttpApi.Services
             }
         }
 
-        public void UpdateAirport(AirportContract airportContract)
+        public void AddAirport(AirportContract airportContract)
         {
-            //if (!_airTrafficInfoContract.Airports.Any(p => p.Name == airportContract.Name))
             if (!_airTrafficInfoContract.Airports.Select(a => a.Name)
                 .ToList()//copy needed for concurrent collection modification errors
                 .Contains(airportContract.Name))
             {
                 _airTrafficInfoContract.Airports.Add(airportContract);
+            }
+            else
+            {
+                throw new Exception(airportContract.Name + " already exists");
+            }
+        }
+
+        public void UpdateAirport(AirportContract airportContract)
+        {
+            if (!_airTrafficInfoContract.Airports.Select(a => a.Name)
+                .ToList()//copy needed for concurrent collection modification errors
+                .Contains(airportContract.Name))
+            {
+                throw new Exception(airportContract.Name + " does not exist");
             }
             else
             {
