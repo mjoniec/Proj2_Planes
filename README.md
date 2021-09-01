@@ -48,7 +48,7 @@ status check
 
 build
 
-- docker build -t image_name . 
+- docker build -t image_name . (only lower case accepted as repository name)
 
 run
 
@@ -64,6 +64,7 @@ cleanup
 - docker stop 1111_container_id
 - docker container rm 1111_container_id
 - docker rmi 2222_image_id
+- docker rmi 2222_image_id -f (force if referenced by other)
 - docker rm 1111_container_id
 - docker stop 1111_container_id
 - docker container prune -f (remove all containers, not asking for confirmation)
