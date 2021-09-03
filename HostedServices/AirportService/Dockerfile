@@ -1,24 +1,21 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
-
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1 AS base
 WORKDIR /app
 EXPOSE 81
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-COPY ["Airport/Airport.csproj", "Airport/"]
-RUN dotnet restore "Airport/Airport.csproj"
+COPY ["HostedServices/AirportService/AirportService.csproj", "HostedServices/AirportService/"]
+COPY ["SharedKernel/Utils/Utils.csproj", "SharedKernel/Utils/"]
+COPY ["SharedKernel/Contracts/Contracts.csproj", "SharedKernel/Contracts/"]
+RUN dotnet restore "HostedServices/AirportService/AirportService.csproj"
 COPY . .
-WORKDIR "/src/Airport"
-RUN dotnet build "Airport.csproj" -c Release -o /app/build
+WORKDIR "/src/HostedServices/AirportService"
+RUN dotnet build "AirportService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Airport.csproj" -c Release -o /app/publish
+RUN dotnet publish "AirportService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Airport.dll", "--environment=Docker"]
+ENTRYPOINT ["dotnet", "AirportService.dll", "--environment=Docker"]

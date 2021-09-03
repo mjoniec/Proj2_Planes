@@ -27,6 +27,12 @@
 - manual launch TrafficInfoHttpApi and then TrafficSimulatorService from Visual Studio
 - https://localhost:44389/api/AirTrafficInfo
 
+## Running single project from its Dockerfile from powershell command
+
+powershell active directory set for solution and then pointing with sub folder path to Dockerfile is necessary for Docker to be able to see separate subtrees to folders with libraries and hostable projects
+
+- PS C:\Users\Seraf\Desktop\Planes> docker build -t trafficinfohttpapi -f HostedServices/TrafficInfoHttpApi/Dockerfile .
+
 ## Docker general notes
 
 compose with images rebuild and proper shotdown so it could be launched again
