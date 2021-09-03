@@ -1,5 +1,27 @@
 Architecture Decision Record
 
+1. Separate Dockerfiles per hostable project instead of one Dockerfile on solution level. This allows multiple images to be created only from parts of the solution that they require. Scenario is for one mage we have one hosted service and only referenced lib projects. Traffic simulator service has no part in actual business flow so it does not require one. 
+
+1. Domain logic should not be scattered outside of bounded contexts as a nuget or lib. These are good for common utility logic, that does not overlap with business. In here it d be http client and json response to contract or model parser, geo calculations. Stuff that is suitable to be packaged as sth common outsine of solution in organisation maybe or even open source (like mqtt subscriber client enriching default library, or geo coordinates navigator, sth that might be usable for others).  
+
+1. Separate folders within host background worker service projects for domain logic, net core worker needed logic and config, communication service classes. 
+
+1. shared kernel, utils, nugets - are a good place to share across organisation or even open source worldwide stuff like utils to calc coordinates, mqttclient wrapper with some logic usable as a service (could be exported), http client used in this application. 
+
+1. accepted consequence of this is that simulator service ll have to have refs to hosted services
+like some unit test project would. No nuget. 
+
+1. add project layers?/onion? (not solution lvl architecture) folder called external communication - 
+have http and mqtt connection logic happening there, use it in planeManager through services
+
+1. host service class and domain object lifetime loop manager class are split into separate classes
+
+1. External communication handled by lifetime loop managers
+
+1. plane itself should be an entity ? ... expose methods but hide properties ? ... revisit this from tutorial ...
+
+-----2021.09: check if below still apply after big refactor since 2021.02
+
 1. Backend: 4 Folders with 4 solutions per each Bounded Context: Plane, Airport, TrafficApi, WeatherService. 
 
 1. 5th folder for shared Kernel containing: MQTT nuget (not planes solution specific), Common Contracts nuget. 
