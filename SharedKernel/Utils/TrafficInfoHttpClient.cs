@@ -48,18 +48,18 @@ namespace Utils
                 Encoding.UTF8, "application/json"));
         }
 
-        public async Task<List<AirportContract>> GetCurrentlyAvailableAirports(string airTrafficApiGetAirportsUrl)
+        public async Task<List<AirportContract>> GetCurrentlyAvailableAirports(string trafficApiGetAirportsUrl)
         {
-            var response = await _httpClient.GetAsync(airTrafficApiGetAirportsUrl);
+            var response = await _httpClient.GetAsync(trafficApiGetAirportsUrl);
             var json = await response.Content.ReadAsStringAsync();
             var airports = JsonConvert.DeserializeObject<List<AirportContract>>(json);
 
             return airports;
         }
 
-        public async Task<AirportContract> GetAirport(string airTrafficApiGetAirportUrl, string airportName)
+        public async Task<AirportContract> GetAirport(string trafficApiGetAirportUrl, string airportName)
         {
-            var response = await _httpClient.GetAsync(airTrafficApiGetAirportUrl + "/" + airportName);
+            var response = await _httpClient.GetAsync(trafficApiGetAirportUrl + "/" + airportName);
             var json = await response.Content.ReadAsStringAsync();
             var airport = JsonConvert.DeserializeObject<AirportContract>(json);
 

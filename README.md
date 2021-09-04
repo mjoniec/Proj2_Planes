@@ -11,21 +11,21 @@
 - traffic api + multiple airport and plane services
 - hosted on docker containers
 - all launched by executing: PowerShell C:\...\Planes\HostedServices> Docker Compose - docker-compose up 
-- http://localhost:8880/api/AirTrafficInfo
+- http://localhost:8880/api/TrafficInfo
 
 ## localhost powershell
 
 - traffic api + multiple airport and plane services 
 - hosted on premises
 - all launched by executing: PowerShell C:\...\Planes\HostedServices> .\launchLocalhostOnPremises.ps1 
-- https://localhost:44389/api/AirTrafficInfo
+- https://localhost:44389/api/TrafficInfo
 
 ## localhost simulated
 
 - traffic api + traffic simulator service
 - hosted on premises
 - manual launch TrafficInfoHttpApi and then TrafficSimulatorService from Visual Studio
-- https://localhost:44389/api/AirTrafficInfo
+- https://localhost:44389/api/TrafficInfo
 
 ## Running single project from its Dockerfile from powershell command
 
@@ -35,7 +35,7 @@ powershell active directory set for solution and then pointing with sub folder p
 
 open new PS terminal (any directory) and run container with logs outputing (without -d), open in browser
 - docker run -p 8080:80 --name trafficinfohttpapi trafficinfohttpapi
-- http://localhost:8080/api/AirTrafficInfo
+- http://localhost:8080/api/TrafficInfo
 
 stop container, remove container, remove image (previous PS terminal)
 - docker stop trafficinfohttpapi

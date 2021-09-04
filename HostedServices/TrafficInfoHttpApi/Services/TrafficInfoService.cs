@@ -7,32 +7,33 @@ namespace TrafficInfoHttpApi.Services
 {
     public class TrafficInfoService : ITrafficInfoService
     {
-        private readonly TrafficInfoContract _airTrafficInfoContract;
+        private readonly TrafficInfoContract _trafficInfoContract;
 
         public TrafficInfoService()
         {
-            _airTrafficInfoContract = new TrafficInfoContract
+            _trafficInfoContract = new TrafficInfoContract
             {
                 Airports = new List<AirportContract>(),
                 Planes = new List<PlaneContract>()
             };
         }
 
-        public TrafficInfoContract GetTrafficInfo() => _airTrafficInfoContract;
+        public TrafficInfoContract GetTrafficInfo() => _trafficInfoContract;
 
         public AirportContract GetAirport(string airportName)
         {
-            return _airTrafficInfoContract.Airports.FirstOrDefault(a => a.Name == airportName);
+            return _trafficInfoContract.Airports.FirstOrDefault(a => a.Name == airportName);
         }
 
         public void AddPlane(PlaneContract planeContract)
         {
-            //if (!_airTrafficInfoContract.Planes.Any(p => p.Name == planeContract.Name))
-            if (!_airTrafficInfoContract.Planes.Select(p => p.Name)
-                .ToList()//copy needed for concurrent collection modification errors
+            //tolist local copy needed for concurrent collection modification errors
+            //if (!_TrafficInfoContract.Planes.Any(p => p.Name == planeContract.Name))
+            if (!_trafficInfoContract.Planes.Select(p => p.Name)
+                .ToList()
                 .Contains(planeContract.Name))
             {
-                _airTrafficInfoContract.Planes.Add(planeContract);
+                _trafficInfoContract.Planes.Add(planeContract);
             }
             else
             {
@@ -42,15 +43,15 @@ namespace TrafficInfoHttpApi.Services
 
         public void UpdatePlane(PlaneContract planeContract)
         {
-            if (!_airTrafficInfoContract.Planes.Select(p => p.Name)
-                .ToList()//copy needed for concurrent collection modification errors
+            if (!_trafficInfoContract.Planes.Select(p => p.Name)
+                .ToList()
                 .Contains(planeContract.Name))
             {
                 throw new Exception(planeContract.Name + " does not exist");
             }
             else
             {
-                var planeToUpdate = _airTrafficInfoContract.Planes.First(p => p.Name == planeContract.Name);
+                var planeToUpdate = _trafficInfoContract.Planes.First(p => p.Name == planeContract.Name);
 
                 //make a separate presentation model out of it?
                 planeToUpdate.Latitude = planeContract.Latitude;
@@ -62,11 +63,11 @@ namespace TrafficInfoHttpApi.Services
 
         public void AddAirport(AirportContract airportContract)
         {
-            if (!_airTrafficInfoContract.Airports.Select(a => a.Name)
-                .ToList()//copy needed for concurrent collection modification errors
+            if (!_trafficInfoContract.Airports.Select(a => a.Name)
+                .ToList()
                 .Contains(airportContract.Name))
             {
-                _airTrafficInfoContract.Airports.Add(airportContract);
+                _trafficInfoContract.Airports.Add(airportContract);
             }
             else
             {
@@ -76,15 +77,15 @@ namespace TrafficInfoHttpApi.Services
 
         public void UpdateAirport(AirportContract airportContract)
         {
-            if (!_airTrafficInfoContract.Airports.Select(a => a.Name)
-                .ToList()//copy needed for concurrent collection modification errors
+            if (!_trafficInfoContract.Airports.Select(a => a.Name)
+                .ToList()
                 .Contains(airportContract.Name))
             {
                 throw new Exception(airportContract.Name + " does not exist");
             }
             else
             {
-                var airportToUpdate = _airTrafficInfoContract.Airports.First(p => p.Name == airportContract.Name);
+                var airportToUpdate = _trafficInfoContract.Airports.First(p => p.Name == airportContract.Name);
 
                 //new presentation model lat lon readonly as they do not change
                 airportToUpdate.IsGoodWeather = airportContract.IsGoodWeather;

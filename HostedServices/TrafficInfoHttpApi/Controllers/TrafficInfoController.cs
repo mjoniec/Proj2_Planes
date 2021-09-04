@@ -14,10 +14,10 @@ namespace TrafficInfoHttpApi.Controllers
         private readonly TrafficInfoService _trafficInfoService;
         private readonly StaticResourcesProvider _staticResourcesProvider;
 
-        public TrafficInfoController(TrafficInfoService airTrafficInfoService,
+        public TrafficInfoController(TrafficInfoService trafficInfoService,
             StaticResourcesProvider staticResourcesService)
         {
-            _trafficInfoService = airTrafficInfoService;
+            _trafficInfoService = trafficInfoService;
             _staticResourcesProvider = staticResourcesService;
         }
 
@@ -77,7 +77,7 @@ namespace TrafficInfoHttpApi.Controllers
         }
 
         //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
-        //https://localhost:44389/api/AirTrafficInfo/WorldMap
+        //https://localhost:44389/api/TrafficInfo/WorldMap
         [EnableCors("MyAllowedOrigins")]
         [HttpGet("WorldMap")]
         public async Task<string> WorldMap()
