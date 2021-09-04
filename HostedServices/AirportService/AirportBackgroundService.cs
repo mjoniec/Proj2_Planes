@@ -37,6 +37,10 @@ namespace AirportService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("Starting airport");
+
+            await _airportLifetimeManager.Start();
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _airportLifetimeManager.Loop();

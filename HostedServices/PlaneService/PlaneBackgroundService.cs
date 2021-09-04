@@ -34,6 +34,8 @@ namespace PlaneService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("Starting plane");
+
             await _planeLifetimeManager.Start();
 
             while (!stoppingToken.IsCancellationRequested)

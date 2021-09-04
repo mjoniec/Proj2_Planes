@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrafficInfoApi.Services;
@@ -47,17 +48,36 @@ namespace TrafficInfoApi.Controllers
         [HttpPost]
         [EnableCors("MyAllowedOrigins")]
         [Route("AddPlane")]
-        public void AddPlane([FromBody] PlaneContract planeContract)
+        public IActionResult AddPlane([FromBody] PlaneContract planeContract)
+        //public void AddPlane([FromBody] PlaneContract planeContract)
         {
-            _trafficInfoService.AddPlane(planeContract);
+            try
+            {
+                _trafficInfoService.AddPlane(planeContract);
+
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
         [EnableCors("MyAllowedOrigins")]
         [Route("AddAirport")]
-        public void AddAirport([FromBody] AirportContract airportContract)
+        public IActionResult AddAirport([FromBody] AirportContract airportContract)
         {
-            _trafficInfoService.AddAirport(airportContract);
+            try
+            {
+                _trafficInfoService.AddAirport(airportContract);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut]

@@ -35,6 +35,8 @@ namespace TrafficSimulatorService
 
             await Task.Delay(2000, stoppingToken);//concurrent requests from planes may ask for data not yet setup
 
+            _airportsManagers.ForEach(async p => await p.Start());
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 _airportsManagers.ForEach(async a => await a.Loop());

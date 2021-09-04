@@ -19,9 +19,28 @@ namespace Utils
         public async Task AddAirport(AirportContract airportContract, string addAirportUrl)
         {
             await _httpClient.PostAsync(
-                    addAirportUrl,
-                    new StringContent(JsonConvert.SerializeObject(airportContract),
-                    Encoding.UTF8, "application/json"));
+                addAirportUrl,
+                new StringContent(JsonConvert.SerializeObject(airportContract),
+                Encoding.UTF8, "application/json"));
+        }
+
+        public async Task KeepTryingAddAirportUntilSuccessful(AirportContract airportContract, string addAirportUrl)
+        {
+            var response = await _httpClient.PostAsync(
+                addAirportUrl,
+                new StringContent(JsonConvert.SerializeObject(airportContract),
+                Encoding.UTF8, "application/json"));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return;
+            }
+            else
+            {
+                await Task.Delay(5000);
+
+                await KeepTryingAddAirportUntilSuccessful(airportContract, addAirportUrl);
+            }
         }
 
         public async Task AddPlane(PlaneContract planeContract, string addPlaneUrl)
@@ -32,12 +51,31 @@ namespace Utils
                 Encoding.UTF8, "application/json"));
         }
 
+        public async Task KeepTryingAddPlaneUntilSuccessful(PlaneContract planeContract, string addPlaneUrl)
+        {
+            var response = await _httpClient.PostAsync(
+                addPlaneUrl,
+                new StringContent(JsonConvert.SerializeObject(planeContract),
+                Encoding.UTF8, "application/json"));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return;
+            }
+            else
+            {
+                await Task.Delay(5000);
+
+                await KeepTryingAddPlaneUntilSuccessful(planeContract, addPlaneUrl);
+            }
+        }
+
         public async Task UpdateAirport(AirportContract airportContract, string updateAirportUrl)
         {
             await _httpClient.PutAsync(
-                    updateAirportUrl,
-                    new StringContent(JsonConvert.SerializeObject(airportContract),
-                    Encoding.UTF8, "application/json"));
+                updateAirportUrl,
+                new StringContent(JsonConvert.SerializeObject(airportContract),
+                Encoding.UTF8, "application/json"));
         }
 
         public async Task UpdatePlane(PlaneContract planeContract, string updatePlaneUrl)

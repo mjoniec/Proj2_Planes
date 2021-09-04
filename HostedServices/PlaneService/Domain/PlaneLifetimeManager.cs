@@ -34,8 +34,10 @@ namespace PlaneService.Domain
 
         public async Task Start()
         {
+            _logger.LogInformation(_plane.PlaneContract.Name + " start plane at " + DateTime.Now.ToString("G"));
             _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl));
-            await _trafficInfoHttpClient.AddPlane(_plane.PlaneContract, AddPlaneUrl);
+            
+            await _trafficInfoHttpClient.KeepTryingAddPlaneUntilSuccessful(_plane.PlaneContract, AddPlaneUrl);
         }
 
         public async Task Loop()
