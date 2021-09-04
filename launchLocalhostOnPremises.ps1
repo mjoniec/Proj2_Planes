@@ -1,9 +1,9 @@
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName;
 Write-Output $currentDir
 
-$dirTrafficInfoHttpApi = $currentDir + '\TrafficInfoHttpApi';
-$dirAirportService = $currentDir + '\AirportService';
-$dirPlaneService = $currentDir + '\PlaneService';
+$dirTrafficInfoHttpApi = $currentDir + '\HostedServices\TrafficInfoApi';
+$dirAirportService = $currentDir + '\HostedServices\AirportService';
+$dirPlaneService = $currentDir + '\HostedServices\PlaneService';
 
 Start-Process -FilePath 'dotnet' -WorkingDirectory $dirTrafficInfoHttpApi -ArgumentList 'run'
 Start-Sleep -s 5
@@ -54,4 +54,9 @@ Start-Sleep -s 2
 Start-Process -FilePath 'dotnet' -WorkingDirectory $dirPlaneService -ArgumentList 'run --name="Iceman"'
 Start-Sleep -s 2
 Start-Process -FilePath 'dotnet' -WorkingDirectory $dirPlaneService -ArgumentList 'run --name="Slider"'
-
+Start-Sleep -s 2
+Start-Process -FilePath 'dotnet' -WorkingDirectory $dirPlaneService -ArgumentList 'run --name="Goose"'
+Start-Sleep -s 2
+Start-Process -FilePath 'dotnet' -WorkingDirectory $dirPlaneService -ArgumentList 'run --name="Jester"'
+Start-Sleep -s 2
+Start-Process -FilePath 'dotnet' -WorkingDirectory $dirPlaneService -ArgumentList 'run --name="Viper"'

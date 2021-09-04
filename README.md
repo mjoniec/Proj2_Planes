@@ -5,7 +5,7 @@
 - can be paired with: simulated, powershell or docker type of backend
 - source with separate readme https://github.com/mjoniec/UI/tree/main/Proj2_Planes
 
-## localhost docker
+## localhost docker compose
 
 - !!! needs to be updated after multiple code changes !!!
 - traffic api + multiple airport and plane services
@@ -13,11 +13,11 @@
 - all launched by executing: PowerShell C:\...\Planes\HostedServices> Docker Compose - docker-compose up 
 - http://localhost:8880/api/TrafficInfo
 
-## localhost powershell
+## localhost on premises powershell
 
 - traffic api + multiple airport and plane services 
 - hosted on premises
-- all launched by executing: PowerShell C:\...\Planes\HostedServices> .\launchLocalhostOnPremises.ps1 
+- all launched by executing: PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 
 - https://localhost:44389/api/TrafficInfo
 
 ## localhost simulated
@@ -31,7 +31,7 @@
 
 powershell active directory set for solution and then pointing with sub folder path to Dockerfile is necessary for Docker to be able to see separate subtrees to folders with libraries and hostable projects
 
-- PS C:\Users\Seraf\Desktop\Planes> docker build -t trafficinfoapi -f HostedServices/TrafficInfoApi/Dockerfile .
+- PS C:\...\Planes> docker build -t trafficinfoapi -f HostedServices/TrafficInfoApi/Dockerfile .
 
 open new PS terminal (any directory) and run container with logs outputing (without -d), open in browser
 - docker run -p 8080:80 --name trafficinfoapi trafficinfoapi
