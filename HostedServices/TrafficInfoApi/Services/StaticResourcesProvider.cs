@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace TrafficInfoHttpApi.Services
+namespace TrafficInfoApi.Services
 {
     //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
     public class StaticResourcesProvider

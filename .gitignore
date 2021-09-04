@@ -150,3 +150,5 @@
 /.vs
 /SharedKernel/Utils/obj
 /SharedKernel/Utils/bin/Debug/netcoreapp3.1
+/HostedServices/TrafficInfoApi/obj
+/HostedServices/TrafficInfoApi/bin/Debug/netcoreapp3.1

@@ -1,6 +1,6 @@
 ﻿using Contracts;
 
-namespace TrafficInfoHttpApi.Services
+namespace TrafficInfoApi.Services
 {
     public interface ITrafficInfoService
     {

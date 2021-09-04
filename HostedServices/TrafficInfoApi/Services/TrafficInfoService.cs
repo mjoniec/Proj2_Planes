@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TrafficInfoHttpApi.Services
+namespace TrafficInfoApi.Services
 {
     public class TrafficInfoService : ITrafficInfoService
     {

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HostedServices", "HostedServices", "{DC9DFCE7-C5A4-4546-AB3E-564E2AEAEAC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrafficInfoHttpApi", "HostedServices\TrafficInfoHttpApi\TrafficInfoHttpApi.csproj", "{B7F6199E-02C1-4A85-A40E-7940DE745D3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrafficInfoApi", "HostedServices\TrafficInfoApi\TrafficInfoApi.csproj", "{B7F6199E-02C1-4A85-A40E-7940DE745D3E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaneService", "HostedServices\PlaneService\PlaneService.csproj", "{C6FDAB01-CF11-4145-8710-CEE37BE2A013}"
 EndProject

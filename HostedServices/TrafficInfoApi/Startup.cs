@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TrafficInfoHttpApi.Services;
+using TrafficInfoApi.Services;
 
-namespace TrafficInfoHttpApi
+namespace TrafficInfoApi
 {
     public class Startup
     {

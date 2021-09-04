@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TrafficInfoHttpApi": {
+    "TrafficInfoApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/TrafficInfo",

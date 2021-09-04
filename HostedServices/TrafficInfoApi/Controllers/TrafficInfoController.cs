@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrafficInfoHttpApi.Services;
+using TrafficInfoApi.Services;
 
-namespace TrafficInfoHttpApi.Controllers
+namespace TrafficInfoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -77,7 +77,7 @@ namespace TrafficInfoHttpApi.Controllers
         }
 
         //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
-        //https://localhost:44389/api/TrafficInfo/WorldMap
+        //https://localhost:44389/api/rTrafficInfo/WorldMap
         [EnableCors("MyAllowedOrigins")]
         [HttpGet("WorldMap")]
         public async Task<string> WorldMap()

@@ -24,23 +24,23 @@
 
 - traffic api + traffic simulator service
 - hosted on premises
-- manual launch TrafficInfoHttpApi and then TrafficSimulatorService from Visual Studio
+- manual launch TrafficInfoApi and then TrafficSimulatorService from Visual Studio
 - https://localhost:44389/api/TrafficInfo
 
 ## Running single project from its Dockerfile from powershell command
 
 powershell active directory set for solution and then pointing with sub folder path to Dockerfile is necessary for Docker to be able to see separate subtrees to folders with libraries and hostable projects
 
-- PS C:\Users\Seraf\Desktop\Planes> docker build -t trafficinfohttpapi -f HostedServices/TrafficInfoHttpApi/Dockerfile .
+- PS C:\Users\Seraf\Desktop\Planes> docker build -t trafficinfoapi -f HostedServices/TrafficInfoApi/Dockerfile .
 
 open new PS terminal (any directory) and run container with logs outputing (without -d), open in browser
-- docker run -p 8080:80 --name trafficinfohttpapi trafficinfohttpapi
+- docker run -p 8080:80 --name trafficinfoapi trafficinfoapi
 - http://localhost:8080/api/TrafficInfo
 
 stop container, remove container, remove image (previous PS terminal)
-- docker stop trafficinfohttpapi
-- docker container rm trafficinfohttpapi
-- docker rmi trafficinfohttpapi
+- docker stop trafficinfoapi
+- docker container rm trafficinfoapi
+- docker rmi trafficinfoapi
 
 ## Docker general notes
 
