@@ -78,24 +78,21 @@ cleanup
 
 ## compose info
 
-  --force-recreate    Recreate containers even if their configuration
-                      and image haven't changed.
-                      
-  --build             Build images before starting containers.
-  
-  --no-deps           Don't start linked services.
+--force-recreate    Recreate containers even if their configuration and image haven't changed.
 
-- alternate restart:
+--build             Build images before starting containers.
+ 
+--no-deps           Don't start linked services.
 
-    stop docker compose: $ docker-compose down
+alternate restart:
 
-    remove the container: $ docker system prune -a
-
-    start docker compose: $ docker-compose up -d
+- stop docker compose: $ docker-compose down
+- remove the container: $ docker system prune -a
+- start docker compose: $ docker-compose up -d
 
 docker system prune -a will delete all images, even ones for other projects. It's recommended against the usage of this.
 
-## hub
+## docker hub
 
 - docker login -u "user" -p "password" docker.io
 - https://hub.docker.com/repository/docker/mjdocker31
@@ -108,15 +105,3 @@ docker system prune -a will delete all images, even ones for other projects. It'
 - docker build -t mjdocker31/planes:airport .
 - docker run mjdocker31/planes:airport
 - docker push mjdocker31/planes:airport
-
-## Possible Setups:
-
-- localhost On Premises Mock Api - manually
-- localhost On Premises Services - ps script or manually
-- localhost Dockerised Microservices - compose file
-- Azure On Premises Mock Api
-- Azure Dockerised Microservices
-
-## Mqtt leftover
-
-Task #41. There is a branch present with MQTT server and clients - working but not suitable for this project. Mights be useful for some another project. At least move it away to a separate folder DEMO in Code sample project for further use. It would be a waste of some nice code, that is likely to be useful in the future. 
