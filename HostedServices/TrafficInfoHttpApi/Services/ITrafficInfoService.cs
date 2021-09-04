@@ -2,9 +2,9 @@
 
 namespace TrafficInfoHttpApi.Services
 {
-    public interface IAirTrafficInfoService
+    public interface ITrafficInfoService
     {
-        AirTrafficInfoContract GetAirTrafficInfo();
+        TrafficInfoContract GetTrafficInfo();
         AirportContract GetAirport(string airportName);
         void AddPlane(PlaneContract planeContract);
         void UpdatePlane(PlaneContract planeContract);

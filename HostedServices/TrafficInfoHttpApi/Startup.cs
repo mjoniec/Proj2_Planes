@@ -32,8 +32,8 @@ namespace TrafficInfoHttpApi
                 });
             });
 
-            services.AddSingleton<AirTrafficInfoService>();
-            services.AddSingleton<IAirTrafficInfoService, AirTrafficInfoService>(s => s.GetService<AirTrafficInfoService>());
+            services.AddSingleton<TrafficInfoService>();
+            services.AddSingleton<ITrafficInfoService, TrafficInfoService>(s => s.GetService<TrafficInfoService>());
             services.AddSingleton<StaticResourcesProvider>();
         }
 

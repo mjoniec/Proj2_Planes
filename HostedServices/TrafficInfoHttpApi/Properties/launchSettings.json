@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/AirTrafficInfo",
+      "launchUrl": "api/TrafficInfo",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "TrafficInfoHttpApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/AirTrafficInfo",
+      "launchUrl": "api/TrafficInfo",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/AirTrafficInfo",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/TrafficInfo",
       "publishAllPorts": true,
       "useSSL": true
     }

@@ -105,9 +105,9 @@ docker system prune -a will delete all images, even ones for other projects. It'
 
 - docker login -u "user" -p "password" docker.io
 - https://hub.docker.com/repository/docker/mjdocker31
-- docker build -t mjdocker31/planes:airtrafficinfoapi .
-- docker run mjdocker31/planes:airtrafficinfoapi
-- docker push mjdocker31/planes:airtrafficinfoapi
+- docker build -t mjdocker31/planes:trafficinfoapi .
+- docker run mjdocker31/planes:trafficinfoapi
+- docker push mjdocker31/planes:trafficinfoapi
 - docker build -t mjdocker31/planes:plane .
 - docker run mjdocker31/planes:plane
 - docker push mjdocker31/planes:plane

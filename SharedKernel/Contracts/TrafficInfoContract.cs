@@ -2,7 +2,7 @@
 
 namespace Contracts
 {
-    public class AirTrafficInfoContract
+    public class TrafficInfoContract
     {
         public List<AirportContract> Airports { get; set; }
         public List<PlaneContract> Planes { get; set; }

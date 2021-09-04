@@ -5,20 +5,20 @@ using System.Linq;
 
 namespace TrafficInfoHttpApi.Services
 {
-    public class AirTrafficInfoService : IAirTrafficInfoService
+    public class TrafficInfoService : ITrafficInfoService
     {
-        private readonly AirTrafficInfoContract _airTrafficInfoContract;
+        private readonly TrafficInfoContract _airTrafficInfoContract;
 
-        public AirTrafficInfoService()
+        public TrafficInfoService()
         {
-            _airTrafficInfoContract = new AirTrafficInfoContract
+            _airTrafficInfoContract = new TrafficInfoContract
             {
                 Airports = new List<AirportContract>(),
                 Planes = new List<PlaneContract>()
             };
         }
 
-        public AirTrafficInfoContract GetAirTrafficInfo() => _airTrafficInfoContract;
+        public TrafficInfoContract GetTrafficInfo() => _airTrafficInfoContract;
 
         public AirportContract GetAirport(string airportName)
         {

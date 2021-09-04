@@ -9,23 +9,23 @@ namespace TrafficInfoHttpApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AirTrafficInfoController : ControllerBase
+    public class TrafficInfoController : ControllerBase
     {
-        private readonly AirTrafficInfoService _airTrafficInfoService;
+        private readonly TrafficInfoService _trafficInfoService;
         private readonly StaticResourcesProvider _staticResourcesProvider;
 
-        public AirTrafficInfoController(AirTrafficInfoService airTrafficInfoService,
+        public TrafficInfoController(TrafficInfoService airTrafficInfoService,
             StaticResourcesProvider staticResourcesService)
         {
-            _airTrafficInfoService = airTrafficInfoService;
+            _trafficInfoService = airTrafficInfoService;
             _staticResourcesProvider = staticResourcesService;
         }
 
         [HttpGet]
         [EnableCors("MyAllowedOrigins")]
-        public AirTrafficInfoContract Get()
+        public TrafficInfoContract Get()
         {
-            return _airTrafficInfoService.GetAirTrafficInfo();
+            return _trafficInfoService.GetTrafficInfo();
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("GetAirport/{airportName}")]
         public AirportContract GetAirport(string airportName)
         {
-            return _airTrafficInfoService.GetAirport(airportName);
+            return _trafficInfoService.GetAirport(airportName);
         }
 
         [HttpGet]
@@ -41,7 +41,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("GetAirports")]
         public List<AirportContract> GetAirports()
         {
-            return _airTrafficInfoService.GetAirTrafficInfo().Airports;
+            return _trafficInfoService.GetTrafficInfo().Airports;
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("AddPlane")]
         public void AddPlane([FromBody] PlaneContract planeContract)
         {
-            _airTrafficInfoService.AddPlane(planeContract);
+            _trafficInfoService.AddPlane(planeContract);
         }
 
         [HttpPost]
@@ -57,7 +57,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("AddAirport")]
         public void AddAirport([FromBody] AirportContract airportContract)
         {
-            _airTrafficInfoService.AddAirport(airportContract);
+            _trafficInfoService.AddAirport(airportContract);
         }
 
         [HttpPut]
@@ -65,7 +65,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("UpdatePlane")]
         public void UpdatePlane([FromBody] PlaneContract planeContract)//refactor to name and position
         {
-            _airTrafficInfoService.UpdatePlane(planeContract);
+            _trafficInfoService.UpdatePlane(planeContract);
         }
 
         [HttpPut]
@@ -73,7 +73,7 @@ namespace TrafficInfoHttpApi.Controllers
         [Route("UpdateAirport")]
         public void UpdateAirport([FromBody] AirportContract airportContract)//refactor to name and weather flag
         {
-            _airTrafficInfoService.UpdateAirport(airportContract);
+            _trafficInfoService.UpdateAirport(airportContract);
         }
 
         //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
