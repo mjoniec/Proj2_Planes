@@ -33,6 +33,15 @@ powershell active directory set for solution and then pointing with sub folder p
 
 - PS C:\Users\Seraf\Desktop\Planes> docker build -t trafficinfohttpapi -f HostedServices/TrafficInfoHttpApi/Dockerfile .
 
+open new PS terminal (any directory) and run container with logs outputing (without -d), open in browser
+- docker run -p 8080:80 --name trafficinfohttpapi trafficinfohttpapi
+- http://localhost:8080/api/AirTrafficInfo
+
+stop container, remove container, remove image (previous PS terminal)
+- docker stop trafficinfohttpapi
+- docker container rm trafficinfohttpapi
+- docker rmi trafficinfohttpapi
+
 ## Docker general notes
 
 compose with images rebuild and proper shotdown so it could be launched again
