@@ -49,7 +49,6 @@ namespace TrafficInfoApi.Controllers
         [EnableCors("MyAllowedOrigins")]
         [Route("AddPlane")]
         public IActionResult AddPlane([FromBody] PlaneContract planeContract)
-        //public void AddPlane([FromBody] PlaneContract planeContract)
         {
             try
             {
@@ -83,17 +82,35 @@ namespace TrafficInfoApi.Controllers
         [HttpPut]
         [EnableCors("MyAllowedOrigins")]
         [Route("UpdatePlane")]
-        public void UpdatePlane([FromBody] PlaneContract planeContract)//refactor to name and position
+        public IActionResult UpdatePlane([FromBody] PlaneContract planeContract)
         {
-            _trafficInfoService.UpdatePlane(planeContract);
+            try
+            {
+                _trafficInfoService.UpdatePlane(planeContract);
+
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
         [EnableCors("MyAllowedOrigins")]
         [Route("UpdateAirport")]
-        public void UpdateAirport([FromBody] AirportContract airportContract)//refactor to name and weather flag
+        public IActionResult UpdateAirport([FromBody] AirportContract airportContract)
         {
-            _trafficInfoService.UpdateAirport(airportContract);
+            try
+            {
+                _trafficInfoService.UpdateAirport(airportContract);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
