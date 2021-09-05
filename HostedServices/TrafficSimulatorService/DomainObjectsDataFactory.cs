@@ -1,7 +1,6 @@
 ﻿using AirportService.Domain;
 using PlaneService.Domain;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace TrafficSimulatorService
 {
@@ -24,59 +23,28 @@ namespace TrafficSimulatorService
             };
         }
 
-        public static async Task<List<AirportLifetimeManager>> GetAirportLifetimeManagers(string updateAirportUrl, string addAirportUrl)
+        public static List<AirportLifetimeManager> GetAirportLifetimeManagers(string updateAirportUrl, string addAirportUrl)
         {
-            var list = new List<AirportLifetimeManager>();
+            return new List<AirportLifetimeManager>
+            {
+                new AirportLifetimeManager("New York", "#0000FF", 40.68.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-74.17).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Miami", "#0b40f4", 25.78.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-80.17).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Los Angeles", "#0a3bdb", 33.93.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-118.4).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("San Francisco", "#082eaa", 37.78.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-122.41).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
 
-            list.Add(new AirportLifetimeManager("New York", "#0000FF", 40.68.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-74.17).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
+                new AirportLifetimeManager("London", "#FF0000", 51.48.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-0.11).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Sevilla", "#ff1a1a", 37.37.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-5.98).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Rome", "#ff1a1a", 41.89.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 12.5.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Moscow", "#ff3333", 55.75.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 37.63.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
 
-            list.Add(new AirportLifetimeManager("Miami", "#0b40f4", 25.78.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-80.17).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
+                new AirportLifetimeManager("Tokyo", "#ff00ff", 35.67.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 139.75.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Kuala Lumpur", "#1affff", 3.13.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 101.68.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Cairo", "#ffff00", 29.9.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 31.4.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Dubai", "#ffff33", 25.3.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 55.2.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
 
-            list.Add(new AirportLifetimeManager("Los Angeles", "#0a3bdb", 33.93.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-118.4).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("San Francisco", "#082eaa", 37.78.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-122.41).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-
-
-            list.Add(new AirportLifetimeManager("London", "#FF0000", 51.48.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-0.11).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Sevilla", "#ff1a1a", 37.37.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-5.98).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Rome", "#ff1a1a", 41.89.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 12.5.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Moscow", "#ff3333", 55.75.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 37.63.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-
-
-            list.Add(new AirportLifetimeManager("Tokyo", "#ff00ff", 35.67.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 139.75.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Kuala Lumpur", "#1affff", 3.13.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 101.68.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Cairo", "#ffff00", 29.9.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 31.4.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Dubai", "#ffff33", 25.3.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 55.2.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-
-
-            list.Add(new AirportLifetimeManager("Sydney", "#c61aff", (-33.8).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 151.2.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            list.Add(new AirportLifetimeManager("Rio De Janeiro", "#40ff00", (-22.9).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-43.2).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl));
-            await Task.Delay(200);
-
-            return list;
+                new AirportLifetimeManager("Sydney", "#c61aff", (-33.8).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), 151.2.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl),
+                new AirportLifetimeManager("Rio De Janeiro", "#40ff00", (-22.9).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), (-43.2).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), updateAirportUrl, addAirportUrl)
+            };
         }
     }
 }
