@@ -70,20 +70,24 @@ namespace Utils
             }
         }
 
-        public async Task UpdateAirport(AirportContract airportContract, string updateAirportUrl)
+        public async Task<HttpResponseMessage> UpdateAirport(AirportContract airportContract, string updateAirportUrl)
         {
-            await _httpClient.PutAsync(
+            var response = await _httpClient.PutAsync(
                 updateAirportUrl,
                 new StringContent(JsonConvert.SerializeObject(airportContract),
                 Encoding.UTF8, "application/json"));
+
+            return response;
         }
 
-        public async Task UpdatePlane(PlaneContract planeContract, string updatePlaneUrl)
+        public async Task<HttpResponseMessage> UpdatePlane(PlaneContract planeContract, string updatePlaneUrl)
         {
-            await _httpClient.PutAsync(
+            var response = await _httpClient.PutAsync(
                 updatePlaneUrl,
                 new StringContent(JsonConvert.SerializeObject(planeContract),
                 Encoding.UTF8, "application/json"));
+
+            return response;
         }
 
         public async Task<List<AirportContract>> GetCurrentlyAvailableAirports(string trafficApiGetAirportsUrl)

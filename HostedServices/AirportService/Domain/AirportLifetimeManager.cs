@@ -41,7 +41,13 @@ namespace AirportService.Domain
             _logger.LogInformation(_airport.AirportContract.Name + " Execute loop at " + DateTime.Now.ToString("G"));
 
             await _airport.UpdateAirport();
-            await _trafficInfoHttpClient.UpdateAirport(_airport.AirportContract, UpdateAirportUrl);
+            
+            var response = await _trafficInfoHttpClient.UpdateAirport(_airport.AirportContract, UpdateAirportUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("update airport unsuccessful");
+            }
         }
     }
 }

@@ -70,7 +70,12 @@ namespace PlaneService.Domain
                 await SelectNewDestinationAirport();
             }
 
-            await _trafficInfoHttpClient.UpdatePlane(_plane.PlaneContract, UpdatePlaneUrl);
+            var response = await _trafficInfoHttpClient.UpdatePlane(_plane.PlaneContract, UpdatePlaneUrl);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("update plane unsuccessful");
+            }
         }
 
         private async Task SelectNewDestinationAirport()
