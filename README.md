@@ -5,12 +5,12 @@
 - can be paired with: simulated, powershell or docker type of backend
 - source with separate readme https://github.com/mjoniec/UI/tree/main/Proj2_Planes
 
-## localhost docker compose
+## docker compose localhost
 
-- !!! needs to be updated after multiple code changes !!!
-- traffic api + multiple airport and plane services
-- hosted on docker containers
-- all launched by executing: PowerShell C:\...\Planes\HostedServices> Docker Compose - docker-compose up 
+- !!! work in progress !!!
+- traffic api + multiple airport and plane services hosted on dockerized environment
+- make sure contents of docker-compose_localhost.yml is copied to docker-compose.yml before launching the script - thats the only file docker-compose up command will take
+- all launched by executing: PowerShell C:\...\Planes> docker-compose up 
 - http://localhost:8880/api/TrafficInfo
 
 ## localhost on premises powershell
