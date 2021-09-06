@@ -28,15 +28,11 @@ namespace TrafficSimulatorService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            foreach (var a in _airportsManagers)
-            {
-                await a.Start();
-                await Task.Delay(1000);
-            }
+            //#42
             //cannot use lambda and ForEach for all will get triggered at the same time
             //we want sequential init every second
             //this behavior causes some planes to fail on added and then continually fail on update loop - 
-            //this is interesting fail async behavior that system should be bullet proof of - #42
+            //this is interesting fail async behavior that system should be bullet proof of
             //_airportsManagers.ForEach(async p =>
             //{
             //    await p.Start();
@@ -49,7 +45,13 @@ namespace TrafficSimulatorService
             //    await Task.Delay(1000);
             //});
 
-            //concurrent requests from planes may ask for airport data not yet setup
+            //init
+            foreach (var a in _airportsManagers)
+            {
+                await a.Start();
+                await Task.Delay(1000);
+            }
+
             await Task.Delay(3000);
 
             foreach(var p in _planesManagers)
@@ -58,14 +60,20 @@ namespace TrafficSimulatorService
                 await Task.Delay(2000);
             }
 
-            
-
+            //keep on updating
             while (!stoppingToken.IsCancellationRequested)
             {
-                _airportsManagers.ForEach(async a => await a.Loop());
-                _planesManagers.ForEach(async p => await p.Loop());
+                foreach (var a in _airportsManagers)
+                {
+                    await a.Loop();
+                    await Task.Delay(300);
+                }
 
-                await Task.Delay(4000, stoppingToken);
+                foreach (var p in _planesManagers)
+                {
+                    await p.Loop();
+                    await Task.Delay(200);
+                }
             }
         }
     }

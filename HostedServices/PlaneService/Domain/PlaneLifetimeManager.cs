@@ -36,8 +36,8 @@ namespace PlaneService.Domain
         {
             _logger.LogInformation(_plane.PlaneContract.Name + " start plane at " + DateTime.Now.ToString("G"));
             _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl));
-            
-            await _trafficInfoHttpClient.KeepTryingAddPlaneUntilSuccessful(_plane.PlaneContract, AddPlaneUrl);
+
+            await KeepTryingToAddPlaneUntilSuccessful();
         }
 
         public async Task Loop()
@@ -85,6 +85,29 @@ namespace PlaneService.Domain
             var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl);
 
             _plane.SelectNewDestinationAirport(airports);
+        }
+
+        public async Task KeepTryingToAddPlaneUntilSuccessful()
+        {
+            var successfullyAdded = false;
+
+            while (!successfullyAdded)
+            {
+                var response = await _trafficInfoHttpClient.AddPlane(_plane.PlaneContract, AddPlaneUrl);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    successfullyAdded = true;
+
+                    _logger.LogInformation("add plane successful");
+                }
+                else
+                {
+                    _logger.LogWarning("add plane unsuccessful");
+
+                    await Task.Delay(5000);
+                }
+            }
         }
     }
 }

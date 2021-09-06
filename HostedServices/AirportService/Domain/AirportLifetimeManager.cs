@@ -33,7 +33,7 @@ namespace AirportService.Domain
         {
             _logger.LogInformation(_airport.AirportContract.Name + " start airport at " + DateTime.Now.ToString("G"));
 
-            await _trafficInfoHttpClient.KeepTryingAddAirportUntilSuccessful(_airport.AirportContract, AddAirportUrl);
+            await KeepTryingToAddAirportUntilSuccessful();
         }
 
         public async Task Loop()
@@ -47,6 +47,29 @@ namespace AirportService.Domain
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogError("update airport unsuccessful");
+            }
+        }
+
+        private async Task KeepTryingToAddAirportUntilSuccessful()
+        {
+            var successfullyAdded = false;
+
+            while (!successfullyAdded)
+            {
+                var response = await _trafficInfoHttpClient.AddAirport(_airport.AirportContract, AddAirportUrl);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    successfullyAdded = true;
+
+                    _logger.LogInformation("add airport successful");
+                }
+                else
+                {
+                    _logger.LogWarning("add airport unsuccessful");
+
+                    await Task.Delay(5000);
+                }
             }
         }
     }
