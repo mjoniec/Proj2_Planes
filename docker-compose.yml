@@ -182,3 +182,105 @@ services:
     ports:
       - "8851:80"
     command: --name="Rio De Janeiro" --color=#40ff00 --latitude=-22.9 --longitude=-43.2
+
+
+#Planes and Pilots
+  Plane_maverick:
+    image: plane
+    container_name: plane_maverick
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8001:80"
+    command: --name="Maverick"
+  Plane_iceman:
+    image: plane
+    container_name: plane_iceman
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8002:80"
+    command: --name="Iceman"
+  Plane_slider:
+    image: plane
+    container_name: plane_slider
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8003:80"
+    command: --name="Slider"
+  Plane_goose:
+    image: plane
+    container_name: plane_goose
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8004:80"
+    command: --name="Goose"
+  Plane_jester:
+    image: plane
+    container_name: plane_jester
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8005:80"
+    command: --name="Jester"
+  Plane_viper:
+    image: plane
+    container_name: plane_viper
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8006:80"
+    command: --name="Viper"
+  Plane_neo:
+    image: plane
+    container_name: plane_neo
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8007:80"
+    command: --name="Neo"
+  Plane_gandalf:
+    image: plane
+    container_name: plane_gandalf
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8008:80"
+    command: --name="Gandalf"
+  Plane_aragorn:
+    image: plane
+    container_name: plane_aragorn
+    build:
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8009:80"
+    command: --name="Aragorn"

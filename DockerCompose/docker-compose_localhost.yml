@@ -1,25 +1,24 @@
-version: '3.4'
+version: '3.6'
 
 services:
-  AirTrafficInfo_1:
-    image: airtrafficinfo
-    container_name: airtrafficinfo_1
+  TrafficInfoApi_1:
+    image: trafficinfoapi
+    container_name: trafficinfoapi_1
     build:
-      context: ./AirTrafficInfo
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/TrafficInfoApi/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8880:80"
   
-
 #USA
   Airport_new_york:
     image: airport
     container_name: airport_new_york
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -29,8 +28,8 @@ services:
     image: airport
     container_name: airport_miami
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -40,8 +39,8 @@ services:
     image: airport
     container_name: airport_los_angeles
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -51,8 +50,8 @@ services:
     image: airport
     container_name: airport_san_francisco
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -65,8 +64,8 @@ services:
     image: airport
     container_name: airport_london
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -76,8 +75,8 @@ services:
     image: airport
     container_name: airport_sevilla
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -87,8 +86,8 @@ services:
     image: airport
     container_name: airport_rome
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -98,8 +97,8 @@ services:
     image: airport
     container_name: airport_moscow
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -112,8 +111,8 @@ services:
     image: airport
     container_name: airport_tokyo
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -123,8 +122,8 @@ services:
     image: airport
     container_name: airport_kuala_lumpur
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -137,8 +136,8 @@ services:
     image: airport
     container_name: airport_cairo
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -148,8 +147,8 @@ services:
     image: airport
     container_name: airport_dubai
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -162,8 +161,8 @@ services:
     image: airport
     container_name: airport_sydney
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -176,8 +175,8 @@ services:
     image: airport
     container_name: airport_rio_de_janeiro
     build:
-      context: ./Airport
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/AirportService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -190,8 +189,8 @@ services:
     image: plane
     container_name: plane_maverick
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -201,8 +200,8 @@ services:
     image: plane
     container_name: plane_iceman
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -212,8 +211,8 @@ services:
     image: plane
     container_name: plane_slider
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -223,8 +222,8 @@ services:
     image: plane
     container_name: plane_goose
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -234,8 +233,8 @@ services:
     image: plane
     container_name: plane_jester
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -245,8 +244,8 @@ services:
     image: plane
     container_name: plane_viper
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -256,8 +255,8 @@ services:
     image: plane
     container_name: plane_neo
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -267,8 +266,8 @@ services:
     image: plane
     container_name: plane_gandalf
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
@@ -278,8 +277,8 @@ services:
     image: plane
     container_name: plane_aragorn
     build:
-      context: ./Plane
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./HostedServices/PlaneService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     ports:
