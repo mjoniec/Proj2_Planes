@@ -25,13 +25,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:44389" // for on premises ps script launch
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/TrafficInfo",
-      "publishAllPorts": true,
-      "useSSL": true
     }
+    //,
+    //"Docker": {
+    //  "commandName": "Docker",
+    //  "launchBrowser": true,
+    //  "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/TrafficInfo",
+    //  "publishAllPorts": true,
+    //  "useSSL": true
+    //}
   }
 }

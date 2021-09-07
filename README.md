@@ -7,9 +7,8 @@
 
 ## docker compose localhost
 
-- !!! work in progress !!!
 - traffic api + multiple airport and plane services hosted on dockerized environment
-- make sure contents of docker-compose_localhost.yml is copied to docker-compose.yml before launching the script - thats the only file docker-compose up command will take
+- make sure contents of \DockerCompose\docker-compose_localhost.yml is copied to docker-compose.yml before launching the script - thats the only file docker-compose up command will take
 - all launched by executing: PowerShell C:\...\Planes> docker-compose up 
 - http://localhost:8880/api/TrafficInfo
 
