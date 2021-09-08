@@ -46,12 +46,24 @@ namespace PlaneService.Domain
 
             _plane.UpdatePlane();
 
+            if (string.IsNullOrEmpty(_plane.PlaneContract.DestinationAirportName))
+            {
+                _logger.LogWarning("No airport destination selected for plane: " + _plane.PlaneContract.Name);
+
+                await SelectNewDestinationAirport();
+
+                return;
+            }
+
             var airport = await _trafficInfoHttpClient.GetAirport(
                 GetAirportUrl, _plane.PlaneContract.DestinationAirportName);
 
             if (airport == null)
             {
-                _logger.LogError("No airport destination for plane: " + _plane.PlaneContract.Name);
+                _logger.LogError("No airport " + _plane.PlaneContract.DestinationAirportName + 
+                    " found as next destination for plane: " + _plane.PlaneContract.Name);
+
+                await SelectNewDestinationAirport();
 
                 return;
             }
@@ -80,7 +92,7 @@ namespace PlaneService.Domain
 
         private async Task SelectNewDestinationAirport()
         {
-            _logger.LogInformation("SelectNewDestinationAirport");
+            _logger.LogInformation("Selecting New Destination Airport");
 
             var airports = await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl);
 
