@@ -1,25 +1,25 @@
 ## UI
 
 - C:\...\UI\Proj2_Planes> npm start
-- http://localhost:4200/pages/maps/bubble (use Chrome, no ad blockers etc. else CORS issiue may prevent calls to traffic api)
-- can be paired with: simulated, powershell or docker type of backend
-- source with separate readme https://github.com/mjoniec/UI/tree/main/Proj2_Planes
+- http://localhost:4200/pages/maps/planes-dockerized 
+- use Chrome, no ad blockers etc, else CORS issiue may prevent calls to traffic api
+- code source with separate readme https://github.com/mjoniec/UI/tree/main/Proj2_Planes
 
-## docker compose localhost
+## docker compose
 
 - traffic api + multiple airport and plane services hosted on dockerized environment
 - make sure contents of \DockerCompose\docker-compose_localhost.yml is copied to docker-compose.yml before launching the script - thats the only file docker-compose up command will take
 - all launched by executing: PowerShell C:\...\Planes> docker-compose up 
 - http://localhost:8880/api/TrafficInfo
 
-## localhost on premises powershell
+## on premises powershell
 
 - traffic api + multiple airport and plane services 
 - hosted on premises
 - all launched by executing: PowerShell C:\...\Planes> .\launchLocalhostOnPremises.ps1 
 - https://localhost:44389/api/TrafficInfo
 
-## localhost simulated
+## simulated
 
 - traffic api + traffic simulator service
 - hosted on premises
