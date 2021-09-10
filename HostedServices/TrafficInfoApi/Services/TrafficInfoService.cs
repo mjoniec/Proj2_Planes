@@ -61,6 +61,20 @@ namespace TrafficInfoApi.Services
             }
         }
 
+        public void DeletePlane(string planeName)
+        {
+            if (_trafficInfoContract.Planes.Select(p => p.Name)
+                .ToList()
+                .Contains(planeName))
+            {
+                _trafficInfoContract.Planes.RemoveAll(p => p.Name == planeName);
+            }
+            else
+            {
+                throw new Exception(planeName + " aplane not found for deletion");
+            }
+        }
+
         public void AddAirport(AirportContract airportContract)
         {
             if (!_trafficInfoContract.Airports.Select(a => a.Name)
@@ -89,6 +103,20 @@ namespace TrafficInfoApi.Services
 
                 //new presentation model lat lon readonly as they do not change
                 airportToUpdate.IsGoodWeather = airportContract.IsGoodWeather;
+            }
+        }
+
+        public void DeleteAirport(string airportName)
+        {
+            if (_trafficInfoContract.Airports.Select(a => a.Name)
+                .ToList()
+                .Contains(airportName))
+            {
+                _trafficInfoContract.Airports.RemoveAll(a => a.Name == airportName);
+            }
+            else
+            {
+                throw new Exception(airportName + " airport not found for deletion");
             }
         }
     }

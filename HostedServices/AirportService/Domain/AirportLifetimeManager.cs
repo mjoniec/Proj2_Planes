@@ -12,10 +12,11 @@ namespace AirportService.Domain
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly string UpdateAirportUrl;
         private readonly string AddAirportUrl;
+        private readonly string DeleteAirportUrl;
 
         public AirportLifetimeManager(
             string name, string color, string latitude, string longitude,
-            string updateAirportUrl, string addAirportUrl)
+            string updateAirportUrl, string addAirportUrl, string deleteAirportUrl)
         {
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -27,6 +28,7 @@ namespace AirportService.Domain
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             UpdateAirportUrl = updateAirportUrl;
             AddAirportUrl = addAirportUrl;
+            DeleteAirportUrl = deleteAirportUrl;
         }
 
         public async Task Start()
@@ -48,6 +50,13 @@ namespace AirportService.Domain
             {
                 _logger.LogError("update airport unsuccessful");
             }
+        }
+
+        public async Task Remove()
+        {
+            _logger.LogInformation("Removing airport " + _airport.AirportContract.Name);
+
+            await _trafficInfoHttpClient.DeleteAirport(DeleteAirportUrl, _airport.AirportContract.Name);
         }
 
         private async Task KeepTryingToAddAirportUntilSuccessful()

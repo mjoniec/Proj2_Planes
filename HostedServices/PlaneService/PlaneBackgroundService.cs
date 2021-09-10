@@ -23,11 +23,12 @@ namespace PlaneService
             var name = HostServiceNameSelector.AssignName("Plane", hostEnvironment.EnvironmentName, configuration.GetValue<string>("name"));
             var updatePlaneUrl = configuration.GetValue<string>("UpdatePlaneUrl");
             var addPlaneUrl = configuration.GetValue<string>("AddPlaneUrl");
+            var deletePlaneUrl = configuration.GetValue<string>("DeletePlaneUrl");
             var getAirportUrl = configuration.GetValue<string>("GetAirportUrl");
             var getAirportsUrl = configuration.GetValue<string>("GetAirportsUrl");
 
             _planeLifetimeManager = new PlaneLifetimeManager(name, updatePlaneUrl, addPlaneUrl,
-                getAirportUrl, getAirportsUrl);
+                getAirportUrl, getAirportsUrl, deletePlaneUrl);
 
             _logger.LogInformation("Created PlaneBackgroundService for: " + name);
         }
@@ -43,8 +44,13 @@ namespace PlaneService
                 await _planeLifetimeManager.Loop();
                 await Task.Delay(1000, stoppingToken);
             }
+        }
 
+        public override async Task StopAsync(CancellationToken cancellationToken)
+        {
             _logger.LogInformation("CancellationRequested");
+
+            await _planeLifetimeManager.Stop();
         }
     }
 }

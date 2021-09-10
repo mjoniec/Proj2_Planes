@@ -27,10 +27,11 @@ namespace AirportService
             var longitude = configuration.GetValue<string>("longitude");
             var updateAirportUrl = configuration.GetValue<string>("UpdateAirportUrl");
             var addAirportUrl = configuration.GetValue<string>("AddAirportUrl");
+            var deleteAirportUrl = configuration.GetValue<string>("DeleteAirportUrl");
 
             _airportLifetimeManager = new AirportLifetimeManager(
                 name, color, latitude, longitude,
-                updateAirportUrl, addAirportUrl);
+                updateAirportUrl, addAirportUrl, deleteAirportUrl);
 
             _logger.LogInformation("Created AirportBackgroundService for: " + name);
         }
@@ -46,8 +47,13 @@ namespace AirportService
                 await _airportLifetimeManager.Loop();
                 await Task.Delay(4000, stoppingToken);
             }
+        }
 
+        public override async Task StopAsync(CancellationToken cancellationToken)
+        {
             _logger.LogInformation("CancellationRequested");
+
+            await _airportLifetimeManager.Remove();
         }
     }
 }

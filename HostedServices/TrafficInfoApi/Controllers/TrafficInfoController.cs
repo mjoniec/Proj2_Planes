@@ -113,8 +113,41 @@ namespace TrafficInfoApi.Controllers
             }
         }
 
-        //remove after fix https://github.com/mjoniec/Proj2_Planes/issues/17
-        //https://localhost:44389/api/rTrafficInfo/WorldMap
+        [HttpDelete]
+        [EnableCors("MyAllowedOrigins")]
+        [Route("DeletePlane/{planeName}")]
+        public IActionResult DeletePlane(string planeName)
+        {
+            try
+            {
+                _trafficInfoService.DeletePlane(planeName);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete]
+        [EnableCors("MyAllowedOrigins")]
+        [Route("DeleteAirport/{airportName}")]
+        public IActionResult DeleteAirport(string airportName)
+        {
+            try
+            {
+                _trafficInfoService.DeleteAirport(airportName);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        //remove after fix #17 - UI on Production can not reference map.json
         [EnableCors("MyAllowedOrigins")]
         [HttpGet("WorldMap")]
         public async Task<string> WorldMap()

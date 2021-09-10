@@ -17,7 +17,7 @@ namespace AirportService.Domain
         //so no less frequently than 10 seconds tick
 
         private const double BadWeatherDurationInSeconds = 10.0;
-        private const int BadWeatherOccurenceChanceLikeOneToThisConstValue = 10;
+        private const int BadWeatherOccurenceChanceLikeOneToThisConstValue = 15;//on each update invoke
         private readonly TimeSpan BadWeatherDuration = TimeSpan.FromSeconds(BadWeatherDurationInSeconds);
         private DateTime _badWeatherOccurence;//we need to know when bad weather happened in order to set it back after 10 seconds
 

@@ -12,11 +12,12 @@ namespace PlaneService.Domain
         private readonly TrafficInfoHttpClient _trafficInfoHttpClient;
         private readonly string UpdatePlaneUrl;
         private readonly string AddPlaneUrl;
+        private readonly string DeletePlaneUrl;
         private readonly string GetAirportUrl;
         private readonly string GetAirportsUrl;
 
         public PlaneLifetimeManager(string name, string updatePlaneUrl, string addPlaneUrl,
-            string getAirportUrl, string getAirportsUrl)
+            string getAirportUrl, string getAirportsUrl, string deletePlaneurl)
         {
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -28,6 +29,7 @@ namespace PlaneService.Domain
             _trafficInfoHttpClient = new TrafficInfoHttpClient();
             UpdatePlaneUrl = updatePlaneUrl;
             AddPlaneUrl = addPlaneUrl;
+            DeletePlaneUrl = deletePlaneurl;
             GetAirportUrl = getAirportUrl;
             GetAirportsUrl = getAirportsUrl;
         }
@@ -38,6 +40,13 @@ namespace PlaneService.Domain
             _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl));
 
             await KeepTryingToAddPlaneUntilSuccessful();
+        }
+
+        public async Task Stop()
+        {
+            _logger.LogInformation("Stopping plane " + _plane.PlaneContract.Name);
+            
+            await _trafficInfoHttpClient.DeletePlane(DeletePlaneUrl, _plane.PlaneContract.Name);
         }
 
         public async Task Loop()

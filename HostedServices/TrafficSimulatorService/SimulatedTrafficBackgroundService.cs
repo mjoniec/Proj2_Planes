@@ -21,9 +21,11 @@ namespace TrafficSimulatorService
             var addPlaneUrl = configuration.GetValue<string>("AddPlaneUrl");
             var getAirportUrl = configuration.GetValue<string>("GetAirportUrl");
             var getAirportsUrl = configuration.GetValue<string>("GetAirportsUrl");
+            var deleteAirportUrl = configuration.GetValue<string>("DeleteAirportUrl");
+            var deletePlaneUrl = configuration.GetValue<string>("DeletePlaneUrl");
 
-            _airportsManagers = DomainObjectsDataFactory.GetAirportLifetimeManagers(updateAirportUrl, addAirportUrl);
-            _planesManagers = DomainObjectsDataFactory.GetPlaneLifetimeManagers(updatePlaneUrl, addPlaneUrl, getAirportUrl, getAirportsUrl);
+            _airportsManagers = DomainObjectsDataFactory.GetAirportLifetimeManagers(updateAirportUrl, addAirportUrl, deleteAirportUrl);
+            _planesManagers = DomainObjectsDataFactory.GetPlaneLifetimeManagers(updatePlaneUrl, addPlaneUrl, getAirportUrl, getAirportsUrl, deletePlaneUrl);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

@@ -56,6 +56,20 @@ namespace Utils
             return response;
         }
 
+        public async Task<HttpResponseMessage> DeleteAirport(string trafficApiDeleteAirportUrl, string airportName)
+        {
+            var response = await _httpClient.DeleteAsync(trafficApiDeleteAirportUrl + "/" + airportName);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> DeletePlane(string trafficApiDeletePlaneUrl, string planeName)
+        {
+            var response = await _httpClient.DeleteAsync(trafficApiDeletePlaneUrl + "/" + planeName);
+
+            return response;
+        }
+
         public async Task<List<AirportContract>> GetCurrentlyAvailableAirports(string trafficApiGetAirportsUrl)
         {
             var response = await _httpClient.GetAsync(trafficApiGetAirportsUrl);
