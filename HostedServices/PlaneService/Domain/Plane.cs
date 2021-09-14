@@ -19,7 +19,7 @@ namespace PlaneService.Domain
     {
         private PlaneContract _planeContract;
 
-        public PlaneContract PlaneContract => _planeContract; //TODO should I expose this according to DDD ?
+        public PlaneContract PlaneContract => _planeContract; //TODO should I expose this according to DDD ? it uses Name from PlaneContract as an entity Id
         public bool PlaneReachedItsDestination { get; private set; }//I think this should be an event, refactor away from procedural state machine
         private readonly ILogger<Plane> _logger;
 
@@ -76,6 +76,8 @@ namespace PlaneService.Domain
             PlaneReachedItsDestination = HasPlaneReachedItsDestination();
         }
 
+        //see task #33
+        //domain logic on how to select an airport does not belong in plane - should be in a separate service - moreover its a public method, just screams refactor me ...
         public void SelectNewDestinationAirport(List<AirportContract> airports)
         {
             _logger.LogInformation("SelectNewDestinationAirport");
