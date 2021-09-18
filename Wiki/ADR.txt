@@ -1,51 +1,55 @@
-Architecture Decision Record
+Architecture Decision Record:
 
-1. Separate Dockerfiles per hostable project instead of one Dockerfile on solution level. This allows multiple images to be created only from parts of the solution that they require. Scenario is for one mage we have one hosted service and only referenced lib projects. Traffic simulator service has no part in actual business flow so it does not require one. 
 
-1. Domain logic should not be scattered outside of bounded contexts as a nuget or lib. These are good for common utility logic, that does not overlap with business. In here it d be http client and json response to contract or model parser, geo calculations. Stuff that is suitable to be packaged as sth common outsine of solution in organisation maybe or even open source (like mqtt subscriber client enriching default library, or geo coordinates navigator, sth that might be usable for others).  
+Architecture and Domain:
 
-1. Separate folders within host background worker service projects for domain logic, net core worker needed logic and config, communication service classes. 
+1. Backend: 3 Hostable projects intended to be also separate Bounded Contexts: Plane, Airport, TrafficApi. 
 
-1. shared kernel, utils, nugets - are a good place to share across organisation or even open source worldwide stuff like utils to calc coordinates, mqttclient wrapper with some logic usable as a service (could be exported), http client used in this application. 
+1. TrafficSimulatorService - 4th hostable project intended to simulate planes and airports with TrafficApi.
 
-1. accepted consequence of this is that simulator service ll have to have refs to hosted services
-like some unit test project would. No nuget. 
+1. Shared kernel - Common Utils not belonging in any bounded context but needed. Contracts. 
 
-1. add project layers?/onion? (not solution lvl architecture) folder called external communication - 
-have http and mqtt connection logic happening there, use it in planeManager through services
+1. In main folder there is a .ps1 file for on localhost on premises launch.
 
-1. host service class and domain object lifetime loop manager class are split into separate classes
+1. In main folder there is a compose file for localhost dockerized launch. There is also a folder with 2 variants of compose - localhost source and Docker Hub source - needed for Azure launch.
 
-1. External communication handled by lifetime loop managers
+1. Each hostable project has its Dockerfile. Compose on solution level. This allows multiple images to be created only from parts of the solution that they require. Scenario is for one image we have one hosted service and only referenced lib projects. 
 
-1. plane itself should be an entity ? ... expose methods but hide properties ? ... revisit this from tutorial ...
+1. Traffic simulator service has no part in actual business flow, its designed to simulate distributed backend from one service, so it does not require Dockerfile. 
 
------2021.09: check if below still apply after big refactor since 2021.02
+1. Domain logic should not be scattered outside of bounded contexts as a nuget or lib. These are good for common utility logic, that does not overlap with business. In here it d be http client and json response to contract or model parser, geo calculations. Stuff that is suitable to be packaged as sth common outsine of solution in organisation maybe or even open source (like mqtt subscriber client enriching default library, or geo coordinates navigator, sth that might be usable for others).
 
-1. Backend: 4 Folders with 4 solutions per each Bounded Context: Plane, Airport, TrafficApi, WeatherService. 
+1. Separate folders within hostable projects for: domain logic, net core worker logic and config, communication service classes. 
 
-1. 5th folder for shared Kernel containing: MQTT nuget (not planes solution specific), Common Contracts nuget. 
+1. Shared kernel, utils, nugets - are a good place to share across organisation or even open source worldwide stuff like utils to calc coordinates, mqttclient wrapper with some logic usable as a service (could be exported), http client used in this application. 
 
-1. Each launchable BC has a docker file. In main folder there is a compose file. 
+1. Simulator service has refs to hosted services, like a unit test project would.
 
-1. In main folder there is a ps file for on premises launch.
+1. Host service class and domain object lifetime loop manager class are split into separate classes - one for hosting lifetime logic, one for domain lifecycle logic. 
 
-1. Some low level technical logic like Airport/Plane Background Service was not abstracted into common lib. Too much complexity. Decision: business responsibility boundaries have priority over some code duplication. 
+1. Some low level technical logic inside Airport/Plane have common but not identical code. It was not abstracted into common lib - too much complexity tradeoff. Decision: business responsibility boundaries have priority over some code duplication. 
 
-1. Single source of truth model entanglements and issues - exampe: display symbol was present in model at some - nuget change required to change sth on angular UI
+1. From point of view of plane it has 2 situations to check for weather info. During update (destination change) and new airport selection.
 
-1. From point of view of plane it has 2 sources of weather info. It gets immediate notifications from MQTT about bad weather change that he needs to act upon. Traffic api info through HTTP is about available airports with good weather condition during next destinatio pick.
+1. logging in hosted projects and its internal services, without libs and simulator host
 
-1. Dependency between Angular UI assets, backend and infra - planes names are given in compose, ps1 files and hardcoded in mock api. They need to mach images names in angular assets for images to load. 
 
-1. how to rebuild only one container / project in compose if we made changes to vs solution and whole compose takes 15 minus to rebuild?
+Places to improve:
 
-1. mqtt common nuget/server/lib wraps external mqttnet nuget - some refactor needed to make it more clear
+1. External communication handled by lifetime loop managers - they should use services, rich private methods with logic that ought not to be there. 
 
-1. ui bubble map example is good enough fit to host say 20 airports and 50 planes. It won't be good to display hundreds of nodes in traffic. 
+1. The same model contract used everywhere - it should be refactored to context specific structures (UI, backend info). Exampe: color info not needed when selecting available airport.
 
-1. Some good example (but code not schared or vanilla 5000 liner JS) found: http://works.artzub.com/wandera/
-Some actual working application like this example: https://flight-radar.eu/
+1. Dependency between Angular UI assets, backend and infra - planes names are given in compose, ps1 files and hardcoded in mock api. They need to mach images names in angular assets for images to load.
+
+1. Mqtt for handling distributed part of communication between planes and airports directly (without traffic api) was abandoned - issiues with flushing already read messages after switching airport destination - too much configuration issies, not occuring with eg. rabbit. For now replaced with centralized http communication with Traffic Api. Maybe replace with decentralized http or rabbit mq. 
+
+
+UI:
+
+1. NGX admin template with ui bubble map example is good enough fit to host say 20 airports and 50 planes. It won't be good to display hundreds of nodes in traffic. https://akveo.github.io/ngx-admin/
+
+1. Some good example (but code not schared or vanilla 5000 liner JS) found: http://works.artzub.com/wandera/ Some actual working application like this example: https://flight-radar.eu/
 
 1. Spherical calculations used from: https://www.movable-type.co.uk/scripts/latlong.html Approximations on perfect sphere present. http://www.movable-type.co.uk/scripts/latlong-vectors.html
 
@@ -55,17 +59,16 @@ Some actual working application like this example: https://flight-radar.eu/
 
 1. Microsoft.Extensions.Configuration.Binder had to be used to manage params passed to services on launch https://stackoverflow.com/questions/54767718/iconfiguration-does-not-contain-a-definition-for-getvalue
 
-1. mocked api has the same logic for planes as actual plane services - refactor to common source needed. Well designed plane and airport logic should enable to run simulation on multiple dockerised services as well as reuse code in simple mock service with foreach loop
-
 1. rxjs used in UI https://stackoverflow.com/questions/52671334/angular-6-run-a-function-in-every-x-seconds
 
-1. multiple hosted services running from single net core project - bug https://github.com/dotnet/runtime/issues/38751
+
+Some random work history related info (might be useful):
 
 1. in core 3.0 background worker class and roj template introduced - no need to use ihosted service anymore
 
-1. dockerise background service https://medium.com/swlh/creating-a-worker-service-in-asp-net-core-3-0-6af5dc780c80
+1. After update do 3.0 multiple changes in code were mandatory to match new mqtt nuget. No new features came out of this work. 
 
-1. separate solution for plane with one runnable project - easier for configuring docker
+1. dockerise background service https://medium.com/swlh/creating-a-worker-service-in-asp-net-core-3-0-6af5dc780c80
 
 1. local nuget feed in dockerfile https://stackoverflow.com/questions/48821991/dockerfile-cant-see-local-file-or-private-nuget-server https://stackoverflow.com/questions/42736107/where-is-nuget-config-file-located-in-visual-studio-project my source example https://www.nuget.org/packages/AirTrafficInfoContracts/1.0.0
 
@@ -73,31 +76,14 @@ Some actual working application like this example: https://flight-radar.eu/
 
 1. Single mqtt project - string is not versioned to one with trim and not - (fix this argument??). No need for nuget for now - not used in any other solution. 
 
-1. After update do 3.0 multiple changes in code were mandatory to match new mqtt nuget. No new features came out of this work. 
+1. why in airport and plane mqtt client has a singleton lifetime? - mqtt abandoned issie not relevant
 
-1. why in airport and plane mqtt client has a singleton lifetime?
-
-1. host one instance only for testing - dockerise to 20x instances network how?
-
-1. model or config - or model and config? what to put in common lib proj and how to name it, split it?
+1. 1. why not mqtt for updating total service - http seems ok for per second post call per individual plane, mqtt d require another layer with service for handling traffic, decomposing individual messages from topic and figuring out what to do or update where, while web api could just get in endpoint params what is needed, which is in alignment with services each calling with its own plane so having this info already, no need to compose it into mqtt message and then retreiving, mqtt fits with one publisher, multiple subscribers not the other way around
 
 1. split client publisher with client subscriber - business req - no plane should be able to publish messages to apirport's mqtt topic
 
-1. separate appsettings in each service implementing IHostedService or BackgroundService, not provided in model lib project as it should be environment agnostic
- https://stackoverflow.com/questions/27880433/using-iconfiguration-in-c-sharp-class-library/39548459#39548459
+1. separate appsettings in each service implementing IHostedService or BackgroundService, not provided in model lib project as it should be environment agnostic https://stackoverflow.com/questions/27880433/using-iconfiguration-in-c-sharp-class-library/39548459#39548459
 
-1. added strong typed configuration - launchsettings.json. Remember to set copy if newer in json file properties
-https://docs.microsoft.com/pl-pl/archive/blogs/fkaduk/using-strongly-typed-configuration-in-net-core-console-app
+1. added strong typed configuration - launchsettings.json. Remember to set copy if newer in json file properties https://docs.microsoft.com/pl-pl/archive/blogs/fkaduk/using-strongly-typed-configuration-in-net-core-console-app
 
-1. airtraffic api - scoped as a singleton service ?
-
-1. background service - provides execute async besides start and stop - thats what we need. Different service setup in program.cs
- https://docs.microsoft.com/pl-pl/dotnet/architecture/microservices/multi-container-microservice-net-applications/background-tasks-with-ihostedservice
-
-1. why not mqtt for updating total service - http seems ok for per second post call per individual plane, mqtt d require another layer with service for handling traffic, decomposing individual messages from topic and figuring out what to do or update where, while web api could just get in endpoint params what is needed, which is in alignment with services each calling with its own plane so having this info already, no need to compose it into mqtt message and then retreiving, mqtt fits with one publisher, multiple subscribers not the other way around
-
-1. http Api Client can go to nuget as a separate project/solution, as it is used by multiple of my solutions. However it d be only a few lines of code, so some code duplication is acceptable for now. Can be done later, when need occurs to provide extension methods for stuffing POST request Body etc... 
-
-1. event definition is subscriber interface is necessary - plane service has DI and knows interface only, needs that reference to bind logic to event.
-
-1. logging info vs debug where and what - todo
+1. background service type - provides execute async besides start and stop - thats what we need. Different service setup in program.cs https://docs.microsoft.com/pl-pl/dotnet/architecture/microservices/multi-container-microservice-net-applications/background-tasks-with-ihostedservice
