@@ -1,7 +1,7 @@
 Architecture Decision Record:
 
 
-Architecture and Domain:
+**Architecture and Domain:**
 
 1. Backend: 3 Hostable projects intended to be also separate Bounded Contexts: Plane, Airport, TrafficApi. 
 
@@ -34,7 +34,7 @@ Architecture and Domain:
 1. logging in hosted projects and its internal services, without libs and simulator host
 
 
-Places to improve:
+**Places to improve:**
 
 1. External communication handled by lifetime loop managers - they should use services, rich private methods with logic that ought not to be there. 
 
@@ -45,7 +45,7 @@ Places to improve:
 1. Mqtt for handling distributed part of communication between planes and airports directly (without traffic api) was abandoned - issiues with flushing already read messages after switching airport destination - too much configuration issies, not occuring with eg. rabbit. For now replaced with centralized http communication with Traffic Api. Maybe replace with decentralized http or rabbit mq. 
 
 
-UI:
+**UI:**
 
 1. NGX admin template with ui bubble map example is good enough fit to host say 20 airports and 50 planes. It won't be good to display hundreds of nodes in traffic. https://akveo.github.io/ngx-admin/
 
@@ -62,7 +62,7 @@ UI:
 1. rxjs used in UI https://stackoverflow.com/questions/52671334/angular-6-run-a-function-in-every-x-seconds
 
 
-Some random work history related info (might be useful):
+**Some random work history related info (might be useful):**
 
 1. in core 3.0 background worker class and roj template introduced - no need to use ihosted service anymore
 
@@ -78,7 +78,7 @@ Some random work history related info (might be useful):
 
 1. why in airport and plane mqtt client has a singleton lifetime? - mqtt abandoned issie not relevant
 
-1. 1. why not mqtt for updating total service - http seems ok for per second post call per individual plane, mqtt d require another layer with service for handling traffic, decomposing individual messages from topic and figuring out what to do or update where, while web api could just get in endpoint params what is needed, which is in alignment with services each calling with its own plane so having this info already, no need to compose it into mqtt message and then retreiving, mqtt fits with one publisher, multiple subscribers not the other way around
+1. why not mqtt for updating total service - http seems ok for per second post call per individual plane, mqtt d require another layer with service for handling traffic, decomposing individual messages from topic and figuring out what to do or update where, while web api could just get in endpoint params what is needed, which is in alignment with services each calling with its own plane so having this info already, no need to compose it into mqtt message and then retreiving, mqtt fits with one publisher, multiple subscribers not the other way around
 
 1. split client publisher with client subscriber - business req - no plane should be able to publish messages to apirport's mqtt topic
 
