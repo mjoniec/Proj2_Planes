@@ -40,7 +40,14 @@ namespace AirportService
         {
             _logger.LogInformation("Starting airport");
 
-            await _airportLifetimeManager.Start();
+            var successfullyAdded = await _airportLifetimeManager.Start();
+
+            if (!successfullyAdded)
+            {
+                _logger.LogInformation("Airport was not added successfully - stopping execution");
+
+                return;
+            }
 
             while (!stoppingToken.IsCancellationRequested)
             {

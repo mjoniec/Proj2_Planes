@@ -37,7 +37,14 @@ namespace PlaneService
         {
             _logger.LogInformation("Starting plane");
 
-            await _planeLifetimeManager.Start();
+            var successfullyAdded = await _planeLifetimeManager.Start();
+
+            if (!successfullyAdded)
+            {
+                _logger.LogInformation("Plane was not added successfully - stopping execution");
+
+                return;
+            }
 
             while (!stoppingToken.IsCancellationRequested)
             {

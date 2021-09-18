@@ -34,12 +34,12 @@ namespace PlaneService.Domain
             GetAirportsUrl = getAirportsUrl;
         }
 
-        public async Task Start()
+        public async Task<bool> Start()
         {
             _logger.LogInformation(_plane.PlaneContract.Name + " start plane at " + DateTime.Now.ToString("G"));
             _plane.StartPlane(await _trafficInfoHttpClient.GetCurrentlyAvailableAirports(GetAirportsUrl));
 
-            await KeepTryingToAddPlaneUntilSuccessful();
+            return await KeepTryingToAddPlaneUntilSuccessful();
         }
 
         public async Task Stop()
@@ -108,26 +108,44 @@ namespace PlaneService.Domain
             _plane.SelectNewDestinationAirport(airports);
         }
 
-        public async Task KeepTryingToAddPlaneUntilSuccessful()
+        //#33
+        //this method logic does not belong in this manager responsibility 
+        //and needs to be extracted to some service - 
+        //service name d indicate that we want to retry unsuccessful adding
+        public async Task<bool> KeepTryingToAddPlaneUntilSuccessful()
         {
-            var successfullyAdded = false;
-
-            while (!successfullyAdded)
+            while (true)
             {
-                var response = await _trafficInfoHttpClient.AddPlane(_plane.PlaneContract, AddPlaneUrl);
+                _logger.LogInformation("trying to add plane " + _plane.PlaneContract.Name);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                try
                 {
-                    successfullyAdded = true;
+                    var response = await _trafficInfoHttpClient.AddPlane(_plane.PlaneContract, AddPlaneUrl);
 
-                    _logger.LogInformation("add plane successful");
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        _logger.LogInformation("add plane successful");
+
+                        return true;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("add plane unsuccessful - response not ok - retrying");
+
+                        await Task.Delay(5000);
+                    }
                 }
-                else
+                catch (TaskCanceledException e)
                 {
-                    _logger.LogWarning("add plane unsuccessful");
-
-                    await Task.Delay(5000);
+                    _logger.LogWarning("add plane unsuccessful with expected TaskCanceledException " + e.Message + " - retrying");
                 }
+                catch (Exception e)
+                {
+                    _logger.LogWarning("add plane unsuccessful with unexpected Exception " + e.Message + " - stopping retrying");
+
+                    return false;
+                }
+
             }
         }
     }

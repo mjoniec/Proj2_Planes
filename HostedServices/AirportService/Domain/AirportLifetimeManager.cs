@@ -31,11 +31,11 @@ namespace AirportService.Domain
             DeleteAirportUrl = deleteAirportUrl;
         }
 
-        public async Task Start()
+        public async Task<bool> Start()
         {
             _logger.LogInformation(_airport.AirportContract.Name + " start airport at " + DateTime.Now.ToString("G"));
 
-            await KeepTryingToAddAirportUntilSuccessful();
+            return await KeepTryingToAddAirportUntilSuccessful();
         }
 
         public async Task Loop()
@@ -59,25 +59,42 @@ namespace AirportService.Domain
             await _trafficInfoHttpClient.DeleteAirport(DeleteAirportUrl, _airport.AirportContract.Name);
         }
 
-        private async Task KeepTryingToAddAirportUntilSuccessful()
+        //#33
+        //this method logic does not belong in this manager responsibility 
+        //and needs to be extracted to some service - 
+        //service name d indicate that we want to retry unsuccessful adding
+        private async Task<bool> KeepTryingToAddAirportUntilSuccessful()
         {
-            var successfullyAdded = false;
-
-            while (!successfullyAdded)
+            while (true)
             {
-                var response = await _trafficInfoHttpClient.AddAirport(_airport.AirportContract, AddAirportUrl);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                _logger.LogInformation("trying to add airport " + _airport.AirportContract.Name);
+                
+                try
                 {
-                    successfullyAdded = true;
+                    var response = await _trafficInfoHttpClient.AddAirport(_airport.AirportContract, AddAirportUrl);
 
-                    _logger.LogInformation("add airport successful");
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        _logger.LogInformation("add airport successful");
+
+                        return true;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("add airport unsuccessful - response not ok - retrying");
+
+                        await Task.Delay(5000);
+                    }
                 }
-                else
+                catch (TaskCanceledException e)
                 {
-                    _logger.LogWarning("add airport unsuccessful");
+                    _logger.LogWarning("add airport unsuccessful with expected TaskCanceledException " + e.Message + " - retrying");
+                }
+                catch (Exception e)
+                {
+                    _logger.LogWarning("add airport unsuccessful with unexpected Exception " + e.Message + " - stopping retrying");
 
-                    await Task.Delay(5000);
+                    return false;
                 }
             }
         }

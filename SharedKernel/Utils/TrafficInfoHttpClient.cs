@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -13,15 +14,18 @@ namespace Utils
 
         public TrafficInfoHttpClient()
         {
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(4.0)
+            };
         }
 
         public async Task<HttpResponseMessage> AddAirport(AirportContract airportContract, string addAirportUrl)
         {
             var response = await _httpClient.PostAsync(
-                addAirportUrl,
-                new StringContent(JsonConvert.SerializeObject(airportContract),
-                Encoding.UTF8, "application/json"));
+            addAirportUrl,
+            new StringContent(JsonConvert.SerializeObject(airportContract),
+            Encoding.UTF8, "application/json"));
 
             return response;
         }
