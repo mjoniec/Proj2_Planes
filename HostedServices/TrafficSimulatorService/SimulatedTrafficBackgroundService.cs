@@ -30,23 +30,6 @@ namespace TrafficSimulatorService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //#42
-            //cannot use lambda and ForEach for all will get triggered at the same time
-            //we want sequential init every second
-            //this behavior causes some planes to fail on added and then continually fail on update loop - 
-            //this is interesting fail async behavior that system should be bullet proof of
-            //_airportsManagers.ForEach(async p =>
-            //{
-            //    await p.Start();
-            //    await Task.Delay(1000);
-            //});
-
-            //_planesManagers.ForEach(async p =>
-            //{
-            //    await p.Start();
-            //    await Task.Delay(1000);
-            //});
-
             //init
             foreach (var a in _airportsManagers)
             {
