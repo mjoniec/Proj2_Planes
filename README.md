@@ -1,3 +1,6 @@
+# Planes
+Distributed air traffic control system. Microservices, DDD, Docker, HostedServices
+
 ## UI
 
 - C:\...\UI\Proj2_Planes> npm start
