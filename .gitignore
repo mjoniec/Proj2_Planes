@@ -152,3 +152,6 @@
 /SharedKernel/Utils/bin/Debug/netcoreapp3.1
 /HostedServices/TrafficInfoApi/obj
 /HostedServices/TrafficInfoApi/bin/Debug/netcoreapp3.1
+/Wiki/.vs/Wiki/v17
+/Wiki/.vs/VSWorkspaceState.json
+/Wiki/.vs/slnx.sqlite
